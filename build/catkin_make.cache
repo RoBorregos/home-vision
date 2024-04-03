@@ -1,0 +1,2 @@
+vision
+-DCATKIN_DEVEL_PREFIX=/workspace/Roborregos/home-vision/devel -DCMAKE_INSTALL_PREFIX=/workspace/Roborregos/home-vision/install -G Unix Makefiles
