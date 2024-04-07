@@ -13,7 +13,7 @@ import os
 import face_recognition
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from vision.msg import img, img_list, face_target
+from vision.msg import img, img_list, target
 from std_msgs.msg import Bool
 import tqdm
 import json

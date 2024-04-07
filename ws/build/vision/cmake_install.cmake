@@ -39,10 +39,10 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/vision/msg" TYPE FILE FILES
-    "/workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg"
     "/workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg"
     "/workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg"
     "/workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg"
+    "/workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg"
     )
 endif()
 

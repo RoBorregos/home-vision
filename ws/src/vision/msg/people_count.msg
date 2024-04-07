@@ -1,0 +1,5 @@
+int64 detected_people
+int64 people_standing
+int64 people_sitting
+int64 people_raising_hand
+int64 people_pointing

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/face_target.l"
   "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l"
   "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l"
+  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l"
   "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l"
   "CMakeFiles/vision_generate_messages_eus"
 )

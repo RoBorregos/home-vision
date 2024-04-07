@@ -51,10 +51,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-    face_target.msg
     img.msg
     img_list.msg
     target.msg
+    people_count.msg
 )
 
 ## Generate services in the 'srv' folder

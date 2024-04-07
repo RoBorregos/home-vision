@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg"
+messages_str = "/workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg;/workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg"
 services_str = ""
 pkg_name = "vision"
 dependencies_str = "std_msgs"

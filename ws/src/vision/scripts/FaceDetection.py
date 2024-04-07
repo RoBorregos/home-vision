@@ -13,7 +13,7 @@ import os
 import face_recognition
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from vision.msg import img, img_list, face_target
+from vision.msg import img, img_list, target
 import tqdm
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
@@ -51,7 +51,6 @@ def process_imgs():
             continue
         
         process_img(filename)
-
 
 
 def process_img(filename):

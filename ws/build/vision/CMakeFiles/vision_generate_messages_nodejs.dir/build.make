@@ -53,38 +53,38 @@ CMAKE_BINARY_DIR = /workspace/Roborregos/home-vision/ws/build
 # Include the progress variables for this target.
 include vision/CMakeFiles/vision_generate_messages_nodejs.dir/progress.make
 
-vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/face_target.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js
+vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js
 
-
-/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/face_target.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
-/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/face_target.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from vision/face_target.msg"
-	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from vision/img.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from vision/img.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from vision/img_list.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from vision/img_list.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from vision/target.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from vision/target.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
 
+/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js: /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from vision/people_count.msg"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
+
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs
-vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/face_target.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js
+vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs.dir/build.make
 
 .PHONY : vision_generate_messages_nodejs

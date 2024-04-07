@@ -53,43 +53,43 @@ CMAKE_BINARY_DIR = /workspace/Roborregos/home-vision/ws/build
 # Include the progress variables for this target.
 include vision/CMakeFiles/vision_generate_messages_eus.dir/progress.make
 
-vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/face_target.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l
+vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l
 
 
-/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/face_target.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/face_target.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from vision/face_target.msg"
-	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/face_target.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
-
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from vision/img.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from vision/img.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/img.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from vision/img_list.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from vision/img_list.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/img_list.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from vision/target.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from vision/target.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/target.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
+
+/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l: /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from vision/people_count.msg"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
 
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for vision"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision vision std_msgs
 
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus
-vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/face_target.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l
+vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus.dir/build.make
 

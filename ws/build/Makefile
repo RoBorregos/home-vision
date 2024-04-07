@@ -428,6 +428,19 @@ vision_generate_messages_eus/fast:
 .PHONY : vision_generate_messages_eus/fast
 
 #=============================================================================
+# Target rules for targets named rosgraph_msgs_generate_messages_nodejs
+
+# Build rule for target.
+rosgraph_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_nodejs
+.PHONY : rosgraph_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f vision/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make vision/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -532,6 +545,19 @@ std_msgs_generate_messages_py/fast:
 .PHONY : std_msgs_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named _vision_generate_messages_check_deps_people_count
+
+# Build rule for target.
+_vision_generate_messages_check_deps_people_count: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _vision_generate_messages_check_deps_people_count
+.PHONY : _vision_generate_messages_check_deps_people_count
+
+# fast build rule for target.
+_vision_generate_messages_check_deps_people_count/fast:
+	$(MAKE) -f vision/CMakeFiles/_vision_generate_messages_check_deps_people_count.dir/build.make vision/CMakeFiles/_vision_generate_messages_check_deps_people_count.dir/build
+.PHONY : _vision_generate_messages_check_deps_people_count/fast
+
+#=============================================================================
 # Target rules for targets named vision_generate_messages
 
 # Build rule for target.
@@ -556,32 +582,6 @@ vision_generate_messages_cpp: cmake_check_build_system
 vision_generate_messages_cpp/fast:
 	$(MAKE) -f vision/CMakeFiles/vision_generate_messages_cpp.dir/build.make vision/CMakeFiles/vision_generate_messages_cpp.dir/build
 .PHONY : vision_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named rosgraph_msgs_generate_messages_nodejs
-
-# Build rule for target.
-rosgraph_msgs_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_nodejs
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f vision/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make vision/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named _vision_generate_messages_check_deps_face_target
-
-# Build rule for target.
-_vision_generate_messages_check_deps_face_target: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _vision_generate_messages_check_deps_face_target
-.PHONY : _vision_generate_messages_check_deps_face_target
-
-# fast build rule for target.
-_vision_generate_messages_check_deps_face_target/fast:
-	$(MAKE) -f vision/CMakeFiles/_vision_generate_messages_check_deps_face_target.dir/build.make vision/CMakeFiles/_vision_generate_messages_check_deps_face_target.dir/build
-.PHONY : _vision_generate_messages_check_deps_face_target/fast
 
 #=============================================================================
 # Target rules for targets named std_msgs_generate_messages_lisp
@@ -707,6 +707,7 @@ help:
 	@echo "... vision_gencpp"
 	@echo "... roscpp_generate_messages_py"
 	@echo "... vision_generate_messages_eus"
+	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... _vision_generate_messages_check_deps_img"
 	@echo "... vision_genlisp"
@@ -715,10 +716,9 @@ help:
 	@echo "... vision_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
+	@echo "... _vision_generate_messages_check_deps_people_count"
 	@echo "... vision_generate_messages"
 	@echo "... vision_generate_messages_cpp"
-	@echo "... rosgraph_msgs_generate_messages_nodejs"
-	@echo "... _vision_generate_messages_check_deps_face_target"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... _vision_generate_messages_check_deps_img_list"
 	@echo "... vision_geneus"
