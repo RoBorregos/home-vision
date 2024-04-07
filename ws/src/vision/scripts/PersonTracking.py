@@ -6,7 +6,7 @@ import cv2
 from ultralytics import YOLO
 # from ReID import reid_model
 
-from ReID.reid_model import check_visibility, load_network, compare_images, extract_feature_from_img, get_structure
+from Utils.reid_model import check_visibility, load_network, compare_images, extract_feature_from_img, get_structure
 import torch.nn as nn
 import torch
 import tqdm
@@ -78,7 +78,7 @@ class PersonTracking():
         print('Running')
 
         while rospy.is_shutdown() == False :
-            if self.track is False:
+            if self.imgtrack is False:
                 track_person = ""
             
             else:

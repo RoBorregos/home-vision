@@ -1,4 +1,4 @@
-from ReID.model import ft_net, ft_net_swin, ft_net_dense
+from Utils.model import ft_net, ft_net_swin, ft_net_dense
 from torchvision import datasets, models, transforms
 import numpy as np
 import math

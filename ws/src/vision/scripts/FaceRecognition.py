@@ -14,12 +14,21 @@ import face_recognition
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from vision.msg import img, img_list, face_target
+from std_msgs.msg import Bool
 import tqdm
+import json
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
+DETECTION_TOPIC = "detection_results"
+NEW_HOST = "/new_host"
+
 
 TRACK_THRESHOLD = 70
-AREA_THRESHOLD = 120000
+AREA_THRESHOLD = 1200
+
+# Paths
+json_path = "src/vision/scripts/known_people/identities.json"
+folder = "src/vision/scripts/known_people"
 
 # Progress bar
 pbar = tqdm.tqdm(total=2)
@@ -43,14 +52,38 @@ people_names = [
 ]
 
 # Make encodings of known people images
-folder = "src/vision/scripts/known_people"
 def process_imgs():
+    print("Processing images")
     for filename in os.listdir(folder):
-        print(filename)
-        if filename == ".DS_Store":
+        if filename == ".DS_Store" or filename == "identities.json":
             continue
         
         process_img(filename)
+
+def clear():
+    for filename in os.listdir(folder):
+        if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png":
+            continue
+        
+        process_img(filename)
+
+        file_path = os.path.join(folder, filename)
+        os.remove(file_path)
+
+      # load json
+    
+
+    # f = open(json_path)
+
+    data = {
+        "random": {"age": 21, "gender": "female", "race": "race"}
+    }
+
+    with open(json_path, 'w') as outfile:
+        json.dump(data, outfile)
+
+    print("Clearing")
+
 
 
 
@@ -71,7 +104,40 @@ def process_img(filename):
 
     print(f"{folder}/{filename}")
 
+def upadate_json(face_id, image):
 
+    # load json
+    print("updating json")
+
+    f = open(json_path)
+    data = json.load(f)
+    print(face_id)
+    if face_id not in data:
+        try:
+            # features_list = DeepFace.analyze(image, enforce_detection=True)
+            # print(f"features list size is {len(features_list)}")
+            # features = features_list[0]
+            # age = features.get('age')
+            # gender = features.get('dominant_gender')
+            # race = features.get('dominant_race')
+            # emotions = features.get('dominant_emotion')
+
+
+            data[face_id] = {
+                "age": 12,
+                "gender": "gender",
+                "race": "race"
+            }
+
+            with open(json_path, 'w') as outfile:
+                json.dump(data, outfile)
+
+            print("updated json")
+        except:
+            print("error getting attributes")
+            # faces_tracked.remove(face_id)
+
+clear()
 
 class FaceDetection():
 
@@ -79,15 +145,22 @@ class FaceDetection():
         rospy.init_node('face_detection')
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        self.detection_pub = rospy.Publisher("detection_results", img_list, queue_size=1)
+        self.detection_pub = rospy.Publisher(DETECTION_TOPIC, img_list, queue_size=1)
+        self.new_host_sub = rospy.Subscriber(NEW_HOST, Bool, self.new_host_callback)
+        
+
         self.move_pub = rospy.Publisher("move", face_target, queue_size=1)
         self.image = None
 
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
 
+    def new_host_callback(self, data):
+        self.new_host = data
+
     def run(self):
-        process_imgs()
+        # process_imgs()
+        
         pbar.update(1)
         pbar.close()
 
@@ -109,53 +182,53 @@ class FaceDetection():
                 frame = self.image
                 # print('image')
 
-                if process_this_frame:
-                    # Resize frame of video to 1/4 size for faster face recognition processing
-                    small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-                    center = [frame.shape[1]/2, frame.shape[0]/2]
-                    # print(center[0], ", ", center[1])
-                    
-                    # Find all the faces and face encodings in the current frame of video
-                    face_locations = face_recognition.face_locations(small_frame)
-                    face_encodings = face_recognition.face_encodings(small_frame, face_locations)
-                    xc = 0
-                    yc = 0
+                # if process_this_frame:
+                # Resize frame of video to 1/4 size for faster face recognition processing
+                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+                center = [frame.shape[1]/2, frame.shape[0]/2]
+                # print(center[0], ", ", center[1])
+                
+                # Find all the faces and face encodings in the current frame of video
+                face_locations = face_recognition.face_locations(small_frame)
+                face_encodings = face_recognition.face_encodings(small_frame, face_locations)
+                xc = 0
+                yc = 0
 
-                    # Check each encoding found
-                    face_names = []
-                    for face_encoding, location in zip(face_encodings, face_locations):
-                        # print("l____",location[0])
-            
-                        flag = False
-                        # print("detected: ", len(detected_faces))
-                        for detected in detected_faces:
-                            centerx = (location[3] + (location[1] - location[3])/2)*4
-                            centery = (location[0] + (location[0] - location[2])/2)*4
+                # Check each encoding found
+                face_names = []
+                for face_encoding, location in zip(face_encodings, face_locations):
+                    # print("l____",location[0])
+        
+                    flag = False
+                    # print("detected: ", len(detected_faces))
+                    for detected in detected_faces:
+                        centerx = (location[3] + (location[1] - location[3])/2)*4
+                        centery = (location[0] + (location[0] - location[2])/2)*4
 
-                            print("detected: ", detected["y"], "center: ", centery, "diff: ", abs(detected["y"] - centery))
+                        # print("detected: ", detected["y"], "center: ", centery, "diff: ", abs(detected["y"] - centery))
 
-                            if (abs(detected["x"] - centerx) < TRACK_THRESHOLD) and (abs(detected["y"] - centery) < TRACK_THRESHOLD):
-                                name = detected["name"]
-                                flag = True
-                                # print("same")
-                                break
+                        if (abs(detected["x"] - centerx) < TRACK_THRESHOLD) and (abs(detected["y"] - centery) < TRACK_THRESHOLD):
+                            name = detected["name"]
+                            flag = True
+                            # print("same")
+                            break
 
-                            # x = 50, new x = 55, 50-55 = 5, 
-                        if not flag:
-                            name = "Unknown"
+                        # x = 50, new x = 55, 50-55 = 5, 
+                    if not flag:
+                        name = "Unknown"
 
-                        # See if the face is a match for the known face(s)
-                            matches = face_recognition.compare_faces(face_encoding, people_encodings, 0.6)
-                            
-
-                            face_distances = face_recognition.face_distance(people_encodings, face_encoding)
-                            best_match_index = np.argmin(face_distances)
-
-                            if matches[best_match_index]:
-                                name = people_names[best_match_index]
+                    # See if the face is a match for the known face(s)
+                        matches = face_recognition.compare_faces(face_encoding, people_encodings, 0.6)
                         
-                            
-                        face_names.append([name,flag])
+
+                        face_distances = face_recognition.face_distance(people_encodings, face_encoding)
+                        best_match_index = np.argmin(face_distances)
+
+                        if matches[best_match_index]:
+                            name = people_names[best_match_index]
+                    
+                        
+                    face_names.append([name,flag])
                         
                 detected_faces = []
                 arr = []
@@ -177,8 +250,8 @@ class FaceDetection():
                     img_arr = img_list(arr)
                     area = (right-left)*(bottom-top)
                 
-                    if process_this_frame and name[0] == "Unknown" and area > AREA_THRESHOLD:
-                        # print("Unknown")
+                    if name[0] == "Unknown" and area > AREA_THRESHOLD:
+                        print("Unknown")
                         # cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
                         
                         left = max(left - 50,0)
@@ -192,7 +265,7 @@ class FaceDetection():
                         new_dir = f"{folder}/{new_name}"
                         cv2.imwrite(new_dir,result)
                         process_img(new_name)
-                        # upadate_json(new_name, result)
+                        upadate_json(new_name, result)
                         
                         # new_name = input("Enter name: ")
                         # name[0] = new_name
@@ -223,7 +296,11 @@ class FaceDetection():
                     font = cv2.FONT_HERSHEY_DUPLEX
 
                     cv2.putText(frame, name[0], (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-                    # cv2.imshow("Image", frame)
+
+                cv2.imshow("Image", frame)
+
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                        break
                     # Draw a box around the face
                     # cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
                     # xc = left + (right - left)/2
