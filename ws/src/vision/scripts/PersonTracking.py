@@ -15,7 +15,9 @@ import mediapipe as mp
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from std_msgs.msg import Bool
+from geometry_msgs.msg import Point
 from vision.msg import img, img_list, target
+from std_srvs.srv import SetBool
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 TRACKING_TOPIC = "/track_person"
@@ -33,18 +35,23 @@ class PersonTracking():
     def __init__(self):
         rospy.init_node('person_tracking')
         self.bridge = CvBridge()
+        self.track_service = rospy.Service('/change_person_tracker_state', SetBool, self.toggle_tracking)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        self.tracker_sub = rospy.Subscriber(TRACKING_TOPIC, Bool, self.track_callback)
-        self.detection_pub = rospy.Publisher(DETECTION_TOPIC, target, queue_size=1)
+        # self.tracker_sub = rospy.Subscriber(TRACKING_TOPIC, Bool, self.track_callback)
+        self.detection_pub = rospy.Publisher(DETECTION_TOPIC, Point, queue_size=1)
         self.image = None
         self.track = False
     
+    def toggle_tracking(self, req):
+        self.track = req.data
+        return True, "Tracking is now " + ("enabled" if self.track else "disabled")
+
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
 
-    def track_callback(self, data):
-        self.track = data
-    
+    # def track_callback(self, data):
+    #     self.track = data
+
     def run(self):
         pbar = tqdm.tqdm(total=5, desc="Loading models")
 
@@ -78,12 +85,17 @@ class PersonTracking():
         print('Running')
 
         while rospy.is_shutdown() == False :
-            if self.imgtrack is False:
+            if self.track is False:
+                people_tags = []
+                people_ids = []
+                people_features = []
+                prev_ids = []
                 track_person = ""
+                
             
             else:
-
                 if self.image is not None:
+                    # print("Tracking ")
 
                     # Get the frame from the camera
                     frame = self.image
@@ -202,9 +214,10 @@ class PersonTracking():
                     
 
                     if self.track:
-                        msg = target()
+                        msg = Point()
                         msg.x = cx
                         msg.y = cy
+                        msg.z = 0
                         self.detection_pub.publish(msg)
 
                     

@@ -45,7 +45,7 @@ data_transforms = transforms.Compose([
 
 ])
 
-folder_path = './src/vision/scripts/ReID'
+folder_path = './src/vision/scripts/Utils'
 config_path = os.path.join(folder_path,name,'opts.yaml')
 with open(config_path, 'r') as stream:
         config = yaml.load(stream, Loader=yaml.FullLoader) # for the new pyyaml via 'conda install pyyaml'
