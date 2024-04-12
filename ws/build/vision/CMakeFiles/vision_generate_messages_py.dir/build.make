@@ -57,7 +57,9 @@ vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision
 vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img_list.py
 vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_target.py
 vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_people_count.py
+vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py
 vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py
+vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py
 
 
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
@@ -81,20 +83,37 @@ vision/CMakeFiles/vision_generate_messages_py: /workspace/Roborregos/home-vision
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG vision/people_count"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg
 
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py: /opt/ros/noetic/lib/genpy/gensrv_py.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py: /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python code from SRV vision/NewHost"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv
+
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img.py
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img_list.py
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_target.py
 /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_people_count.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python msg __init__.py for vision"
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Python msg __init__.py for vision"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg --initpy
+
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img_list.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_target.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_people_count.py
+/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Python srv __init__.py for vision"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv --initpy
 
 vision_generate_messages_py: vision/CMakeFiles/vision_generate_messages_py
 vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img.py
 vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img_list.py
 vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_target.py
 vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_people_count.py
+vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py
 vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/__init__.py
+vision_generate_messages_py: /workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py
 vision_generate_messages_py: vision/CMakeFiles/vision_generate_messages_py.dir/build.make
 
 .PHONY : vision_generate_messages_py

@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js"
   "/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js"
   "/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js"
+  "/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js"
   "CMakeFiles/vision_generate_messages_nodejs"
 )
 

@@ -298,6 +298,19 @@ vision_genpy/fast:
 .PHONY : vision_genpy/fast
 
 #=============================================================================
+# Target rules for targets named vision_generate_messages_py
+
+# Build rule for target.
+vision_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 vision_generate_messages_py
+.PHONY : vision_generate_messages_py
+
+# fast build rule for target.
+vision_generate_messages_py/fast:
+	$(MAKE) -f vision/CMakeFiles/vision_generate_messages_py.dir/build.make vision/CMakeFiles/vision_generate_messages_py.dir/build
+.PHONY : vision_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named roscpp_generate_messages_lisp
 
 # Build rule for target.
@@ -374,6 +387,19 @@ std_msgs_generate_messages_cpp: cmake_check_build_system
 std_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f vision/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make vision/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named _vision_generate_messages_check_deps_NewHost
+
+# Build rule for target.
+_vision_generate_messages_check_deps_NewHost: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _vision_generate_messages_check_deps_NewHost
+.PHONY : _vision_generate_messages_check_deps_NewHost
+
+# fast build rule for target.
+_vision_generate_messages_check_deps_NewHost/fast:
+	$(MAKE) -f vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/build.make vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/build
+.PHONY : _vision_generate_messages_check_deps_NewHost/fast
 
 #=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_cpp
@@ -661,19 +687,6 @@ vision_gennodejs/fast:
 	$(MAKE) -f vision/CMakeFiles/vision_gennodejs.dir/build.make vision/CMakeFiles/vision_gennodejs.dir/build
 .PHONY : vision_gennodejs/fast
 
-#=============================================================================
-# Target rules for targets named vision_generate_messages_py
-
-# Build rule for target.
-vision_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 vision_generate_messages_py
-.PHONY : vision_generate_messages_py
-
-# fast build rule for target.
-vision_generate_messages_py/fast:
-	$(MAKE) -f vision/CMakeFiles/vision_generate_messages_py.dir/build.make vision/CMakeFiles/vision_generate_messages_py.dir/build
-.PHONY : vision_generate_messages_py/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -697,12 +710,14 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... vision_genpy"
+	@echo "... vision_generate_messages_py"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... _vision_generate_messages_check_deps_target"
 	@echo "... std_msgs_generate_messages_cpp"
+	@echo "... _vision_generate_messages_check_deps_NewHost"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... vision_gencpp"
 	@echo "... roscpp_generate_messages_py"
@@ -725,7 +740,6 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... vision_generate_messages_lisp"
 	@echo "... vision_gennodejs"
-	@echo "... vision_generate_messages_py"
 .PHONY : help
 
 

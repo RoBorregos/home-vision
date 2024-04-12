@@ -57,6 +57,7 @@ vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vi
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js
+vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js
 
 
 /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
@@ -80,11 +81,17 @@ vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/Roborregos/home-vi
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from vision/people_count.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg
 
+/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js: /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Javascript code from vision/NewHost.srv"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv
+
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/img_list.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/target.js
 vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/msg/people_count.js
+vision_generate_messages_nodejs: /workspace/Roborregos/home-vision/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs.dir/build.make
 
 .PHONY : vision_generate_messages_nodejs

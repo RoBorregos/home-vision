@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /workspace/Roborregos/home-vision/ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -100,6 +88,18 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # Special rule for the target test
 test:
@@ -181,6 +181,21 @@ vision_genpy: vision/CMakeFiles/vision_genpy.dir/rule
 vision_genpy/fast:
 	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/vision_genpy.dir/build.make vision/CMakeFiles/vision_genpy.dir/build
 .PHONY : vision_genpy/fast
+
+# Convenience name for target.
+vision/CMakeFiles/vision_generate_messages_py.dir/rule:
+	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f CMakeFiles/Makefile2 vision/CMakeFiles/vision_generate_messages_py.dir/rule
+.PHONY : vision/CMakeFiles/vision_generate_messages_py.dir/rule
+
+# Convenience name for target.
+vision_generate_messages_py: vision/CMakeFiles/vision_generate_messages_py.dir/rule
+
+.PHONY : vision_generate_messages_py
+
+# fast build rule for target.
+vision_generate_messages_py/fast:
+	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/vision_generate_messages_py.dir/build.make vision/CMakeFiles/vision_generate_messages_py.dir/build
+.PHONY : vision_generate_messages_py/fast
 
 # Convenience name for target.
 vision/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
@@ -271,6 +286,21 @@ std_msgs_generate_messages_cpp: vision/CMakeFiles/std_msgs_generate_messages_cpp
 std_msgs_generate_messages_cpp/fast:
 	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make vision/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 .PHONY : std_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/rule:
+	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f CMakeFiles/Makefile2 vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/rule
+.PHONY : vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/rule
+
+# Convenience name for target.
+_vision_generate_messages_check_deps_NewHost: vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/rule
+
+.PHONY : _vision_generate_messages_check_deps_NewHost
+
+# fast build rule for target.
+_vision_generate_messages_check_deps_NewHost/fast:
+	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/build.make vision/CMakeFiles/_vision_generate_messages_check_deps_NewHost.dir/build
+.PHONY : _vision_generate_messages_check_deps_NewHost/fast
 
 # Convenience name for target.
 vision/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
@@ -602,31 +632,16 @@ vision_gennodejs/fast:
 	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/vision_gennodejs.dir/build.make vision/CMakeFiles/vision_gennodejs.dir/build
 .PHONY : vision_gennodejs/fast
 
-# Convenience name for target.
-vision/CMakeFiles/vision_generate_messages_py.dir/rule:
-	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f CMakeFiles/Makefile2 vision/CMakeFiles/vision_generate_messages_py.dir/rule
-.PHONY : vision/CMakeFiles/vision_generate_messages_py.dir/rule
-
-# Convenience name for target.
-vision_generate_messages_py: vision/CMakeFiles/vision_generate_messages_py.dir/rule
-
-.PHONY : vision_generate_messages_py
-
-# fast build rule for target.
-vision_generate_messages_py/fast:
-	cd /workspace/Roborregos/home-vision/ws/build && $(MAKE) -f vision/CMakeFiles/vision_generate_messages_py.dir/build.make vision/CMakeFiles/vision_generate_messages_py.dir/build
-.PHONY : vision_generate_messages_py/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... edit_cache"
 	@echo "... vision_genpy"
+	@echo "... vision_generate_messages_py"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... install/local"
@@ -634,6 +649,8 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_py"
 	@echo "... _vision_generate_messages_check_deps_target"
 	@echo "... std_msgs_generate_messages_cpp"
+	@echo "... install/strip"
+	@echo "... _vision_generate_messages_check_deps_NewHost"
 	@echo "... test"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... vision_gencpp"
@@ -659,7 +676,6 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... vision_generate_messages_lisp"
 	@echo "... vision_gennodejs"
-	@echo "... vision_generate_messages_py"
 .PHONY : help
 
 

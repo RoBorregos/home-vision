@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "/workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h"
   "/workspace/Roborregos/home-vision/ws/devel/include/vision/img.h"
   "/workspace/Roborregos/home-vision/ws/devel/include/vision/img_list.h"
   "/workspace/Roborregos/home-vision/ws/devel/include/vision/people_count.h"

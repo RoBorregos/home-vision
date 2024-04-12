@@ -4,6 +4,8 @@ file(REMOVE_RECURSE
   "/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_img_list.py"
   "/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_people_count.py"
   "/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/msg/_target.py"
+  "/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py"
+  "/workspace/Roborregos/home-vision/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py"
   "CMakeFiles/vision_generate_messages_py"
 )
 

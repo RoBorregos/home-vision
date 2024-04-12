@@ -57,6 +57,7 @@ vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-visio
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l
+vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv/NewHost.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l
 
 
@@ -81,8 +82,13 @@ vision/CMakeFiles/vision_generate_messages_eus: /workspace/Roborregos/home-visio
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from vision/people_count.msg"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg
 
+/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv/NewHost.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv/NewHost.l: /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp code from vision/NewHost.srv"
+	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv
+
 /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for vision"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating EusLisp manifest code for vision"
 	cd /workspace/Roborregos/home-vision/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision vision std_msgs
 
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus
@@ -90,6 +96,7 @@ vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/r
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l
+vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv/NewHost.l
 vision_generate_messages_eus: /workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus.dir/build.make
 

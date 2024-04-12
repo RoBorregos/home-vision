@@ -57,6 +57,7 @@ vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-visio
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/img_list.h
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/target.h
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/people_count.h
+vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h
 
 
 /workspace/Roborregos/home-vision/ws/devel/include/vision/img.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
@@ -84,11 +85,19 @@ vision/CMakeFiles/vision_generate_messages_cpp: /workspace/Roborregos/home-visio
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from vision/people_count.msg"
 	cd /workspace/Roborregos/home-vision/ws/src/vision && /workspace/Roborregos/home-vision/ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /workspace/Roborregos/home-vision/ws/src/vision/msg/people_count.msg -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/include/vision -e /opt/ros/noetic/share/gencpp/cmake/..
 
+/workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h: /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv
+/workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/Roborregos/home-vision/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating C++ code from vision/NewHost.srv"
+	cd /workspace/Roborregos/home-vision/ws/src/vision && /workspace/Roborregos/home-vision/ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /workspace/Roborregos/home-vision/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/Roborregos/home-vision/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/Roborregos/home-vision/ws/devel/include/vision -e /opt/ros/noetic/share/gencpp/cmake/..
+
 vision_generate_messages_cpp: vision/CMakeFiles/vision_generate_messages_cpp
 vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/img.h
 vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/img_list.h
 vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/target.h
 vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/people_count.h
+vision_generate_messages_cpp: /workspace/Roborregos/home-vision/ws/devel/include/vision/NewHost.h
 vision_generate_messages_cpp: vision/CMakeFiles/vision_generate_messages_cpp.dir/build.make
 
 .PHONY : vision_generate_messages_cpp

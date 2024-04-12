@@ -5,6 +5,8 @@ import rospy
 from sensor_msgs.msg import JointState
 import time
 # import tf
+# from deepface import DeepFace
+
 
 import cv2
 import numpy as np
@@ -15,23 +17,24 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from vision.msg import img, img_list, target
 from std_msgs.msg import Bool, String
+from geometry_msgs.msg import Point
+from vision.srv import NewHost
 import tqdm
 import json
 
 '''
-If save face -> add it with its name
-Check if there are matches and if so, publish the name and favorite drink
+If name of person -> assign to person in front and save
+Check if there are matches and if so, publish the name
 Check the largest face detection and post cx,cy
-
 '''
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
-PERSON_INFO = "/person_info"
-DETECTION_TOPIC = "/detection_results" 
+NEW_NAME_TOPIC = "/new_name"
+PERSON_NAME = "/person_detected_name" 
 NEW_HOST = "/new_host"
 
 
-TRACK_THRESHOLD = 70
+TRACK_THRESHOLD = 50
 AREA_THRESHOLD = 1200
 
 # Paths
@@ -90,7 +93,7 @@ def clear():
     with open(json_path, 'w') as outfile:
         json.dump(data, outfile)
 
-    print("Clearing")
+    print("Cleared")
 
 
 
@@ -145,7 +148,7 @@ def upadate_json(face_id, image):
             print("error getting attributes")
             # faces_tracked.remove(face_id)
 
-clear()
+
 
 class FaceDetection():
 
@@ -153,11 +156,22 @@ class FaceDetection():
         rospy.init_node('face_detection')
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        self.detection_pub = rospy.Publisher(DETECTION_TOPIC, img_list, queue_size=1)
-        self.new_host_sub = rospy.Subscriber(NEW_HOST, String, self.new_host_callback)
+        # self.detection_pub = rospy.Publisher(DETECTION_TOPIC, img_list, queue_size=1)
+        # self.new_name_sub = rospy.Subscriber(NEW_NAME_TOPIC, String, self.new_name_callback)
+        self.new_name_service = rospy.Service(NEW_NAME_TOPIC, NewHost, self.new_name_callback)
+        self.name_pub = rospy.Publisher(PERSON_NAME, String, queue_size=1)
+        self.move_pub = rospy.Publisher("move", Point, queue_size=1)
+        self.new_name = ""
+        # self.new_host_sub = rospy.Subscriber(NEW_HOST, String, self.new_host_callback)
         
-        self.move_pub = rospy.Publisher("move", target, queue_size=1)
+        # self.move_pub = rospy.Publisher("move", target, queue_size=1)
         self.image = None
+        clear()
+        
+
+    def new_name_callback(self, req):
+        self.new_name = req.name
+        return True
 
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
@@ -177,177 +191,171 @@ class FaceDetection():
         # area = 0
         # center = [1920/2, 1080/2]
         # process_this_frame = True
-        prev_faces = []
         # recognized_faces = []
         # # x, y, w, h = 0, 0, 0, 0
+        
+            
+        clear()
 
+        prev_faces = [] 
+        curr_faces = []
         print("Running")
         while rospy.is_shutdown() == False :
 
-            img_arr = img_list()
+            # img_arr = img_list()
 
             if self.image is not None:
                 frame = self.image
                
                 # Resize frame of video to 1/4 size for faster face recognition processing
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-                # center = [frame.shape[1]/2, frame.shape[0]/2]
+                center = [frame.shape[1]/2, frame.shape[0]/2]
                 # print(center[0], ", ", center[1])
                 
                 # Find all the faces and face encodings in the current frame of video
                 face_locations = face_recognition.face_locations(small_frame)
-                face_encodings = face_recognition.face_encodings(small_frame, face_locations)
-                # xc = 0
-                # yc = 0
 
-                # Check each encoding found
-                # face_names = []
-                for face_encoding, location in zip(face_encodings, face_locations):
+                largest_area = 0
+                largest_face_params = None
+                largest_face_name = ""
+
+                annotated_frame = frame.copy()
+                
+                curr_faces = []
+                face_encodings = None
+                for i, location in enumerate(face_locations):
+                    # print('detected: ', len(face_locations))
+                # for face_encoding, location in zip(face_encodings, face_locations):
+
                     # print("l____",location[0])
-        
-                    flag = False
                     # print("detected: ", len(detected_faces))
 
                     # Center of current face
                     centerx = (location[3] + (location[1] - location[3])/2)*4
-                    centery = (location[0] + (location[0] - location[2])/2)*4
+                    centery = (location[0] + (location[2] - location[0])/2)*4
+                    # print(location[0], 'bottom: ', location[2])
+
+                    top = location[0]*4
+                    right = location[1]*4
+                    bottom = location[2]*4
+                    left = location[3]*4
+
+                    name = "Unknown"
+                    
+                    # Extend bbox
+                    left = max(left - 50,0)
+                    right = right + 50
+                    top = max(0,top - 50)
+                    bottom = bottom + 50
+
+                    area = (right-left)*(bottom-top)
 
                     # Tracking
+                    flag = False
                     for prev_face in prev_faces:
 
-                        # print("detected: ", detected["y"], "center: ", centery, "diff: ", abs(detected["y"] - centery))
+                        # print("detected: ", prev_face["x"], "center: ", centerx, "diff: ", abs(prev_face["x"] - centerx))
+                        # print("detected: ", prev_face["y"], "center: ", centery, "diff: ", abs(prev_face["y"] - centery))
+                        # print('x', centerx, '   y', centery)
 
                         # If the face is within the tracking threshold
                         if (abs(prev_face["x"] - centerx) < TRACK_THRESHOLD) and (abs(prev_face["y"] - centery) < TRACK_THRESHOLD):
                             name = prev_face["name"]
+                            # print("Tracking: ", name)
                             flag = True
                             break
 
 
-                    # If not a tracked face, then it needs to be processed
-                    name = "Unknown"
+                    # If not a tracked face, then it needs to be processed (compare to known faces)
                     if not flag:
+                        if face_encodings == None:
+                            face_encodings = face_recognition.face_encodings(small_frame, face_locations)
+                        
+                        face_encoding = face_encodings[i]
+                        # if len(face_encoding) == 0:
+                        #     print("No face encoding")
+                        #     continue
+                        # face_encoding = face_encoding[0]
 
                         # See if the face is a match for the known face(s)
                         matches = face_recognition.compare_faces(face_encoding, people_encodings, 0.6)
                         face_distances = face_recognition.face_distance(people_encodings, face_encoding)
                         best_match_index = np.argmin(face_distances)
 
+                        # If it is known, then the name is updated
                         if matches[best_match_index]:
+                            print("Matched")
                             name = people_names[best_match_index]
 
-                    # If the face is not known and new host is active
-                    if name[0] == "Unknown" and area > AREA_THRESHOLD:
-                        print("Unknown")
-                        # cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
-                        top = location[0]*4
-                        right = location[1]*4
-                        bottom = location[2]*4
-                        left = location[3]*4
-
-                        # Extend bbox
-                        left = max(left - 50,0)
-                        right = right + 50
-                        top = max(0,top - 50)
-                        bottom = bottom + 50
-                        crop = frame[top:bottom, left:right]
-                        
-
-                        new_name = f"face{i}.png"
-                        name[0] = new_name
-                        new_dir = f"{folder}/{new_name}"
-                        cv2.imwrite(new_dir,result)
-                        process_img(new_name)
-                        upadate_json(new_name, result)
                     
-                        
-                    face_names.append([name,flag])
-                        
-                detected_faces = []
-                arr = []
-                # Display the results
-                for (top, right, bottom, left), name in zip(face_locations, face_names):
-                    top *= 4
-                    right *= 4
-                    bottom *= 4
-                    left *= 4
 
-                    imgbb = img()
-                    imgbb.x = top
-                    imgbb.y = left
-                    imgbb.w = right - left
-                    imgbb.h = bottom - top
-                    imgbb.name = name
 
-                    arr.append(imgbb)
-                    img_arr = img_list(arr)
-                    area = (right-left)*(bottom-top)
-                
-                    if name[0] == "Unknown" and area > AREA_THRESHOLD:
-                        print("Unknown")
-                        # cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
-                        
-                        left = max(left - 50,0)
-                        right = right + 50
-                        top = max(0,top - 50)
-                        bottom = bottom + 50
-                        result = frame[top:bottom, left:right]
 
-                        new_name = f"face{i}.png"
-                        name[0] = new_name
-                        new_dir = f"{folder}/{new_name}"
-                        cv2.imwrite(new_dir,result)
-                        process_img(new_name)
-                        upadate_json(new_name, result)
-                        
-                        # new_name = input("Enter name: ")
-                        # name[0] = new_name
-                        # new_name = f"{new_name}{i}.png"
-                        # new_dir = f"{folder}/{new_name}"
-                        # cv2.imwrite(new_dir,result)
-                        # process_img(new_name)
-                        
-                        # print(name[0])
-                        
-                        i = i+1
-            # Draw a box around the face
-            
                     xc = left + (right - left)/2
                     yc = top + (bottom - top)/2
                     area = (right-left)*(bottom-top)
                     # print(xc)
 
-                    detected_faces.append({"x": xc, "y": yc, "name": name[0]})
+                    curr_faces.append({"x": xc, "y": yc, "name": name})
 
-                    # Draw a label with a name below the face
-                    if name[1]:
-                        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (255, 0, 0), cv2.FILLED)
-                        cv2.rectangle(frame, (left, top), (right, bottom), (255, 0, 0), 2)
+                    if (area > largest_area):
+                        largest_area = area
+                        largest_face_params = [left, top, right, bottom]
+                        largest_face_name = name
+
+                    # Show results ______________________________________________
+                    
+
+                    if flag:
+                        cv2.rectangle(annotated_frame, (left, bottom - 35), (right, bottom), (255, 0, 0), cv2.FILLED)
+                        cv2.rectangle(annotated_frame, (left, top), (right, bottom), (255, 0, 0), 2)
                     else:
-                        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-                        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+                        cv2.rectangle(annotated_frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+                        cv2.rectangle(annotated_frame, (left, top), (right, bottom), (0, 0, 255), 2)
                     font = cv2.FONT_HERSHEY_DUPLEX
 
-                    cv2.putText(frame, name[0], (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+                    cv2.putText(annotated_frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+                    # cv2.circle(annotated_frame, (int(xc), int(yc)), 5, (0, 255, 0), -1)
 
-                cv2.imshow("Image", frame)
+                xc = 0
+                yc = 0
+                # For the largest face detected:
+                if (largest_area != 0):
+                    # Center of the face
+                    left, top, right, bottom = largest_face_params
+                    xc = left + (right - left)/2
+                    yc = top + (bottom - top)/2
+                    name = largest_face_name
+                    # If received host name
+                    if self.new_name != "":
+                        # if area < AREA_THRESHOLD:
+                        #     print("Person too small")
 
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                        break
-                    # Draw a box around the face
-                    # cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-                    # xc = left + (right - left)/2
-                    # yc = top + (top - bottom)/2
-                    # area = (right-left)*(bottom-top)
+                        # else:
+                        largest_face_name = self.new_name
+                        crop = frame[top:bottom, left:right]
 
-                    # # Draw a label with a name below the face
-                    # cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-                    # font = cv2.FONT_HERSHEY_DUPLEX
-                    # cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-                    # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-                    
-                # process_this_frame = not process_this_frame
+                        img_name = f"{largest_face_name}.png"
+                        save_path = f"{folder}/{img_name}"
+                        cv2.imwrite(save_path, crop)
+                        process_img(img_name)
+                        upadate_json(img_name, crop)
 
+                        # Update prev recognitions for tracker
+                        for i, face in enumerate(curr_faces):
+                            if face["x"] == xc and face["y"] == yc:
+                                index = i
+                                print("found")
+
+                            cv2.circle(annotated_frame, (int(face["x"]), int(face["y"])), 5, (0, 255, 0), -1)
+
+                        curr_faces[index]["name"] = self.new_name
+                        self.new_name = ""
+
+                prev_faces = curr_faces
+                # print(len(curr_faces))
+
+                # Publish coordinates to track face
                 if xc != 0:
                     difx = xc - center[0] 
                 else:
@@ -360,26 +368,28 @@ class FaceDetection():
                     
                 max_degree = 30
 
-                # print(area)
+                # Calculate the movement for the camera to track the face
                 move_x = difx*max_degree/center[0]
                 move_y = dify*max_degree/center[1]
 
-                move = target()
+                move = Point()
                 
                 move.x = int(move_x)
                 move.y = int(move_y)
 
                 self.move_pub.publish(move)
-                # self.detection_pub.publish(img_arr)
 
-                # print("Move: ", move_x, ", ",move_y)
+                person_seen = String()
+                person_seen.data = largest_face_name
+                self.name_pub.publish(person_seen)
+
+                cv2.imshow("Face detection", annotated_frame)
+
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                        prev_faces = []
+                        break
+                
             
-            # state = self.pick_group.get_current_joint_values()
-
-            # if move_x > 0:
-            #     state[0] += move_x*3.1416/180
-            # else:
-            #     state[0] -= move_x*3.1416/180
-
+                   
 p = FaceDetection()
 p.run() 
