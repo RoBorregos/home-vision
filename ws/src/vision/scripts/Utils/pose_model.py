@@ -4,7 +4,7 @@ import cv2
 from math import acos, degrees
 import os
 from enum import Enum
-
+from shirt_color import get_shirt_color
 '''
 Script to classify the pose of a person in an image:
 Standing, Sitting, Raising right hand, Raising left hand, Pointing left, Pointing right
@@ -80,6 +80,7 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
     w = image.shape[1]
 
     if landmarks is not None:
+        print("f")
         landmarks = landmarks.landmark
         # Left leg points
         hip_left = landmarks[23]
@@ -107,6 +108,11 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         wrist_right = landmarks[16]
         index_right = landmarks[20]
         arm_angle_right = getAngle(shoulder_right, elbow_right, wrist_right)
+
+
+        # Get shirt color
+        print("color")
+        color = get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left)
 
 
         m = 0.1
@@ -181,12 +187,12 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         
 
 # Main
-# pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
+pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
 
-# folder = "./images"
-# for filename in (os.listdir(folder)):
+folder = "./images"
+for filename in (os.listdir(folder)):
 
-#     path = os.path.join(folder, filename)
-#     img = cv2.imread(path)
-#     poses = classify_pose(pose_model, img)
-#     print(filename, " : " , poses)
+    path = os.path.join(folder, filename)
+    img = cv2.imread(path)
+    poses = classify_pose(pose_model, img)
+    print(filename, " : " , poses)
