@@ -4,7 +4,7 @@ import cv2
 from math import acos, degrees
 import os
 from enum import Enum
-from shirt_color import get_shirt_color
+from .shirt_color import get_shirt_color
 '''
 Script to classify the pose of a person in an image:
 Standing, Sitting, Raising right hand, Raising left hand, Pointing left, Pointing right
@@ -64,10 +64,11 @@ def getAngle(point_close, point_mid, point_far):
     
 
 
-def classify_pose(poseModel, image, print_angles=False, general=False):
+def classify_pose(poseModel, image, print_angles=False, general=True):
     poses = []
     # Convert the image to RGB
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
 
     # Process the image
     results = poseModel.process(image)
@@ -113,7 +114,7 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         # Get shirt color
         print("color")
         color = get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left)
-
+        poses.append(f"shirt color: {color}")
 
         m = 0.1
 
@@ -143,8 +144,8 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
             if shoulder_right.y - wrist_right.y > RAISING_HAND_THRESHOLD or shoulder_left.y - wrist_left.y > RAISING_HAND_THRESHOLD:
                 poses.append("Raising hand/s")
 
-            if data != Direction.NOT_POINTING:
-                poses.append("Pointing")
+            # if data != Direction.NOT_POINTING:
+            #     poses.append("Pointing")
 
         else:
             # Determine if pointing to a direction or raising hand 
@@ -171,7 +172,7 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         mp_drawing = mp.solutions.drawing_utils
         annotated_image = image.copy()
         mp_drawing.draw_landmarks(annotated_image, results.pose_landmarks, mp.solutions.pose.POSE_CONNECTIONS)
-        annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
+        # annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
 
         arr = np.array(poses)
         txt = np.array2string(arr)
@@ -186,13 +187,13 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
     return poses
         
 
-# Main
-pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
+# # Main
+# pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
 
-folder = "./images"
-for filename in (os.listdir(folder)):
+# folder = "./images"
+# for filename in (os.listdir(folder)):
 
-    path = os.path.join(folder, filename)
-    img = cv2.imread(path)
-    poses = classify_pose(pose_model, img)
-    print(filename, " : " , poses)
+#     path = os.path.join(folder, filename)
+#     img = cv2.imread(path)
+#     poses = classify_pose(pose_model, img)
+#     print(filename, " : " , poses)

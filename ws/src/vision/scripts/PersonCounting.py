@@ -104,10 +104,10 @@ class PersonCounting():
                         if pose == "Standing":
                             people_standing += 1
 
-                        if pose == "Pointing right" or pose == "Pointing left":
-                            people_pointing += 1
+                        # if pose == "Pointing right" or pose == "Pointing left":
+                        #     people_pointing += 1
                         
-                        if pose == "Raising right hand" or pose == "Raising left hand":
+                        if pose == "Raising hand/s" or pose == "Raising right hand" or pose == "Raising left hand":
                             people_raising_hand += 1
 
                 msg = people_count()
@@ -158,6 +158,7 @@ class PersonCounting():
 
                             # Crop the image 
                             cropped_image = frame[y1:y2, x1:x2]
+                            cv2.imshow("Cropped", cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
                             person = check_visibility(pose_model,cropped_image)
 

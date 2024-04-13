@@ -62,7 +62,7 @@ def classifyColor_hsv(self, hsv):
         return "Yellow"
     return "Red"
 
-def classifyColor_web(self, rgb_tuple):
+def classifyColor_web(rgb_tuple):
 
     # a dictionary of all the hex and their respective names in css3
     css3_db = css3_hex_to_names
@@ -76,7 +76,7 @@ def classifyColor_web(self, rgb_tuple):
     distance, index = kdt_db.query(rgb_tuple)
     return names[index]
 
-def get_biggest_contour(self, img):
+def get_biggest_contour(img):
     R,G,B = cv2.split(img)
 
     # Do some denosiong on the red chnnale (The red channel gave better result than the gray because it is has more contrast
@@ -109,11 +109,13 @@ def get_biggest_contour(self, img):
 
 def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
     img_h, img_w, _ = image.shape
+    chest_y = (shoulder_left.y + shoulder_right.y) / 2
+
     print("getting shirt color")
 
-    if (shoulder_left.y) < (hip_right.y):
+    if (chest_y) < (hip_right.y):
         print("chest is higher than hip")
-        cut_y_up = int(shoulder_left.y * img_h)
+        cut_y_up = int(chest_y * img_h)
         if (hip_right.y) < 1:
             print("hip is in image")
             cut_y_down = int(hip_right.y * img_h)
@@ -135,7 +137,7 @@ def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
         chestImg = image[cut_y_up:cut_y_down, cut_x_down:cut_x_up]
         #contourImage = self.get_biggest_contour(chestImg)
         
-        #cv2.imshow('chestImg', chestImg)
+        cv2.imshow('chestImg', chestImg)
         #cv2.imshow('contourImage', contourImage)
 
         #get mean color
