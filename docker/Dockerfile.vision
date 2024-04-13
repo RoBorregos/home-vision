@@ -19,11 +19,11 @@ WORKDIR /workspace
 # Python
 RUN pip install torch==1.10 torchvision==0.11.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 
-COPY requirements/face-recognition.txt /workspace/requirements/face-recognition.txt
-COPY requirements/person-detection.txt /workspace/requirements/person-detection.txt
+# COPY requirements/face-recognition.txt /workspace/requirements/face-recognition.txt
+COPY requirements/vision_requirements.txt /workspace/requirements/vision_requirements.txt
 
-RUN pip install -r requirements/face-recognition.txt
-RUN pip install -r requirements/person-detection.txt
+# RUN pip install -r requirements/face-recognition.txt
+RUN pip install -r requirements/vision_requirements.txt
 
 # Foxglove bridge
 ############################################

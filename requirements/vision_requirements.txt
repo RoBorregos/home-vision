@@ -5,7 +5,7 @@ pretrainedmodels
 timm
 tqdm
 mediapipe
-yaml
-PIL
+pyyaml
+pillow
 numpy
 webcolors

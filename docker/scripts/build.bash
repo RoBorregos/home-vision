@@ -23,6 +23,8 @@ case $i in
 esac
 done
 
+echo "Building docker image for @Home area: $AREA"
+
 # if ros-distro not set, return error
 if [ -z "$AREA" ]; then
     echo "ROS distro not set. Use --ros-distro=distro"
