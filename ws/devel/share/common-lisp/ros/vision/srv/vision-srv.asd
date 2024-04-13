@@ -6,6 +6,8 @@
   :components ((:file "_package")
     (:file "NewHost" :depends-on ("_package_NewHost"))
     (:file "_package_NewHost" :depends-on ("_package"))
+    (:file "PersonCount" :depends-on ("_package_PersonCount"))
+    (:file "_package_PersonCount" :depends-on ("_package"))
     (:file "TrackPerson" :depends-on ("_package_TrackPerson"))
     (:file "_package_TrackPerson" :depends-on ("_package"))
   ))

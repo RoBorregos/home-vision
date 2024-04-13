@@ -63,6 +63,7 @@ add_message_files(
 add_service_files(
   FILES
   NewHost.srv
+  PersonCount.srv
   # Service2.srv
 )
 

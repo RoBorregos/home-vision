@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/workspace/ws/devel/lib/python3/dist-packages/vision/msg/_person_list.py"
   "/workspace/ws/devel/lib/python3/dist-packages/vision/msg/_target.py"
   "/workspace/ws/devel/lib/python3/dist-packages/vision/srv/_NewHost.py"
+  "/workspace/ws/devel/lib/python3/dist-packages/vision/srv/_PersonCount.py"
   "/workspace/ws/devel/lib/python3/dist-packages/vision/srv/__init__.py"
   "CMakeFiles/vision_generate_messages_py"
 )

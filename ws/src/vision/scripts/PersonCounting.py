@@ -15,6 +15,8 @@ import mediapipe as mp
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from std_msgs.msg import Bool
+from std_srvs.srv import SetBool
+from vision.srv import PersonCount
 from vision.msg import people_count
 
 '''
@@ -36,6 +38,8 @@ class PersonCounting():
     def __init__(self):
         rospy.init_node('person_counting')
         self.bridge = CvBridge()
+        self.start_service = rospy.Service(START_TOPIC, SetBool, self.toggle_start)
+        self.end_service = rospy.Service(END_TOPIC, PersonCount, self.count)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.start_sub = rospy.Subscriber(START_TOPIC, Bool, self.start_callback)
         self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
@@ -43,6 +47,10 @@ class PersonCounting():
         self.image = None
         self.start = False
         self.end = False
+    
+    def toggle_start(self, req):
+        self.start = req.data
+        return True, "Counting started"
     
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
@@ -52,6 +60,67 @@ class PersonCounting():
 
     def end_callback(self, data):
         self.end = data
+    
+    def count(self, req):
+        print("People detected", len(self.people_poses))
+
+        people_sitting = 0
+        people_standing = 0
+        # people_pointing = 0
+        pointing_left = 0
+        pointing_right = 0
+        right_hand = 0
+        left_hand = 0
+        # people_raising_hand = 0
+
+        for (person_poses) in self.people_poses:
+            for pose in person_poses:
+                if pose == "Sitting":
+                    people_sitting += 1
+                
+                if pose == "Standing":
+                    people_standing += 1
+
+                if pose == "Pointing right":
+                    pointing_right += 1
+                
+                if pose == "Pointing left":
+                    pointing_left += 1
+                
+                if pose == "Raising right hand":
+                    right_hand += 1
+                
+                if pose == "Raising left hand":
+                    left_hand += 1
+
+                
+        self.people_poses = []
+        self.start = False
+
+        if req.data == "Sitting":
+            return people_sitting
+
+        elif req.data == "Standing":
+            return people_standing
+
+        elif req.data == "Pointing Left":
+            return pointing_left
+        
+        elif req.data == "Pointing Right":
+            return pointing_right
+        
+        elif req.data == "Raising Right Hand":
+            return right_hand
+            
+        else:
+            return 0
+        # msg = people_count()
+        # msg.detected_people = len(people_tags)
+        # msg.people_sitting = people_sitting
+        # msg.people_standing = people_standing
+        # msg.people_pointing = people_pointing
+        # msg.people_raising_hand = people_raising_hand
+        # self.count_pub.publish(msg)
     
     def run(self):
         pbar = tqdm.tqdm(total=5, desc="Loading models")
@@ -80,44 +149,21 @@ class PersonCounting():
         people_tags = []
         people_ids = []
         people_features = []
-        people_poses = []
+        self.people_poses = []
         prev_ids = []
 
         print('Running')
 
         while rospy.is_shutdown() == False :
 
+            if self.start == False:
+                people_tags = []
+                people_ids = []
+                people_features = []
+                self.people_poses = []
+                prev_ids = []
+
             # Check if the counting has ended and publish the results
-            if self.end:
-                print("People detected", len(people_tags))
-
-                people_sitting = 0
-                people_standing = 0
-                people_pointing = 0
-                people_raising_hand = 0
-
-                for (person_poses) in people_poses:
-                    for pose in person_poses:
-                        if pose == "Sitting":
-                            people_sitting += 1
-                        
-                        if pose == "Standing":
-                            people_standing += 1
-
-                        # if pose == "Pointing right" or pose == "Pointing left":
-                        #     people_pointing += 1
-                        
-                        if pose == "Raising hand/s" or pose == "Raising right hand" or pose == "Raising left hand":
-                            people_raising_hand += 1
-
-                msg = people_count()
-                msg.detected_people = len(people_tags)
-                msg.people_sitting = people_sitting
-                msg.people_standing = people_standing
-                msg.people_pointing = people_pointing
-                msg.people_raising_hand = people_raising_hand
-                self.count_pub.publish(msg)
-
             # Check if counting is active
             elif self.start:
                 print('Counting')
@@ -186,7 +232,7 @@ class PersonCounting():
 
                                     # Update id to the id assigned by yolo and pose
                                     people_ids[i] = track_id
-                                    people_poses[i] = pose
+                                    self.people_poses[i] = pose
                                     flag = True
                                     break
                             
@@ -196,12 +242,12 @@ class PersonCounting():
                                 people_ids.append(track_id)
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
-                                people_poses.append(pose)
+                                self.people_poses.append(pose)
 
 
                     print(track_ids)
                     print(people_tags)
-                    print(people_poses)
+                    print(self.people_poses)
                     prev_ids = []
 
                     # Draw results and update prev detections

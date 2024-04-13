@@ -60,6 +60,7 @@ vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/msg/person.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/msg/person_list.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/srv/NewHost.l
+vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/srv/PersonCount.l
 vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/manifest.l
 
 
@@ -100,8 +101,13 @@ vision/CMakeFiles/vision_generate_messages_eus: /workspace/ws/devel/share/roseus
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating EusLisp code from vision/NewHost.srv"
 	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/roseus/ros/vision/srv
 
+/workspace/ws/devel/share/roseus/ros/vision/srv/PersonCount.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/workspace/ws/devel/share/roseus/ros/vision/srv/PersonCount.l: /workspace/ws/src/vision/srv/PersonCount.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating EusLisp code from vision/PersonCount.srv"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/roseus/ros/vision/srv
+
 /workspace/ws/devel/share/roseus/ros/vision/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating EusLisp manifest code for vision"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating EusLisp manifest code for vision"
 	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /workspace/ws/devel/share/roseus/ros/vision vision std_msgs
 
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus
@@ -112,6 +118,7 @@ vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/msg/pe
 vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/msg/person.l
 vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/msg/person_list.l
 vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/srv/NewHost.l
+vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/srv/PersonCount.l
 vision_generate_messages_eus: /workspace/ws/devel/share/roseus/ros/vision/manifest.l
 vision_generate_messages_eus: vision/CMakeFiles/vision_generate_messages_eus.dir/build.make
 

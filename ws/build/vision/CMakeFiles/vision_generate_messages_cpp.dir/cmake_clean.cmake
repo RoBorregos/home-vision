@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "/workspace/ws/devel/include/vision/NewHost.h"
+  "/workspace/ws/devel/include/vision/PersonCount.h"
   "/workspace/ws/devel/include/vision/img.h"
   "/workspace/ws/devel/include/vision/img_list.h"
   "/workspace/ws/devel/include/vision/people_count.h"

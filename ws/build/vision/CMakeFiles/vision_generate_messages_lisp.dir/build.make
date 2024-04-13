@@ -60,6 +60,7 @@ vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/commo
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp
+vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp
 
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
@@ -99,6 +100,11 @@ vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/commo
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Lisp code from vision/NewHost.srv"
 	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
 
+/workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp: /workspace/ws/src/vision/srv/PersonCount.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from vision/PersonCount.srv"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
+
 vision_generate_messages_lisp: vision/CMakeFiles/vision_generate_messages_lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp
@@ -107,6 +113,7 @@ vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp
+vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp
 vision_generate_messages_lisp: vision/CMakeFiles/vision_generate_messages_lisp.dir/build.make
 
 .PHONY : vision_generate_messages_lisp

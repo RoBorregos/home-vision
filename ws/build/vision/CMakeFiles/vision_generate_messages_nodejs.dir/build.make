@@ -60,6 +60,7 @@ vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gen
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/person.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/person_list.js
 vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js
+vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/srv/PersonCount.js
 
 
 /workspace/ws/devel/share/gennodejs/ros/vision/msg/img.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
@@ -99,6 +100,11 @@ vision/CMakeFiles/vision_generate_messages_nodejs: /workspace/ws/devel/share/gen
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Javascript code from vision/NewHost.srv"
 	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/gennodejs/ros/vision/srv
 
+/workspace/ws/devel/share/gennodejs/ros/vision/srv/PersonCount.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
+/workspace/ws/devel/share/gennodejs/ros/vision/srv/PersonCount.js: /workspace/ws/src/vision/srv/PersonCount.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Javascript code from vision/PersonCount.srv"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/gennodejs/ros/vision/srv
+
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs
 vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/img.js
 vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/img_list.js
@@ -107,6 +113,7 @@ vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/
 vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/person.js
 vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/msg/person_list.js
 vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/srv/NewHost.js
+vision_generate_messages_nodejs: /workspace/ws/devel/share/gennodejs/ros/vision/srv/PersonCount.js
 vision_generate_messages_nodejs: vision/CMakeFiles/vision_generate_messages_nodejs.dir/build.make
 
 .PHONY : vision_generate_messages_nodejs

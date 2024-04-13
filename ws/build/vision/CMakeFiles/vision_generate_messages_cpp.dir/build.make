@@ -60,6 +60,7 @@ vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/visi
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/vision/person.h
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/vision/person_list.h
 vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/vision/NewHost.h
+vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/vision/PersonCount.h
 
 
 /workspace/ws/devel/include/vision/img.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
@@ -107,6 +108,13 @@ vision/CMakeFiles/vision_generate_messages_cpp: /workspace/ws/devel/include/visi
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating C++ code from vision/NewHost.srv"
 	cd /workspace/ws/src/vision && /workspace/ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/include/vision -e /opt/ros/noetic/share/gencpp/cmake/..
 
+/workspace/ws/devel/include/vision/PersonCount.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/workspace/ws/devel/include/vision/PersonCount.h: /workspace/ws/src/vision/srv/PersonCount.srv
+/workspace/ws/devel/include/vision/PersonCount.h: /opt/ros/noetic/share/gencpp/msg.h.template
+/workspace/ws/devel/include/vision/PersonCount.h: /opt/ros/noetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating C++ code from vision/PersonCount.srv"
+	cd /workspace/ws/src/vision && /workspace/ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/include/vision -e /opt/ros/noetic/share/gencpp/cmake/..
+
 vision_generate_messages_cpp: vision/CMakeFiles/vision_generate_messages_cpp
 vision_generate_messages_cpp: /workspace/ws/devel/include/vision/img.h
 vision_generate_messages_cpp: /workspace/ws/devel/include/vision/img_list.h
@@ -115,6 +123,7 @@ vision_generate_messages_cpp: /workspace/ws/devel/include/vision/people_count.h
 vision_generate_messages_cpp: /workspace/ws/devel/include/vision/person.h
 vision_generate_messages_cpp: /workspace/ws/devel/include/vision/person_list.h
 vision_generate_messages_cpp: /workspace/ws/devel/include/vision/NewHost.h
+vision_generate_messages_cpp: /workspace/ws/devel/include/vision/PersonCount.h
 vision_generate_messages_cpp: vision/CMakeFiles/vision_generate_messages_cpp.dir/build.make
 
 .PHONY : vision_generate_messages_cpp

@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "vision: 6 messages, 1 services")
+message(STATUS "vision: 6 messages, 2 services")
 
 set(MSG_I_FLAGS "-Ivision:/workspace/ws/src/vision/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg")
 
@@ -50,6 +50,11 @@ add_custom_target(_vision_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_custom_target(_vision_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/srv/NewHost.srv" ""
+)
+
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
+add_custom_target(_vision_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/srv/PersonCount.srv" ""
 )
 
 #
@@ -102,6 +107,12 @@ _generate_srv_cpp(vision
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
 )
+_generate_srv_cpp(vision
+  "/workspace/ws/src/vision/srv/PersonCount.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
+)
 
 ### Generating Module File
 _generate_module_cpp(vision
@@ -128,6 +139,8 @@ add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_de
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
+add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
 add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -183,6 +196,12 @@ _generate_srv_eus(vision
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
 )
+_generate_srv_eus(vision
+  "/workspace/ws/src/vision/srv/PersonCount.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
+)
 
 ### Generating Module File
 _generate_module_eus(vision
@@ -209,6 +228,8 @@ add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_de
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
+add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
 add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -264,6 +285,12 @@ _generate_srv_lisp(vision
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
 )
+_generate_srv_lisp(vision
+  "/workspace/ws/src/vision/srv/PersonCount.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
+)
 
 ### Generating Module File
 _generate_module_lisp(vision
@@ -290,6 +317,8 @@ add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_d
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
+add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
 add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -345,6 +374,12 @@ _generate_srv_nodejs(vision
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
 )
+_generate_srv_nodejs(vision
+  "/workspace/ws/src/vision/srv/PersonCount.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
+)
 
 ### Generating Module File
 _generate_module_nodejs(vision
@@ -371,6 +406,8 @@ add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
+add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
 add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility
@@ -426,6 +463,12 @@ _generate_srv_py(vision
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
 )
+_generate_srv_py(vision
+  "/workspace/ws/src/vision/srv/PersonCount.srv"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
+)
 
 ### Generating Module File
 _generate_module_py(vision
@@ -452,6 +495,8 @@ add_dependencies(vision_generate_messages_py _vision_generate_messages_check_dep
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
+add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
 add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
 
 # target for backward compatibility

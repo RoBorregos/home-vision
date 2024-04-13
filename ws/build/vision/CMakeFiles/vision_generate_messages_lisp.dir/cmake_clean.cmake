@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "/workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp"
   "/workspace/ws/devel/share/common-lisp/ros/vision/msg/target.lisp"
   "/workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp"
   "CMakeFiles/vision_generate_messages_lisp"
 )
 

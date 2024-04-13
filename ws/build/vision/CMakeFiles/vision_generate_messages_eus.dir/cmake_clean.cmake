@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "/workspace/ws/devel/share/roseus/ros/vision/msg/person_list.l"
   "/workspace/ws/devel/share/roseus/ros/vision/msg/target.l"
   "/workspace/ws/devel/share/roseus/ros/vision/srv/NewHost.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/srv/PersonCount.l"
   "CMakeFiles/vision_generate_messages_eus"
 )
 

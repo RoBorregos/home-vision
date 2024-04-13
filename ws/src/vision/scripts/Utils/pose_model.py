@@ -64,7 +64,7 @@ def getAngle(point_close, point_mid, point_far):
     
 
 
-def classify_pose(poseModel, image, print_angles=False, general=True):
+def classify_pose(poseModel, image, print_angles=False, general=False):
     poses = []
     # Convert the image to RGB
     # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
