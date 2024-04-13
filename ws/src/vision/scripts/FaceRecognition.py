@@ -15,9 +15,9 @@ import os
 import face_recognition
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from vision.msg import img, img_list, target
 from std_msgs.msg import Bool, String
 from geometry_msgs.msg import Point
+from vision.msg import person, person_list
 from vision.srv import NewHost
 import tqdm
 import json
@@ -30,7 +30,9 @@ Check the largest face detection and post cx,cy
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 NEW_NAME_TOPIC = "/new_name"
-PERSON_NAME = "/person_detected_name" 
+PERSON_NAME_TOPIC = "/person_detected_name" 
+PERSON_LIST_TOPIC = "/person_list"
+TARGET_TOPIC = "/target"
 NEW_HOST = "/new_host"
 
 
@@ -71,6 +73,7 @@ def process_imgs():
         
         process_img(filename)
 
+# Function to clear previous results
 def clear():
     for filename in os.listdir(folder):
         if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png":
@@ -156,15 +159,11 @@ class FaceDetection():
         rospy.init_node('face_detection')
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        # self.detection_pub = rospy.Publisher(DETECTION_TOPIC, img_list, queue_size=1)
-        # self.new_name_sub = rospy.Subscriber(NEW_NAME_TOPIC, String, self.new_name_callback)
         self.new_name_service = rospy.Service(NEW_NAME_TOPIC, NewHost, self.new_name_callback)
-        self.name_pub = rospy.Publisher(PERSON_NAME, String, queue_size=1)
-        self.move_pub = rospy.Publisher("move", Point, queue_size=1)
+        self.name_pub = rospy.Publisher(PERSON_NAME_TOPIC, String, queue_size=1)
+        self.move_pub = rospy.Publisher(TARGET_TOPIC, Point, queue_size=1)
+        self.person_list_pub = rospy.Publisher(PERSON_LIST_TOPIC, person_list, queue_size=1)
         self.new_name = ""
-        # self.new_host_sub = rospy.Subscriber(NEW_HOST, String, self.new_host_callback)
-        
-        # self.move_pub = rospy.Publisher("move", target, queue_size=1)
         self.image = None
         clear()
         
@@ -180,20 +179,6 @@ class FaceDetection():
         self.new_host = data
 
     def run(self):
-        # process_imgs()
-        
-        # pbar.update(1)
-        # pbar.close()
-
-        # i = len(people)
-        # xc = 0
-        # yc = 0
-        # area = 0
-        # center = [1920/2, 1080/2]
-        # process_this_frame = True
-        # recognized_faces = []
-        # # x, y, w, h = 0, 0, 0, 0
-        
             
         clear()
 
@@ -215,7 +200,7 @@ class FaceDetection():
                 
                 # Find all the faces and face encodings in the current frame of video
                 face_locations = face_recognition.face_locations(small_frame)
-                print("detected: ", len(face_locations))
+                # print("detected: ", len(face_locations))
 
                 largest_area = 0
                 largest_face_params = None
@@ -224,6 +209,8 @@ class FaceDetection():
                 annotated_frame = frame.copy()
                 
                 curr_faces = []
+                face_list = person_list()
+
                 face_encodings = None
                 for i, location in enumerate(face_locations):
                     # print('detected: ', len(face_locations))
@@ -274,10 +261,7 @@ class FaceDetection():
                             face_encodings = face_recognition.face_encodings(small_frame, face_locations)
                         
                         face_encoding = face_encodings[i]
-                        # if len(face_encoding) == 0:
-                        #     print("No face encoding")
-                        #     continue
-                        # face_encoding = face_encoding[0]
+
 
                         # See if the face is a match for the known face(s)
                         matches = face_recognition.compare_faces(face_encoding, people_encodings, 0.6)
@@ -288,10 +272,7 @@ class FaceDetection():
                         if matches[best_match_index]:
                             print("Matched")
                             name = people_names[best_match_index]
-
-                    
-
-
+            
 
                     xc = left + (right - left)/2
                     yc = top + (bottom - top)/2
@@ -300,6 +281,13 @@ class FaceDetection():
 
                     curr_faces.append({"x": xc, "y": yc, "name": name})
 
+                    curr_person = person()
+                    curr_person.name = name
+                    curr_person.x = int(xc)
+                    curr_person.y = int(yc)
+
+                    face_list.list.append(curr_person)
+
                     if (area > largest_area):
                         largest_area = area
                         largest_face_params = [left, top, right, bottom]
@@ -307,7 +295,6 @@ class FaceDetection():
 
                     # Show results ______________________________________________
                     
-
                     if flag:
                         cv2.rectangle(annotated_frame, (left, bottom - 35), (right, bottom), (255, 0, 0), cv2.FILLED)
                         cv2.rectangle(annotated_frame, (left, top), (right, bottom), (255, 0, 0), 2)
@@ -352,6 +339,7 @@ class FaceDetection():
                             cv2.circle(annotated_frame, (int(face["x"]), int(face["y"])), 5, (0, 255, 0), -1)
 
                         curr_faces[index]["name"] = self.new_name
+                        face_list.list[index].name = self.new_name
                         self.new_name = ""
 
                 prev_faces = curr_faces
@@ -383,7 +371,9 @@ class FaceDetection():
 
                 person_seen = String()
                 person_seen.data = largest_face_name
+
                 self.name_pub.publish(person_seen)
+                self.person_list_pub.publish(face_list)
 
                 cv2.imshow("Face detection", annotated_frame)
 

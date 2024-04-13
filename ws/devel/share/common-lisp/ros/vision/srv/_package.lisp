@@ -1,0 +1,15 @@
+(cl:defpackage vision-srv
+  (:use )
+  (:export
+   "NEWHOST"
+   "<NEWHOST-REQUEST>"
+   "NEWHOST-REQUEST"
+   "<NEWHOST-RESPONSE>"
+   "NEWHOST-RESPONSE"
+   "TRACKPERSON"
+   "<TRACKPERSON-REQUEST>"
+   "TRACKPERSON-REQUEST"
+   "<TRACKPERSON-RESPONSE>"
+   "TRACKPERSON-RESPONSE"
+  ))
+

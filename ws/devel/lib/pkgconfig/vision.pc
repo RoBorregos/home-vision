@@ -1,0 +1,8 @@
+prefix=/workspace/ws/devel
+
+Name: vision
+Description: Description of vision
+Version: 0.0.0
+Cflags: -I/workspace/ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: roslib message_runtime

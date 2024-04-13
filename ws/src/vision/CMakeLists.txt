@@ -55,6 +55,8 @@ add_message_files(
     img_list.msg
     target.msg
     people_count.msg
+    person.msg
+    person_list.msg
 )
 
 ## Generate services in the 'srv' folder
