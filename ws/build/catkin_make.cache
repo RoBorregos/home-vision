@@ -1,0 +1,2 @@
+vision
+-DCATKIN_DEVEL_PREFIX=/workspace/ws/devel -DCMAKE_INSTALL_PREFIX=/workspace/ws/install -G Unix Makefiles
