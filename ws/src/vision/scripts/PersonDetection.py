@@ -18,6 +18,7 @@ Service to check if a person is detected
 
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 CHECK_PERSON = "/check_person"
+PERCENTAGE = 0.3
 
 class PersonDetection():
 
@@ -41,29 +42,42 @@ class PersonDetection():
         person = False
         total = 0
         
+        
         while not person:
 
             if self.image is not None:
                 frame = self.image
                 
                 frame = self.image
-                results = self.model.track(frame, persist=True, show=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
+                width = frame.shape[1]
+                results = self.model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
                 boxes = results[0].boxes.xywh.cpu().tolist()
 
-                # Count detected persons
-                if len(boxes) > 0:
-                    person = True
-                    total = len(boxes)
+                for box in boxes:
+                    x, y, w, h = box
+                    if x >= int(width*PERCENTAGE) and x <= int(width*(1-PERCENTAGE)):
+                        person = True
+                        total += 1
+                    # cv2.rectangle(frame, (int(x - w/2), int(y - h/2)), (int(x + w/2), int(y + h/2)), (255, 0, 0), 2)
+
+                    
+                # # Count detected persons
+                # if len(boxes) > 0:
+                #     person = True
+                #     total = len(boxes)
 
                 # Display the frame
-                cv2.imshow("YOLOv8 Tracking", frame)
+                # cv2.imshow("YOLOv8 Tracking", frame)
 
-                # Break the loop if 'q' is pressed
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                    break
+                # # Break the loop if 'q' is pressed
+                # if cv2.waitKey(1) & 0xFF == ord("q"):
+                #     break
+
+            else:
+                return person, "No image received"
 
         # Release the video capture object and close the display window
-        cv2.destroyAllWindows()
+        # cv2.destroyAllWindows()
             
         return person, f"{total} people detected"
    
