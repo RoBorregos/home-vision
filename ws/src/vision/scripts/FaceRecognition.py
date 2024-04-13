@@ -205,15 +205,17 @@ class FaceDetection():
             # img_arr = img_list()
 
             if self.image is not None:
+                # print('img')
                 frame = self.image
                
                 # Resize frame of video to 1/4 size for faster face recognition processing
-                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+                small_frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
                 center = [frame.shape[1]/2, frame.shape[0]/2]
                 # print(center[0], ", ", center[1])
                 
                 # Find all the faces and face encodings in the current frame of video
                 face_locations = face_recognition.face_locations(small_frame)
+                print("detected: ", len(face_locations))
 
                 largest_area = 0
                 largest_face_params = None
@@ -231,14 +233,14 @@ class FaceDetection():
                     # print("detected: ", len(detected_faces))
 
                     # Center of current face
-                    centerx = (location[3] + (location[1] - location[3])/2)*4
-                    centery = (location[0] + (location[2] - location[0])/2)*4
+                    centerx = (location[3] + (location[1] - location[3])/2)*2
+                    centery = (location[0] + (location[2] - location[0])/2)*2
                     # print(location[0], 'bottom: ', location[2])
 
-                    top = location[0]*4
-                    right = location[1]*4
-                    bottom = location[2]*4
-                    left = location[3]*4
+                    top = location[0]*2
+                    right = location[1]*2
+                    bottom = location[2]*2
+                    left = location[3]*2
 
                     name = "Unknown"
                     
@@ -386,8 +388,8 @@ class FaceDetection():
                 cv2.imshow("Face detection", annotated_frame)
 
                 if cv2.waitKey(1) & 0xFF == ord("q"):
-                        prev_faces = []
-                        break
+                    prev_faces = []
+                    break
                 
             
                    

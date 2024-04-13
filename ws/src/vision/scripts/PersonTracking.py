@@ -211,9 +211,8 @@ class PersonTracking():
                         index = people_ids.index(track_ids[index])
                         track_person = people_tags[index]
 
-                    
 
-                    if self.track:
+                    if self.track and cx != -1 and cy != -1:
                         msg = Point()
                         msg.x = cx
                         msg.y = cy
