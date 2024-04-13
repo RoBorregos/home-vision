@@ -1,8 +1,8 @@
-# Install script for directory: /workspace/Roborregos/home-vision/ws/src
+# Install script for directory: /workspace/ws/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/workspace/Roborregos/home-vision/ws/install")
+  set(CMAKE_INSTALL_PREFIX "/workspace/ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -49,89 +49,89 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/_setup_util.py")
+   "/workspace/ws/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE PROGRAM FILES "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE PROGRAM FILES "/workspace/ws/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/env.sh")
+   "/workspace/ws/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE PROGRAM FILES "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE PROGRAM FILES "/workspace/ws/build/catkin_generated/installspace/env.sh")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/setup.bash;/workspace/Roborregos/home-vision/ws/install/local_setup.bash")
+   "/workspace/ws/install/setup.bash;/workspace/ws/install/local_setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE FILE FILES
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/setup.bash"
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/local_setup.bash"
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE FILE FILES
+    "/workspace/ws/build/catkin_generated/installspace/setup.bash"
+    "/workspace/ws/build/catkin_generated/installspace/local_setup.bash"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/setup.sh;/workspace/Roborregos/home-vision/ws/install/local_setup.sh")
+   "/workspace/ws/install/setup.sh;/workspace/ws/install/local_setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE FILE FILES
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/setup.sh"
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/local_setup.sh"
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE FILE FILES
+    "/workspace/ws/build/catkin_generated/installspace/setup.sh"
+    "/workspace/ws/build/catkin_generated/installspace/local_setup.sh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/setup.zsh;/workspace/Roborregos/home-vision/ws/install/local_setup.zsh")
+   "/workspace/ws/install/setup.zsh;/workspace/ws/install/local_setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE FILE FILES
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/setup.zsh"
-    "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/local_setup.zsh"
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE FILE FILES
+    "/workspace/ws/build/catkin_generated/installspace/setup.zsh"
+    "/workspace/ws/build/catkin_generated/installspace/local_setup.zsh"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/workspace/Roborregos/home-vision/ws/install/.rosinstall")
+   "/workspace/ws/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/workspace/Roborregos/home-vision/ws/install" TYPE FILE FILES "/workspace/Roborregos/home-vision/ws/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/workspace/ws/install" TYPE FILE FILES "/workspace/ws/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/workspace/Roborregos/home-vision/ws/build/gtest/cmake_install.cmake")
-  include("/workspace/Roborregos/home-vision/ws/build/vision/cmake_install.cmake")
+  include("/workspace/ws/build/gtest/cmake_install.cmake")
+  include("/workspace/ws/build/vision/cmake_install.cmake")
 
 endif()
 
@@ -143,5 +143,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/workspace/Roborregos/home-vision/ws/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/workspace/ws/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

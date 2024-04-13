@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "/workspace/Roborregos/home-vision/ws/devel/share/common-lisp/ros/vision/msg/img.lisp"
-  "/workspace/Roborregos/home-vision/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp"
-  "/workspace/Roborregos/home-vision/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp"
-  "/workspace/Roborregos/home-vision/ws/devel/share/common-lisp/ros/vision/msg/target.lisp"
-  "/workspace/Roborregos/home-vision/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/msg/target.lisp"
+  "/workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp"
   "CMakeFiles/vision_generate_messages_lisp"
 )
 

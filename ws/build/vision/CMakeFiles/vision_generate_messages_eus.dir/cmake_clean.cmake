@@ -1,10 +1,10 @@
 file(REMOVE_RECURSE
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/manifest.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/img_list.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/people_count.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/msg/target.l"
-  "/workspace/Roborregos/home-vision/ws/devel/share/roseus/ros/vision/srv/NewHost.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/manifest.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/msg/img.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/msg/img_list.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/msg/people_count.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/msg/target.l"
+  "/workspace/ws/devel/share/roseus/ros/vision/srv/NewHost.l"
   "CMakeFiles/vision_generate_messages_eus"
 )
 

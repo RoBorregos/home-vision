@@ -1,4 +1,4 @@
-prefix=/workspace/Roborregos/home-vision/ws/install
+prefix=/workspace/ws/install
 
 Name: vision
 Description: Description of vision

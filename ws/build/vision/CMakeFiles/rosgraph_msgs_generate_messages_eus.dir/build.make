@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /workspace/Roborregos/home-vision/ws/src
+CMAKE_SOURCE_DIR = /workspace/ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /workspace/Roborregos/home-vision/ws/build
+CMAKE_BINARY_DIR = /workspace/ws/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_eus.
 
@@ -63,10 +63,10 @@ vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build: rosgraph_msgs_g
 .PHONY : vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
 
 vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
-	cd /workspace/Roborregos/home-vision/ws/build/vision && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/cmake_clean.cmake
+	cd /workspace/ws/build/vision && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/cmake_clean.cmake
 .PHONY : vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 
 vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend:
-	cd /workspace/Roborregos/home-vision/ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspace/Roborregos/home-vision/ws/src /workspace/Roborregos/home-vision/ws/src/vision /workspace/Roborregos/home-vision/ws/build /workspace/Roborregos/home-vision/ws/build/vision /workspace/Roborregos/home-vision/ws/build/vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
+	cd /workspace/ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspace/ws/src /workspace/ws/src/vision /workspace/ws/build /workspace/ws/build/vision /workspace/ws/build/vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : vision/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
 

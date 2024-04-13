@@ -7,4 +7,7 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/workspace/Roborregos/home-vision/ws/build'
+export CMAKE_PREFIX_PATH="/workspace/ws/devel:$CMAKE_PREFIX_PATH"
+export PWD='/workspace/ws/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/workspace/ws/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/workspace/ws/src:$ROS_PACKAGE_PATH"
