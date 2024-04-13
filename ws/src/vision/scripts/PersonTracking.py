@@ -6,7 +6,8 @@ import cv2
 from ultralytics import YOLO
 # from ReID import reid_model
 
-from Utils.reid_model import check_visibility, load_network, compare_images, extract_feature_from_img, get_structure
+from Utils.reid_model import load_network, compare_images, extract_feature_from_img, get_structure
+from Utils.pose_model import check_visibility
 import torch.nn as nn
 import torch
 import tqdm

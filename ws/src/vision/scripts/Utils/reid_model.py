@@ -13,7 +13,7 @@ from scipy.spatial.distance import cosine
 from tqdm import tqdm
 import torch.nn as nn
 import cv2
-import mediapipe as mp
+# import mediapipe as mp
 
 version =  torch.__version__
 
