@@ -389,34 +389,51 @@ class ShelfDetection():
     def visualize3D(self,levels):
         
         publish_marker_array = MarkerArray()
-        i = 0
 
-        for level in levels.levels:
+        zed = Marker()
+        zed.header.frame_id = ARGS["CAMERA_FRAME"]
+        zed.header.stamp = rospy.Time.now()
+        zed.id = -1
+        zed.type = Marker.CUBE
+        zed.action = Marker.ADD
+        zed.pose.position = Point(0,0,0)
+        zed.pose.orientation.w = 1.0
+        zed.color.a = 1.0
+        zed.color.r = 0.0
+        zed.color.g = 0.0
+        zed.color.b = 0.0
+        zed.scale.x = 0.15
+        zed.scale.y = 0.15
+        zed.scale.z = 0.15
+        zed.lifetime = rospy.Duration(0.5)
+        publish_marker_array.markers.append(zed)
+        
+        for i,level in enumerate(levels.levels):
             
-            for detection in level.detections:
-            
+            for j,detection in enumerate(level.detections):
+                # id_label = i + "" + j
                 marker = Marker()
-                marker.color.a = 1.0
-                marker.color.r = colors[i][0]
-                marker.color.g = colors[i][1]
-                marker.color.b = colors[i][2]
                 marker.header.frame_id = ARGS["CAMERA_FRAME"]
+                marker.header.stamp = rospy.Time.now()
+                marker.id = int(i*100 + j)
                 marker.type = Marker.SPHERE
                 marker.action = Marker.ADD
                 marker.pose.position = detection.point3D.point
                 marker.pose.orientation.w = 1.0
+                marker.color.a = 1.0
+                marker.color.r = colors[i][0]
+                marker.color.g = colors[i][1]
+                marker.color.b = colors[i][2]
                 marker.scale.x = 0.05
                 marker.scale.y = 0.05
                 marker.scale.z = 0.05
                 marker.lifetime = rospy.Duration(0.5)
                 publish_marker_array.markers.append(marker)
 
-            # print(f"Objects: {objects}")
-  
+        self.results_3d_pub.publish(publish_marker_array)
         
         # print(f"Markers: {publish_marker_array}")
-        self.results_3d_pub.publish(publish_marker_array)
-
+        
     # Main function to run the detection model.
     def run(self, frame):
         frame_processed = frame
