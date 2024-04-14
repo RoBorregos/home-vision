@@ -59,6 +59,9 @@ vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/commo
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp
+vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp
+vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp
+vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp
 vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp
 
@@ -66,44 +69,71 @@ vision/CMakeFiles/vision_generate_messages_lisp: /workspace/ws/devel/share/commo
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp: /workspace/ws/src/vision/msg/img.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from vision/img.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/img.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/img.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp: /workspace/ws/src/vision/msg/img_list.msg
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/img_list.lisp: /workspace/ws/src/vision/msg/img.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from vision/img_list.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/img_list.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/img_list.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/target.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/target.lisp: /workspace/ws/src/vision/msg/target.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from vision/target.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/target.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/target.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp: /workspace/ws/src/vision/msg/people_count.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Lisp code from vision/people_count.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/people_count.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/people_count.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp: /workspace/ws/src/vision/msg/person.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Lisp code from vision/person.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/person.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/person.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp: /workspace/ws/src/vision/msg/person_list.msg
 /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp: /workspace/ws/src/vision/msg/person.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Lisp code from vision/person_list.msg"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/person_list.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/person_list.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /workspace/ws/src/vision/msg/level.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PointStamped.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /workspace/ws/src/vision/msg/objectDetection.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Lisp code from vision/level.msg"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/level.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp: /workspace/ws/src/vision/msg/objectDetection.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PointStamped.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from vision/objectDetection.msg"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/objectDetection.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
+
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /workspace/ws/src/vision/msg/shelf.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /workspace/ws/src/vision/msg/level.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /workspace/ws/src/vision/msg/objectDetection.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp: /opt/ros/noetic/share/geometry_msgs/msg/PointStamped.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating Lisp code from vision/shelf.msg"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/msg/shelf.msg -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/msg
 
 /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp: /workspace/ws/src/vision/srv/NewHost.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Generating Lisp code from vision/NewHost.srv"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Generating Lisp code from vision/NewHost.srv"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/NewHost.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
 
 /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp: /workspace/ws/src/vision/srv/PersonCount.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Generating Lisp code from vision/PersonCount.srv"
-	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/workspace/ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating Lisp code from vision/PersonCount.srv"
+	cd /workspace/ws/build/vision && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /workspace/ws/src/vision/srv/PersonCount.srv -Ivision:/workspace/ws/src/vision/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p vision -o /workspace/ws/devel/share/common-lisp/ros/vision/srv
 
 vision_generate_messages_lisp: vision/CMakeFiles/vision_generate_messages_lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/img.lisp
@@ -112,6 +142,9 @@ vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/people_count.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/person_list.lisp
+vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/level.lisp
+vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/objectDetection.lisp
+vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/msg/shelf.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/NewHost.lisp
 vision_generate_messages_lisp: /workspace/ws/devel/share/common-lisp/ros/vision/srv/PersonCount.lisp
 vision_generate_messages_lisp: vision/CMakeFiles/vision_generate_messages_lisp.dir/build.make

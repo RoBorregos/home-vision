@@ -10,3 +10,4 @@ pillow
 numpy
 webcolors
 pandas
+scikit-learn

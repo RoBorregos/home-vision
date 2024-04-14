@@ -45,6 +45,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/workspace/ws/src/vision/msg/people_count.msg"
     "/workspace/ws/src/vision/msg/person.msg"
     "/workspace/ws/src/vision/msg/person_list.msg"
+    "/workspace/ws/src/vision/msg/level.msg"
+    "/workspace/ws/src/vision/msg/objectDetection.msg"
+    "/workspace/ws/src/vision/msg/shelf.msg"
     )
 endif()
 

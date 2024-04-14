@@ -1,8 +1,8 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "vision: 6 messages, 2 services")
+message(STATUS "vision: 9 messages, 2 services")
 
-set(MSG_I_FLAGS "-Ivision:/workspace/ws/src/vision/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg")
+set(MSG_I_FLAGS "-Ivision:/workspace/ws/src/vision/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg")
 
 # Find all generators
 find_package(gencpp REQUIRED)
@@ -45,6 +45,21 @@ add_custom_target(_vision_generate_messages_check_deps_${_filename}
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_custom_target(_vision_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/msg/person_list.msg" "vision/person"
+)
+
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_custom_target(_vision_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/msg/level.msg" "geometry_msgs/PointStamped:vision/objectDetection:std_msgs/Header:geometry_msgs/Point"
+)
+
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_custom_target(_vision_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/msg/objectDetection.msg" "geometry_msgs/PointStamped:std_msgs/Header:geometry_msgs/Point"
+)
+
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
+add_custom_target(_vision_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "vision" "/workspace/ws/src/vision/msg/shelf.msg" "vision/level:vision/objectDetection:geometry_msgs/Point:std_msgs/Header:geometry_msgs/PointStamped"
 )
 
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
@@ -99,6 +114,24 @@ _generate_msg_cpp(vision
   "/workspace/ws/src/vision/msg/person.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
 )
+_generate_msg_cpp(vision
+  "/workspace/ws/src/vision/msg/level.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
+)
+_generate_msg_cpp(vision
+  "/workspace/ws/src/vision/msg/objectDetection.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
+)
+_generate_msg_cpp(vision
+  "/workspace/ws/src/vision/msg/shelf.msg"
+  "${MSG_I_FLAGS}"
+  "/workspace/ws/src/vision/msg/level.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/vision
+)
 
 ### Generating Services
 _generate_srv_cpp(vision
@@ -137,6 +170,12 @@ add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_de
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person.msg" NAME_WE)
 add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
+add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
 add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_dependencies(vision_generate_messages_cpp _vision_generate_messages_check_deps_${_filename})
@@ -188,6 +227,24 @@ _generate_msg_eus(vision
   "/workspace/ws/src/vision/msg/person.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
 )
+_generate_msg_eus(vision
+  "/workspace/ws/src/vision/msg/level.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
+)
+_generate_msg_eus(vision
+  "/workspace/ws/src/vision/msg/objectDetection.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
+)
+_generate_msg_eus(vision
+  "/workspace/ws/src/vision/msg/shelf.msg"
+  "${MSG_I_FLAGS}"
+  "/workspace/ws/src/vision/msg/level.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision
+)
 
 ### Generating Services
 _generate_srv_eus(vision
@@ -226,6 +283,12 @@ add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_de
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person.msg" NAME_WE)
 add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
+add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
 add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_dependencies(vision_generate_messages_eus _vision_generate_messages_check_deps_${_filename})
@@ -277,6 +340,24 @@ _generate_msg_lisp(vision
   "/workspace/ws/src/vision/msg/person.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
 )
+_generate_msg_lisp(vision
+  "/workspace/ws/src/vision/msg/level.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
+)
+_generate_msg_lisp(vision
+  "/workspace/ws/src/vision/msg/objectDetection.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
+)
+_generate_msg_lisp(vision
+  "/workspace/ws/src/vision/msg/shelf.msg"
+  "${MSG_I_FLAGS}"
+  "/workspace/ws/src/vision/msg/level.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision
+)
 
 ### Generating Services
 _generate_srv_lisp(vision
@@ -315,6 +396,12 @@ add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_d
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person.msg" NAME_WE)
 add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
+add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
 add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_dependencies(vision_generate_messages_lisp _vision_generate_messages_check_deps_${_filename})
@@ -366,6 +453,24 @@ _generate_msg_nodejs(vision
   "/workspace/ws/src/vision/msg/person.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
 )
+_generate_msg_nodejs(vision
+  "/workspace/ws/src/vision/msg/level.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
+)
+_generate_msg_nodejs(vision
+  "/workspace/ws/src/vision/msg/objectDetection.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
+)
+_generate_msg_nodejs(vision
+  "/workspace/ws/src/vision/msg/shelf.msg"
+  "${MSG_I_FLAGS}"
+  "/workspace/ws/src/vision/msg/level.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision
+)
 
 ### Generating Services
 _generate_srv_nodejs(vision
@@ -404,6 +509,12 @@ add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person.msg" NAME_WE)
 add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
+add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
 add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_dependencies(vision_generate_messages_nodejs _vision_generate_messages_check_deps_${_filename})
@@ -455,6 +566,24 @@ _generate_msg_py(vision
   "/workspace/ws/src/vision/msg/person.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
 )
+_generate_msg_py(vision
+  "/workspace/ws/src/vision/msg/level.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
+)
+_generate_msg_py(vision
+  "/workspace/ws/src/vision/msg/objectDetection.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
+)
+_generate_msg_py(vision
+  "/workspace/ws/src/vision/msg/shelf.msg"
+  "${MSG_I_FLAGS}"
+  "/workspace/ws/src/vision/msg/level.msg;/workspace/ws/src/vision/msg/objectDetection.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/PointStamped.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision
+)
 
 ### Generating Services
 _generate_srv_py(vision
@@ -494,6 +623,12 @@ get_filename_component(_filename "/workspace/ws/src/vision/msg/person.msg" NAME_
 add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/msg/person_list.msg" NAME_WE)
 add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/level.msg" NAME_WE)
+add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/objectDetection.msg" NAME_WE)
+add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/workspace/ws/src/vision/msg/shelf.msg" NAME_WE)
+add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/NewHost.srv" NAME_WE)
 add_dependencies(vision_generate_messages_py _vision_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/workspace/ws/src/vision/srv/PersonCount.srv" NAME_WE)
@@ -518,6 +653,9 @@ endif()
 if(TARGET std_msgs_generate_messages_cpp)
   add_dependencies(vision_generate_messages_cpp std_msgs_generate_messages_cpp)
 endif()
+if(TARGET geometry_msgs_generate_messages_cpp)
+  add_dependencies(vision_generate_messages_cpp geometry_msgs_generate_messages_cpp)
+endif()
 
 if(geneus_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vision)
   # install generated code
@@ -528,6 +666,9 @@ if(geneus_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/vi
 endif()
 if(TARGET std_msgs_generate_messages_eus)
   add_dependencies(vision_generate_messages_eus std_msgs_generate_messages_eus)
+endif()
+if(TARGET geometry_msgs_generate_messages_eus)
+  add_dependencies(vision_generate_messages_eus geometry_msgs_generate_messages_eus)
 endif()
 
 if(genlisp_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/vision)
@@ -540,6 +681,9 @@ endif()
 if(TARGET std_msgs_generate_messages_lisp)
   add_dependencies(vision_generate_messages_lisp std_msgs_generate_messages_lisp)
 endif()
+if(TARGET geometry_msgs_generate_messages_lisp)
+  add_dependencies(vision_generate_messages_lisp geometry_msgs_generate_messages_lisp)
+endif()
 
 if(gennodejs_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/vision)
   # install generated code
@@ -550,6 +694,9 @@ if(gennodejs_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_D
 endif()
 if(TARGET std_msgs_generate_messages_nodejs)
   add_dependencies(vision_generate_messages_nodejs std_msgs_generate_messages_nodejs)
+endif()
+if(TARGET geometry_msgs_generate_messages_nodejs)
+  add_dependencies(vision_generate_messages_nodejs geometry_msgs_generate_messages_nodejs)
 endif()
 
 if(genpy_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/vision)
@@ -562,4 +709,7 @@ if(genpy_INSTALL_DIR AND EXISTS ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/visi
 endif()
 if(TARGET std_msgs_generate_messages_py)
   add_dependencies(vision_generate_messages_py std_msgs_generate_messages_py)
+endif()
+if(TARGET geometry_msgs_generate_messages_py)
+  add_dependencies(vision_generate_messages_py geometry_msgs_generate_messages_py)
 endif()
