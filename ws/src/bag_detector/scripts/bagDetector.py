@@ -35,7 +35,7 @@ SOURCES = {
 }
 
 ARGS= {
-    "SOURCE": SOURCES["VIDEO"],
+    "SOURCE": "/zed2/zed_node/rgb/image_rect_color",
     "ROS_INPUT": False,
     "USE_ACTIVE_FLAG": True,
     "DEPTH_ACTIVE": False,
@@ -44,7 +44,7 @@ ARGS= {
     "MIN_SCORE_THRESH": 0.5,
     "VERBOSE": True,
     "CAMERA_FRAME": "xtion_rgb_optical_frame",
-    "YOLO_MODEL_PATH": str(pathlib.Path(__file__).parent) + "/../models/yolov5s.pt",
+    "YOLO_BAG_MODEL_PATH": str(pathlib.Path(__file__).parent) + "/../models/yolov5s.pt",
     "FLIP_IMAGE": False,
 }
 
@@ -73,7 +73,7 @@ class CamaraProcessing:
             rospy.logdebug(f"Model warmed up in {time.time() - startTime} seconds")
 
         def loadYolov8Model():
-            self.model = YOLO(ARGS["YOLO_MODEL_PATH"])
+            self.model = YOLO(ARGS["YOLO_BAG_MODEL_PATH"])
             yolov8_warmup(self.model, repetitions=10, verbose=False)
 
         print("[INFO] Loading Yolov8 Model")
@@ -246,7 +246,7 @@ class CamaraProcessing:
         height = frame.shape[0]
         width = frame.shape[1]
 
-        print(f"Height: {height} Width: {width}")
+        # print(f"Height: {height} Width: {width}")
         
         boxes = []
         confidences = []
@@ -270,9 +270,9 @@ class CamaraProcessing:
                 confidences.append(float(prob))
                 class_ids.append(class_id)
                 class_names.append(self.model.names[class_id])
-                print(f"Found {class_id} in {x1} {y1} {x2} {y2}")
-                print("------------------------------")
-                print()
+                # print(f"Found {class_id} in {x1} {y1} {x2} {y2}")
+                # print("------------------------------")
+                # print()
 
         output['detection_boxes'] = np.array(boxes)
         output['detection_classes'] = np.array(class_ids)
@@ -397,9 +397,9 @@ class CamaraProcessing:
             marker.action = Marker.ADD
             marker.pose.position = detection["point3D"].point
             marker.pose.orientation.w = 1.0
-            marker.scale.x = 0.1
-            marker.scale.y = 0.1
-            marker.scale.z = 0.1
+            marker.scale.x = 0.05
+            marker.scale.y = 0.05
+            marker.scale.z = 0.05
             marker.color.a = 1.0
             marker.color.r = 1.0
             marker.color.g = 0.0

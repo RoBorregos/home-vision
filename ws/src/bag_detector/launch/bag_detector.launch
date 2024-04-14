@@ -7,7 +7,7 @@
     <arg name="USE_ACTIVE_FLAG" default="False" />
     <arg name="VERBOSE" default="False" />
     <arg name="DEPTH_ACTIVE" default="True" />
-    <arg name="YOLO_MODEL_PATH" default="$(find bag_detector)/models/bolsasV1.pt" />
+    <arg name="YOLO_BAG_MODEL_PATH" default="$(find bag_detector)/models/bolsasV1.pt" />
     <arg name="CAMERA_FRAME" default="zed2_left_camera_optical_frame" />
 
     <node name="BagDetector" pkg="bag_detector" type="bagDetector.py" respawn="true" output="screen">
@@ -15,7 +15,19 @@
         <param name="ROS_INPUT" value="$(arg ROS_INPUT)" />
         <param name="USE_ACTIVE_FLAG" value="$(arg USE_ACTIVE_FLAG)" />
         <param name="VERBOSE" value="$(arg VERBOSE)" />
-        <param name="YOLO_MODEL_PATH" value="$(arg YOLO_MODEL_PATH)" />
+        <param name="YOLO_BAG_MODEL_PATH" value="$(arg YOLO_BAG_MODEL_PATH)" />
+        <param name="DEPTH_ACTIVE" value="$(arg DEPTH_ACTIVE)" />
+        <param name="DEPTH_INPUT" value="$(arg DEPTH_INPUT)" />
+        <param name="CAMERA_INFO" value="$(arg CAMERA_INFO)" />
+        <param name="CAMERA_FRAME" value="$(arg CAMERA_FRAME)" />
+    </node>
+
+    <node name="Pointing_Detector" pkg="bag_detector" type="detectPointingObject.py" respawn="true" output="screen">
+        <param name="SOURCE" value="$(arg SOURCE)" />
+        <param name="ROS_INPUT" value="$(arg ROS_INPUT)" />
+        <param name="USE_ACTIVE_FLAG" value="$(arg USE_ACTIVE_FLAG)" />
+        <param name="VERBOSE" value="$(arg VERBOSE)" />
+        <param name="YOLO_BAG_MODEL_PATH" value="$(arg YOLO_BAG_MODEL_PATH)" />
         <param name="DEPTH_ACTIVE" value="$(arg DEPTH_ACTIVE)" />
         <param name="DEPTH_INPUT" value="$(arg DEPTH_INPUT)" />
         <param name="CAMERA_INFO" value="$(arg CAMERA_INFO)" />
