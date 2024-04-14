@@ -210,6 +210,8 @@ class FaceDetection():
                 
                 curr_faces = []
                 face_list = PersonList()
+                detected = False
+                max_degree = 30
 
                 face_encodings = None
                 for i, location in enumerate(face_locations):
@@ -283,10 +285,12 @@ class FaceDetection():
 
                     curr_person = Person()
                     curr_person.name = name
-                    curr_person.x = int(xc)
-                    curr_person.y = int(yc)
+                    curr_person.x = int( (xc-center[0]) * max_degree/center[0] )
+                    curr_person.y = int( (center[1]-yc) * max_degree/center[1] )
 
                     face_list.list.append(curr_person)
+
+                    detected = True
 
                     if (area > largest_area):
                         largest_area = area
@@ -358,22 +362,23 @@ class FaceDetection():
                     
                 max_degree = 30
 
-                # Calculate the movement for the camera to track the face
-                move_x = difx*max_degree/center[0]
-                move_y = dify*max_degree/center[1]
+                if detected:
+                    # Calculate the movement for the camera to track the face
+                    move_x = difx*max_degree/center[0]
+                    move_y = dify*max_degree/center[1]
 
-                move = Point()
-                
-                move.x = int(move_x)
-                move.y = int(move_y)
+                    move = Point()
+                    
+                    move.x = int(move_x)
+                    move.y = int(move_y)
 
-                self.move_pub.publish(move)
+                    self.move_pub.publish(move)
 
-                person_seen = String()
-                person_seen.data = largest_face_name
+                    person_seen = String()
+                    person_seen.data = largest_face_name
 
-                self.name_pub.publish(person_seen)
-                self.person_list_pub.publish(face_list)
+                    self.name_pub.publish(person_seen)
+                    self.person_list_pub.publish(face_list)
 
                 cv2.imshow("Face detection", annotated_frame)
 
