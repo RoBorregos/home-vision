@@ -17,8 +17,8 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from std_msgs.msg import Bool, String
 from geometry_msgs.msg import Point
-from vision.msg import person, person_list
-from vision.srv import NewHost
+from frida_vision_interfaces.msg import Person, PersonList
+from frida_vision_interfaces.srv import NewHost
 import tqdm
 import json
 
@@ -162,7 +162,7 @@ class FaceDetection():
         self.new_name_service = rospy.Service(NEW_NAME_TOPIC, NewHost, self.new_name_callback)
         self.name_pub = rospy.Publisher(PERSON_NAME_TOPIC, String, queue_size=1)
         self.move_pub = rospy.Publisher(TARGET_TOPIC, Point, queue_size=1)
-        self.person_list_pub = rospy.Publisher(PERSON_LIST_TOPIC, person_list, queue_size=1)
+        self.person_list_pub = rospy.Publisher(PERSON_LIST_TOPIC, PersonList, queue_size=1)
         self.new_name = ""
         self.image = None
         clear()
@@ -209,7 +209,7 @@ class FaceDetection():
                 annotated_frame = frame.copy()
                 
                 curr_faces = []
-                face_list = person_list()
+                face_list = PersonList()
 
                 face_encodings = None
                 for i, location in enumerate(face_locations):
@@ -281,7 +281,7 @@ class FaceDetection():
 
                     curr_faces.append({"x": xc, "y": yc, "name": name})
 
-                    curr_person = person()
+                    curr_person = Person()
                     curr_person.name = name
                     curr_person.x = int(xc)
                     curr_person.y = int(yc)
