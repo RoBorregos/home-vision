@@ -27,10 +27,11 @@ class PersonDetection():
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.check_person_service = rospy.Service(CHECK_PERSON, SetBool, self.check_person)
+        self.output_img_pub = rospy.Publisher("/person_detection", Image, queue_size=1)
+
         self.image = None
         self.check = False
         self.model = YOLO('yolov8n.pt')
-        self.output_img_pub = rospy.Publisher("/person_detection", Image, queue_size=1)
         self.output_img = []
 
         print("Ready")
