@@ -54,9 +54,9 @@ class SeatFinding():
         cv2.destroyAllWindows()
 
     def image_callback(self, data):
-        # self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-        path = str(pathlib.Path(__file__).parent) + "/test4.png"
-        self.image = cv2.imread(path)
+        self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+        # path = str(pathlib.Path(__file__).parent) + "/test4.png"
+        # self.image = cv2.imread(path)
 
     def getAngle(self, x, width):
         diff = x - (width / 2)
@@ -70,7 +70,7 @@ class SeatFinding():
             frame = self.image
             self.output_img = frame
             
-            results = self.model(frame, verbose=False, classes=[0,57])
+            results = self.model(frame, verbose=False, classes=[0,56,57])
             output = 0
 
             people = []
