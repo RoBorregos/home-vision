@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 from ultralytics import YOLO
+# from ultralytics import YOLOv5
+# from yolov5 import models
 import cv2
 import copy 
 import math
 from Utils.calculations import *
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+import pathlib
+import torch
 
 import rospy
 import time
@@ -33,10 +37,11 @@ ARGS= {
     "MAX_CLUSTERS": 6,
     "RESULTS_TOPIC": "/shelf_detection",
     "OUTPUT_IMAGE": "/shelf_detection_image",
-    "OUTPUT_3D": "/shelf_detection_3d"
+    "OUTPUT_3D": "/shelf_detection_3d",
+    "YOLO_MODEL_PATH": str(pathlib.Path(__file__).parent) + "/../models/yolov5m_Objects365.pt"
 }
 
-
+print(ARGS["YOLO_MODEL_PATH"])
 
 ACTIVE_SERVICE_TOPIC = "/shelf_detection_active"
 
@@ -67,7 +72,9 @@ class ShelfDetection():
 
         self.bridge = CvBridge()
         self.imageInfo = CameraInfo()
-        self.model = YOLO('yolov8n.pt')
+        # self.model = YOLO('yolov8n.pt')
+        # self.model = YOLO(ARGS["YOLO_MODEL_PATH"])
+        self.model = torch.hub.load('ultralytics/yolov5', 'custom', path=ARGS["YOLO_MODEL_PATH"], force_reload=False)
 
         self.detections_frame = []
         self.depth_image = []
@@ -199,8 +206,8 @@ class ShelfDetection():
     # Handle the detection model input/output.
     def compute_result(self, frame):
         visual_frame = copy.deepcopy(frame)
-        # visual_detections = self.yolo_run_inference_on_image(visual_frame)
-        visual_detections = self.yolov8_run_inference_on_image(visual_frame)
+        visual_detections = self.yolo_run_inference_on_image(visual_frame)
+        # visual_detections = self.yolov8_run_inference_on_image(visual_frame)
 
         detections = copy.deepcopy(visual_detections)
 
@@ -322,11 +329,11 @@ class ShelfDetection():
         for cluster_label, cluster_items in clusters.items():
             curr_level = level()
             curr_level.label = f"Level {cluster_label}"
-            curr_level.mid_height = avg_heights[cluster_label]/len(clusters[cluster_label])
             curr_level.detections = []
             
             print(f"Cluster {cluster_label} (height: {avg_heights[cluster_label]})")
             items = ""
+            heights = 0
 
             # Get 3D point
             for item in cluster_items:
@@ -349,6 +356,7 @@ class ShelfDetection():
                     point3D.point.x = point3D_[0]
                     point3D.point.y = point3D_[1]
                     point3D.point.z = point3D_[2]   
+                    heights += point3D.point.z
 
                 detection.labelText = name
                 detection.score = score
@@ -368,6 +376,8 @@ class ShelfDetection():
                 cv2.putText(annotated_frame, f"{name}", (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[i], 2)
 
             i += 1
+            avg_h = heights / len(cluster_items)
+            curr_level.mid_height = avg_h
             shelf_levels.levels.append(curr_level)
         
         print(f"Items: {items}")
@@ -375,12 +385,12 @@ class ShelfDetection():
         
         # Draw a line for average heights 
         i = 0
-        for label, height in avg_heights.items():
-            # y = int(height*annotated_frame.shape[0])
-            y = int(height/len(clusters[label])*annotated_frame.shape[0])
-            cv2.line(annotated_frame, (0, y), (annotated_frame.shape[1], y), colors[i], 2)
-            cv2.putText(annotated_frame, f"{label}: {height:.2f}", (0, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[i], 2)
-            i += 1
+        # for label, height in avg_heights.items():
+        #     # y = int(height*annotated_frame.shape[0])
+        #     y = int(height/len(clusters[label])*annotated_frame.shape[0])
+        #     cv2.line(annotated_frame, (0, y), (annotated_frame.shape[1], y), colors[i], 2)
+        #     cv2.putText(annotated_frame, f"{label}: {height:.2f}", (0, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[i], 2)
+        #     i += 1
 
         self.results_pub.publish(shelf_levels)
         self.detections_frame = annotated_frame
