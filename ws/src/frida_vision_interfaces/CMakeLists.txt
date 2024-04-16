@@ -23,6 +23,9 @@ find_package(catkin REQUIRED COMPONENTS
     tf2_geometry_msgs
     sensor_msgs
     message_generation
+    geometry_msgs
+    message_generation
+    std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -59,18 +62,17 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  Person.msg
+  PersonList.msg
+)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  NewHost.srv
+)
 
 # Generate actions in the 'action' folder
 add_action_files(
@@ -84,7 +86,6 @@ generate_messages(
   std_msgs
   geometry_msgs
   actionlib_msgs
-)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -118,7 +119,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES frida_vision_interfaces
-#  CATKIN_DEPENDS other_catkin_pkg
+CATKIN_DEPENDS geometry_msgs message_generation std_msgs
 #  DEPENDS system_lib
 )
 
@@ -130,7 +131,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-# ${catkin_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library

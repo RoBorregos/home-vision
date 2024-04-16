@@ -1,0 +1,10 @@
+ultralytics
+opencv-python
+face_recognition
+pretrainedmodels
+timm
+tqdm
+mediapipe
+yaml
+PIL
+numpy
