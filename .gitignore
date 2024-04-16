@@ -1,3 +1,6 @@
+ws/build
+ws/devel
+*.pyc
 build
 devel
 .env
