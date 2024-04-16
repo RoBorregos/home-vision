@@ -21,6 +21,8 @@ from frida_vision_interfaces.msg import Person, PersonList
 from frida_vision_interfaces.srv import NewHost
 import tqdm
 import json
+import pathlib
+
 
 '''
 If name of person -> assign to person in front and save
@@ -40,123 +42,18 @@ TRACK_THRESHOLD = 50
 AREA_THRESHOLD = 1200
 
 # Paths
-json_path = "src/vision/scripts/known_people/identities.json"
-folder = "src/vision/scripts/known_people"
-
-# Progress bar
-pbar = tqdm.tqdm(total=2)
-
-# Load images
-random = face_recognition.load_image_file("src/vision/scripts/known_people/random.png")
-
-# Encodings
-random_encodings = face_recognition.face_encodings(random)[0]
-pbar.update(1)
-
-# Name people and encodings
-people = [
-    [random_encodings, "random"]
-]
-people_encodings = [
-    random_encodings
-]
-people_names = [
-    "random"
-]
-
-# Make encodings of known people images
-def process_imgs():
-    print("Processing images")
-    for filename in os.listdir(folder):
-        if filename == ".DS_Store" or filename == "identities.json":
-            continue
-        
-        process_img(filename)
-
-# Function to clear previous results
-def clear():
-    for filename in os.listdir(folder):
-        if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png":
-            continue
-        
-        process_img(filename)
-
-        file_path = os.path.join(folder, filename)
-        os.remove(file_path)
-
-      # load json
-    
-
-    # f = open(json_path)
-
-    data = {
-        "random": {"age": 21, "gender": "female", "race": "race"}
-    }
-
-    with open(json_path, 'w') as outfile:
-        json.dump(data, outfile)
-
-    print("Cleared")
+json_path = str(pathlib.Path(__file__).parent) + "/Utils/known_people/identities.json"
+# json_path = "src/vision/scripts"
+folder = str(pathlib.Path(__file__).parent) + "/Utils/known_people"
+# folder = "src/vision/scripts/known_people"
 
 
 
 
-def process_img(filename):
-    img = face_recognition.load_image_file(f"{folder}/{filename}")
-    cur_encodings = face_recognition.face_encodings(img)
-
-    if len(cur_encodings) == 0:
-        print('no encodings found')
-        return
-    
-    if len(cur_encodings) > 0:
-        cur_encodings = cur_encodings[0]
-
-    people_encodings.append(cur_encodings)
-    people_names.append(filename[:-4])
-    people.append([cur_encodings, filename[:-4]])
-
-    print(f"{folder}/{filename}")
-
-def upadate_json(face_id, image):
-
-    # load json
-    print("updating json")
-
-    f = open(json_path)
-    data = json.load(f)
-    print(face_id)
-    if face_id not in data:
-        try:
-            # features_list = DeepFace.analyze(image, enforce_detection=True)
-            # print(f"features list size is {len(features_list)}")
-            # features = features_list[0]
-            # age = features.get('age')
-            # gender = features.get('dominant_gender')
-            # race = features.get('dominant_race')
-            # emotions = features.get('dominant_emotion')
-
-
-            data[face_id] = {
-                "age": 12,
-                "gender": "gender",
-                "race": "race"
-            }
-
-            with open(json_path, 'w') as outfile:
-                json.dump(data, outfile)
-
-            print("updated json")
-        except:
-            print("error getting attributes")
-            # faces_tracked.remove(face_id)
-
-
-
-class FaceDetection():
+class FaceRecognition():
 
     def __init__(self):
-        rospy.init_node('face_detection')
+        rospy.init_node('face_recognition')
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.new_name_service = rospy.Service(NEW_NAME_TOPIC, NewHost, self.new_name_callback)
@@ -165,7 +62,31 @@ class FaceDetection():
         self.person_list_pub = rospy.Publisher(PERSON_LIST_TOPIC, PersonList, queue_size=1)
         self.new_name = ""
         self.image = None
-        clear()
+
+        # Progress bar
+        pbar = tqdm.tqdm(total=2)
+
+        # Load images
+        random = face_recognition.load_image_file(f"{folder}/random.png")
+
+        # Encodings
+        random_encodings = face_recognition.face_encodings(random)[0]
+        pbar.update(1)
+
+        # Name people and encodings
+        self.people = [
+            [random_encodings, "random"]
+        ]
+        self.people_encodings = [
+            random_encodings
+        ]
+        self.people_names = [
+            "random"
+        ]
+        self.clear()
+        print("Face recognition ready")
+
+        self.run()
         
 
     def new_name_callback(self, req):
@@ -178,13 +99,102 @@ class FaceDetection():
     def new_host_callback(self, data):
         self.new_host = data
 
+    # Make encodings of known people images
+    def process_imgs(self):
+        print("Processing images")
+        for filename in os.listdir(folder):
+            if filename == ".DS_Store" or filename == "identities.json":
+                continue
+            
+            self.process_img(filename)
+
+    # Function to clear previous results
+    def clear(self):
+        for filename in os.listdir(folder):
+            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png":
+                continue
+            
+            self.process_img(filename)
+
+            file_path = os.path.join(folder, filename)
+            os.remove(file_path)
+
+        # load json
+        
+
+        # f = open(json_path)
+
+        data = {
+            "random": {"age": 21, "gender": "female", "race": "race"}
+        }
+
+        with open(json_path, 'w') as outfile:
+            json.dump(data, outfile)
+
+        print("Cleared")
+
+
+
+
+    def process_img(self, filename):
+        img = face_recognition.load_image_file(f"{folder}/{filename}")
+        cur_encodings = face_recognition.face_encodings(img)
+
+        if len(cur_encodings) == 0:
+            print('no encodings found')
+            return
+        
+        if len(cur_encodings) > 0:
+            cur_encodings = cur_encodings[0]
+
+        self.people_encodings.append(cur_encodings)
+        self.people_names.append(filename[:-4])
+        self.people.append([cur_encodings, filename[:-4]])
+
+        print(f"{folder}/{filename}")
+
+    def upadate_json(self, face_id, image):
+
+        # load json
+        print("updating json")
+
+        f = open(json_path)
+        data = json.load(f)
+        print(face_id)
+        if face_id not in data:
+            try:
+                # features_list = DeepFace.analyze(image, enforce_detection=True)
+                # print(f"features list size is {len(features_list)}")
+                # features = features_list[0]
+                # age = features.get('age')
+                # gender = features.get('dominant_gender')
+                # race = features.get('dominant_race')
+                # emotions = features.get('dominant_emotion')
+
+
+                data[face_id] = {
+                    "age": 12,
+                    "gender": "gender",
+                    "race": "race"
+                }
+
+                with open(json_path, 'w') as outfile:
+                    json.dump(data, outfile)
+
+                print("updated json")
+            except:
+                print("error getting attributes")
+                # faces_tracked.remove(face_id)
+
+        
+
     def run(self):
             
-        clear()
+        self.clear()
 
         prev_faces = [] 
         curr_faces = []
-        print("Running")
+        print("Running face recognition")
         while rospy.is_shutdown() == False :
 
             # img_arr = img_list()
@@ -266,14 +276,14 @@ class FaceDetection():
 
 
                         # See if the face is a match for the known face(s)
-                        matches = face_recognition.compare_faces(face_encoding, people_encodings, 0.6)
-                        face_distances = face_recognition.face_distance(people_encodings, face_encoding)
+                        matches = face_recognition.compare_faces(face_encoding, self.people_encodings, 0.6)
+                        face_distances = face_recognition.face_distance(self.people_encodings, face_encoding)
                         best_match_index = np.argmin(face_distances)
 
                         # If it is known, then the name is updated
                         if matches[best_match_index]:
-                            print("Matched")
-                            name = people_names[best_match_index]
+                            # print("Matched")
+                            name = self.people_names[best_match_index]
             
 
                     xc = left + (right - left)/2
@@ -331,19 +341,20 @@ class FaceDetection():
                         img_name = f"{largest_face_name}.png"
                         save_path = f"{folder}/{img_name}"
                         cv2.imwrite(save_path, crop)
-                        process_img(img_name)
-                        upadate_json(img_name, crop)
+                        self.process_img(img_name)
+                        self.upadate_json(img_name, crop)
 
                         # Update prev recognitions for tracker
                         for i, face in enumerate(curr_faces):
                             if face["x"] == xc and face["y"] == yc:
                                 index = i
-                                print("found")
+                                # print("found")
 
                             cv2.circle(annotated_frame, (int(face["x"]), int(face["y"])), 5, (0, 255, 0), -1)
 
                         curr_faces[index]["name"] = self.new_name
                         face_list.list[index].name = self.new_name
+                        print(f"{self.new_name} face saved")
                         self.new_name = ""
 
                 prev_faces = curr_faces
@@ -387,6 +398,12 @@ class FaceDetection():
                     break
                 
             
-                   
-p = FaceDetection()
-p.run() 
+                  
+def main():
+    # for key in ARGS:
+    #     ARGS[key] = rospy.get_param('~' + key, ARGS[key])
+    FaceRecognition()
+
+
+if __name__ == '__main__':
+    main()

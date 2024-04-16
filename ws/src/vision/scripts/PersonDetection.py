@@ -34,7 +34,7 @@ class PersonDetection():
         self.model = YOLO('yolov8n.pt')
         self.output_img = []
 
-        print("Ready")
+        print("Person Detection Ready")
         # rospy.spin()
         try:
             rate = rospy.Rate(60)

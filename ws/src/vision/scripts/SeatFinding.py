@@ -31,7 +31,7 @@ class SeatFinding():
         self.image = None
         self.output_img = []    
 
-        print("Ready")
+        print("Seat Finding Ready")
         # rospy.spin()
 
         try:
@@ -175,12 +175,7 @@ class SeatFinding():
         else:
             return -1 # No seat found
             
-            
 
-                    
-            
-
-            self.output_img = frame
 
 if __name__ == "__main__":
     try: 
