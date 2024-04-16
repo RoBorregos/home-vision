@@ -6,7 +6,7 @@ import pathlib
 import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from vision.srv import FindSeat
+from frida_vision_interfaces.srv import FindSeat
 import numpy as np
 import queue
 

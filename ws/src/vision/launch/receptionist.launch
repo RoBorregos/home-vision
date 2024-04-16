@@ -1,7 +1,7 @@
 <launch>
     
     <node pkg="vision" type="FaceRecognition.py" name="face_recognition" respawn="true" output="screen" />
-    <node pkg="vision" type="SeatFinding.py" name="seat_finding" respawn="true" output="screen" />
+    <!--<node pkg="vision" type="SeatFinding.py" name="seat_finding" respawn="true" output="screen" />-->
     <node pkg="vision" type="PersonDetection.py" name="person_detection" respawn="true" output="screen" />
 
 </launch>
