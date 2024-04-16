@@ -31,7 +31,7 @@ CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 START_TOPIC = "/start_counting"
 END_TOPIC = "/end_counting"
 RESULTS_TOPIC = "/person_counting"
-THRESHOLD = 15
+THRESHOLD = 25
 
 class PersonCounting():
 
@@ -96,6 +96,7 @@ class PersonCounting():
                 
         self.people_poses = []
         self.start = False
+        self.end = False
 
         if req.data == "Sitting":
             return people_sitting
@@ -204,7 +205,7 @@ class PersonCounting():
 
                             # Crop the image 
                             cropped_image = frame[y1:y2, x1:x2]
-                            cv2.imshow("Cropped", cropped_image)
+                            # cv2.imshow("Cropped", cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
                             person = check_visibility(pose_model,cropped_image)
 

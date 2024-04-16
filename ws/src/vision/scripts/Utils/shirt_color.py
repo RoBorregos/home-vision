@@ -137,7 +137,7 @@ def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
         chestImg = image[cut_y_up:cut_y_down, cut_x_down:cut_x_up]
         #contourImage = self.get_biggest_contour(chestImg)
         
-        cv2.imshow('chestImg', chestImg)
+        # cv2.imshow('chestImg', chestImg)
         #cv2.imshow('contourImage', contourImage)
 
         #get mean color
