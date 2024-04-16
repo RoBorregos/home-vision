@@ -7,6 +7,6 @@ tqdm
 mediapipe
 pyyaml
 pillow
-numpy
+numpy==1.24.4
 webcolors
-pandas
+pandas==1.3.5

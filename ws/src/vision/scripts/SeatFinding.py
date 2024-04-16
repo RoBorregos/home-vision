@@ -19,6 +19,8 @@ FIND_TOPIC = "/find_seat"
 OUTPUT_IMAGE = "/seat_detection"
 MAX_DEGREE = 30
 
+model_location = str(pathlib.Path(__file__).parent) + "/Utils/yolov8n.pt"
+
 class SeatFinding():
 
     def __init__(self):
@@ -27,9 +29,9 @@ class SeatFinding():
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.find_seat_service = rospy.Service(FIND_TOPIC, FindSeat, self.find_seat)
         self.output_img_pub = rospy.Publisher(OUTPUT_IMAGE, Image, queue_size=1)
-        self.model = YOLO('yolov8n.pt')
+        self.model = YOLO(model_location)
         self.image = None
-        self.output_img = []    
+        self.output_img = []
 
         print("Seat Finding Ready")
         # rospy.spin()
