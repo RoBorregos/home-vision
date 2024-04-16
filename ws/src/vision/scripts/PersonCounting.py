@@ -71,6 +71,8 @@ class PersonCounting():
         pointing_right = 0
         right_hand = 0
         left_hand = 0
+        waving = 0
+        shirt_color = ""
         # people_raising_hand = 0
 
         for (person_poses) in self.people_poses:
@@ -93,35 +95,35 @@ class PersonCounting():
                 if pose == "Raising left hand":
                     left_hand += 1
 
+                if pose == "Waving":
+                    waving += 1
+
+                if pose == "Shirt color":
+                    shirt_color += f"{pose},"
+
                 
         self.people_poses = []
         self.start = False
         self.end = False
 
         if req.data == "Sitting":
-            return people_sitting
+            result = str(people_sitting)
 
         elif req.data == "Standing":
-            return people_standing
+            return str(people_standing)
 
         elif req.data == "Pointing Left":
-            return pointing_left
+            return str(pointing_left)
         
         elif req.data == "Pointing Right":
-            return pointing_right
+            return str(pointing_right)
         
         elif req.data == "Raising Right Hand":
-            return right_hand
+            return str(right_hand)
             
         else:
-            return 0
-        # msg = people_count()
-        # msg.detected_people = len(people_tags)
-        # msg.people_sitting = people_sitting
-        # msg.people_standing = people_standing
-        # msg.people_pointing = people_pointing
-        # msg.people_raising_hand = people_raising_hand
-        # self.count_pub.publish(msg)
+            return shirt_color
+
     
     def run(self):
         pbar = tqdm.tqdm(total=5, desc="Loading models")
@@ -167,8 +169,8 @@ class PersonCounting():
             # Check if the counting has ended and publish the results
             # Check if counting is active
             elif self.start:
-                print('Counting')
 
+                # print('Counting')
                 if self.image is not None:
 
                     # Get the frame from the camera

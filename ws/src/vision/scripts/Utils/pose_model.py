@@ -60,7 +60,7 @@ def getAngle(point_close, point_mid, point_far):
     l3 = np.linalg.norm(p1 - p2)
 
     # Cálculo de ángulo pierna izquierda
-    return degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3)))
+    return abs(degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3))))
     
 
 
@@ -87,13 +87,11 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         hip_left = landmarks[23]
         knee_left = landmarks[25]
         ankle_left = landmarks[27]
-        leg_angle_left = getAngle(hip_left, knee_left, ankle_left)
 
         # Right leg points
         hip_right = landmarks[24]
         knee_right = landmarks[26]  
         ankle_right = landmarks[28]
-        leg_angle_right = getAngle(hip_right, knee_right, ankle_right)
 
 
         # Left arm points
@@ -101,35 +99,27 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         elbow_left = landmarks[13]
         wrist_left = landmarks[15]
         index_left = landmarks[19]
-        arm_angle_left = getAngle(shoulder_left, elbow_left, wrist_left)
+        
 
         # Right arm points
         shoulder_right = landmarks[12]
         elbow_right = landmarks[14]
         wrist_right = landmarks[16]
         index_right = landmarks[20]
-        arm_angle_right = getAngle(shoulder_right, elbow_right, wrist_right)
+
+        # Get angles
+        leg_angle_left = getAngle(hip_left, knee_left, ankle_left)
+        leg_angle_right = getAngle(hip_right, knee_right, ankle_right)
+        elbow_angle_left = getAngle(shoulder_left, elbow_left, wrist_left)
+        shoulder_angle_left = getAngle(shoulder_right, shoulder_left, elbow_left)
+        elbow_angle_right = getAngle(shoulder_right, elbow_right, wrist_right)
+        shoulder_angle_right = getAngle(shoulder_left, shoulder_right, elbow_right)
 
 
         # Get shirt color
         print("color")
         color = get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left)
-        poses.append(f"shirt color: {color}")
-
-        m = 0.1
-
-        right_out = index_right.x*w < shoulder_right.x*w - m*w 
-        left_out = index_left.x*w > shoulder_left.x*w + m*w
-        
-
-        if right_out and left_out :
-            data = Direction.NOT_POINTING
-        elif right_out:
-            data = Direction.RIGHT
-        elif left_out:
-            data = Direction.LEFT
-        else:
-            data = Direction.NOT_POINTING
+        poses.append(f"Shirt color: {color}")
 
 
         # Determine if standing or sitting
@@ -149,23 +139,23 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
 
         else:
             # Determine if pointing to a direction or raising hand 
-            if data != Direction.NOT_POINTING:
-                poses.append(data.value)
+            if elbow_angle_right > 120 and shoulder_angle_right > 120:
+                poses.append("Pointing right")
+            
+            if elbow_angle_left > 120 and shoulder_angle_left > 120:
+                poses.append("Pointing left")
 
             if shoulder_right.y - wrist_right.y > RAISING_HAND_THRESHOLD:
                 poses.append("Raising right hand")
 
+                if elbow_angle_right < 160:
+                    poses.append("Waving")
+
             if shoulder_left.y - wrist_left.y > RAISING_HAND_THRESHOLD:
                 poses.append("Raising left hand")
-            
-            
 
-        # Print angles
-        if print_angles:
-            print("Left leg angle: ", leg_angle_left)
-            print("Right leg angle: ", leg_angle_right)
-            print("Left arm angle: ", arm_angle_left)
-            print("Right arm angle: ", arm_angle_right)
+                if elbow_angle_left < 160 and "Waving" not in poses:
+                    poses.append("Waving")
 
 
         # Draw results
@@ -177,7 +167,7 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         arr = np.array(poses)
         txt = np.array2string(arr)
         cv2.putText(annotated_image, txt, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1, cv2.LINE_AA)
-        cv2.putText(annotated_image, data.value, (10, 66), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 1, cv2.LINE_AA)
+        # cv2.putText(annotated_image, data.value, (10, 66), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 1, cv2.LINE_AA)
 
         # Show image
         # cv2.imshow("annotated_image.jpg", annotated_image)
