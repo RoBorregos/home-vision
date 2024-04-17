@@ -120,9 +120,20 @@ class PersonCounting():
         
         elif req.data == "Raising Right Hand":
             return str(right_hand)
-            
-        else:
+        
+        elif req.data == "Raising Left Hand":
+            return str(left_hand)
+        
+        elif req.data == "Waving":
+            return str(waving)
+        
+        elif req.data == "Shirt Color":
             return shirt_color
+        
+        elif req.data == "Raising hands":
+            return str(right_hand + left_hand)
+        else:
+            return "Request not found"
 
     
     def run(self):

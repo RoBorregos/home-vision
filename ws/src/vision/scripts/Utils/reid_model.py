@@ -14,6 +14,8 @@ from tqdm import tqdm
 import torch.nn as nn
 import cv2
 import mediapipe as mp
+import pathlib
+
 
 version =  torch.__version__
 
@@ -22,6 +24,9 @@ use_dense = True
 epoch = "last"
 linear_num = 512
 batch_size = 256
+folder_path = str(pathlib.Path(__file__).parent) 
+# folder_path = './src/vision/scripts/Utils'
+
 
 use_gpu = torch.cuda.is_available()
 gpu_ids = [0]
@@ -45,8 +50,7 @@ data_transforms = transforms.Compose([
 
 ])
 
-folder_path = './src/vision/scripts/Utils'
-config_path = os.path.join(folder_path,name,'opts.yaml')
+config_path = os.path.join(folder_path, name,'opts.yaml')
 with open(config_path, 'r') as stream:
         config = yaml.load(stream, Loader=yaml.FullLoader) # for the new pyyaml via 'conda install pyyaml'
 
