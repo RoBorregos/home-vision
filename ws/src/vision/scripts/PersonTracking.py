@@ -28,6 +28,7 @@ CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 TRACKING_TOPIC = "/track_person"
 DETECTION_TOPIC = "/person_detection"
 CHANGE_TRACKING_TOPIC = "/change_person_tracker_state"
+IMAGE_PUB_TOPIC = "/image_tracking"
 THRESHOLD = 15
 
 # Script to track people
@@ -45,6 +46,8 @@ class PersonTracking():
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         # self.tracker_sub = rospy.Subscriber(TRACKING_TOPIC, Bool, self.track_callback)
         self.detection_pub = rospy.Publisher(DETECTION_TOPIC, Point, queue_size=1)
+        self.image_pub = rospy.Publisher(IMAGE_PUB_TOPIC, Image, queue_size=1)
+        self.model = YOLO('yolov8n.pt')
         self.image = None
         self.track = False
 
@@ -52,6 +55,7 @@ class PersonTracking():
     
     def toggle_tracking(self, req):
         self.track = req.data
+        rospy.loginfo("Tracking is now " + ("enabled" if self.track else "disabled"))
         return True, "Tracking is now " + ("enabled" if self.track else "disabled")
 
     def image_callback(self, data):
@@ -80,7 +84,6 @@ class PersonTracking():
         pbar = tqdm.tqdm(total=5, desc="Loading models")
 
         # Load the YOLOv8 model
-        model = YOLO('yolov8n.pt')
         pbar.update(1)
 
         # Load media pipe model
@@ -106,7 +109,7 @@ class PersonTracking():
         prev_ids = []
         track_person = ""
 
-        print('Running')
+        rospy.loginfo("Running Person Tracking")
 
         while rospy.is_shutdown() == False :
             if self.track is False:
@@ -119,7 +122,8 @@ class PersonTracking():
             
             else:
                 if self.image is not None:
-                    # print("Tracking ")
+                    if track_person != "":
+                        rospy.loginfo(f"Tracking person {track_person}")
 
                     # Get the frame from the camera
                     frame = self.image
@@ -129,7 +133,7 @@ class PersonTracking():
                     width = frame.shape[1]
                     
                     # Get the results from the YOLOv8 model
-                    results = model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
+                    results = self.model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
                     
                     # Get the bounding boxes and track ids
                     boxes = results[0].boxes.xyxy.cpu().tolist()
@@ -153,7 +157,7 @@ class PersonTracking():
 
                             # Crop the image 
                             cropped_image = frame[y1:y2, x1:x2]
-                            cv2.imshow('crpd',cropped_image)
+                            # cv2.imshow('crpd',cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
                             person = check_visibility(pose_model,cropped_image)
                             # cv2.imshow('crpd',cropped_image)
@@ -188,9 +192,9 @@ class PersonTracking():
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
                             
-                    print(track_ids)
-                    print(people_tags)
-                    print(people_ids)
+                    # print(track_ids)
+                    # print(people_tags)
+                    # print(people_ids)
                     prev_ids = []
                     prev_features = []
                     
@@ -247,6 +251,9 @@ class PersonTracking():
                     
                     # Display the annotated frame
                     cv2.imshow("Person Tracking", frame)
+                    self.image_pub.publish(self.bridge.cv2_to_imgmsg(frame, "bgr8"))
+                    
+                    rospy.loginfo("Tracking " + track_person)   
 
                     # Break the loop if 'q' is pressed
                     if cv2.waitKey(1) & 0xFF == ord("q"):

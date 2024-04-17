@@ -36,6 +36,7 @@ PERSON_NAME_TOPIC = "/person_detected_name"
 PERSON_LIST_TOPIC = "/person_list"
 TARGET_TOPIC = "/target"
 NEW_HOST = "/new_host"
+MAX_DEGREE = 38
 
 
 TRACK_THRESHOLD = 50
@@ -221,7 +222,7 @@ class FaceRecognition():
                 curr_faces = []
                 face_list = PersonList()
                 detected = False
-                max_degree = 30
+                
 
                 face_encodings = None
                 for i, location in enumerate(face_locations):
@@ -295,8 +296,8 @@ class FaceRecognition():
 
                     curr_person = Person()
                     curr_person.name = name
-                    curr_person.x = int( (xc-center[0]) * max_degree/center[0] )
-                    curr_person.y = int( (center[1]-yc) * max_degree/center[1] )
+                    curr_person.x = int( (xc-center[0]) * MAX_DEGREE/center[0] )
+                    curr_person.y = int( (center[1]-yc) * MAX_DEGREE/center[1] )
 
                     face_list.list.append(curr_person)
 
@@ -371,12 +372,12 @@ class FaceRecognition():
                 else:
                     dify = 0
                     
-                max_degree = 30
+                
 
                 if detected:
                     # Calculate the movement for the camera to track the face
-                    move_x = difx*max_degree/center[0]
-                    move_y = dify*max_degree/center[1]
+                    move_x = difx*MAX_DEGREE/center[0]
+                    move_y = dify*MAX_DEGREE/center[1]
 
                     move = Point()
                     

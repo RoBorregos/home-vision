@@ -41,7 +41,6 @@ class PersonCounting():
         self.start_service = rospy.Service(START_TOPIC, SetBool, self.toggle_start)
         self.end_service = rospy.Service(END_TOPIC, PersonCount, self.count)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        self.start_sub = rospy.Subscriber(START_TOPIC, Bool, self.start_callback)
         self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
         self.count_pub = rospy.Publisher(RESULTS_TOPIC, people_count, queue_size=1)
         self.image = None
@@ -166,7 +165,7 @@ class PersonCounting():
         self.people_poses = []
         prev_ids = []
 
-        print('Running')
+        rospy.loginfo("Running Person Counting")
 
         while rospy.is_shutdown() == False :
 
@@ -259,8 +258,8 @@ class PersonCounting():
                                 self.people_poses.append(pose)
 
 
-                    print(track_ids)
-                    print(people_tags)
+                    # print(track_ids)
+                    # print(people_tags)
                     print(self.people_poses)
                     prev_ids = []
 

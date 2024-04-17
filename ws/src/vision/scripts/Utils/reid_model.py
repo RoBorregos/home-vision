@@ -89,19 +89,20 @@ def check_visibility(poseModel, image):
         # Convert the image back to BGR
         annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR)
         # Display the annotated image
-        cv2.imshow("Annotated Image", annotated_image)
+        # cv2.imshow("Annotated Image", annotated_image)
 
         if (chest_x < 0 or chest_x > 1 or chest_y < 0 or chest_y > 1) and chest_visibility < 0.95:
-            print("Chest not visible")
+            # print("Chest not visible")
             return False
         else:
-            print("Chest visible")
+            # print("Chest visible")
             return True
             
-    else:
-        print("Pose landmarks not detected")
+    # else:
+    #     print("Pose landmarks not detected")
+        
     
-    print("-------------------------")
+    # print("-------------------------")
 
 def get_structure():
     if use_swin:
@@ -200,7 +201,7 @@ def extract_feature_from_img(image, model):
             # features = features.cpu()
         return features.cpu()
 
-def compare_images(features1, features2, threshold=0.4):
+def compare_images(features1, features2, threshold=0.55):
     if features1.ndim != 1 or features2.ndim != 1:
         return False
 
