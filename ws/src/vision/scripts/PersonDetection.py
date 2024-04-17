@@ -176,12 +176,12 @@ class PersonDetection():
             
             else:
                 print("No couch or chair found")
-                return -1
+                return -100
             
             # else:
 
         else:
-            return -1 # No seat found
+            return -100 # No seat found
     
 
     def check_person(self, req):
