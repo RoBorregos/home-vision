@@ -111,9 +111,9 @@ class FaceRecognition():
     # Function to clear previous results
     def clear(self):
         for filename in os.listdir(folder):
-            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png":
+            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png" or filename == "Adan.png":
                 continue
-            
+
             self.process_img(filename)
 
             file_path = os.path.join(folder, filename)
@@ -276,7 +276,7 @@ class FaceRecognition():
 
 
                         # See if the face is a match for the known face(s)
-                        matches = face_recognition.compare_faces(face_encoding, self.people_encodings, 0.6)
+                        matches = face_recognition.compare_faces(face_encoding, self.people_encodings, 0.5)
                         face_distances = face_recognition.face_distance(self.people_encodings, face_encoding)
                         best_match_index = np.argmin(face_distances)
 
