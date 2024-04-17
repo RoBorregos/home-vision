@@ -12,6 +12,8 @@ Standing, Sitting, Raising right hand, Raising left hand, Pointing left, Pointin
 
 SITTING_THRESHOLD = 90
 RAISING_HAND_THRESHOLD = 0.01
+POINTING_THRESHOLD = 165
+WAVING_THRESHOLD = 160
 
 class Direction(Enum):
     RIGHT = "Pointing right"
@@ -47,6 +49,26 @@ def check_visibility(poseModel, image):
             # print("Chest visible")
             return True
             
+def getCenterPerson(poseModel, image):
+    # Process the image
+    results = poseModel.process(image)
+
+    if results.pose_landmarks is not None:
+        landmarks = results.pose_landmarks.landmark
+        shoulder_right = landmarks[12]
+        shoulder_left = landmarks[11]
+
+        x_center = (shoulder_right.x + shoulder_left.x) / 2
+        y_center = (shoulder_right.y + shoulder_left.y) / 2
+        
+        cv2.circle(image, (int(x_center * image.shape[1]), int(y_center * image.shape[0])), 5, (0, 0, 255), -1)
+        cv2.imshow("Annotated Image", image)
+        
+        return x_center*image.shape[1], y_center*image.shape[0]
+    
+    return None, None
+
+
 
 def getAngle(point_close, point_mid, point_far):
     # Convert the points to numpy arrays
@@ -117,9 +139,8 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
 
 
         # Get shirt color
-        print("color")
         color = get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left)
-        poses.append(f"Shirt color: {color}")
+        poses.append(color)
 
 
         # Determine if standing or sitting
@@ -132,29 +153,29 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
 
         if general:
             if shoulder_right.y - wrist_right.y > RAISING_HAND_THRESHOLD or shoulder_left.y - wrist_left.y > RAISING_HAND_THRESHOLD:
-                poses.append("Raising hand/s")
+                poses.append("Raising hands")
 
             # if data != Direction.NOT_POINTING:
             #     poses.append("Pointing")
 
         else:
             # Determine if pointing to a direction or raising hand 
-            if elbow_angle_right > 120 and shoulder_angle_right > 120:
+            if elbow_angle_right > POINTING_THRESHOLD and shoulder_angle_right > POINTING_THRESHOLD:
                 poses.append("Pointing right")
             
-            if elbow_angle_left > 120 and shoulder_angle_left > 120:
+            if elbow_angle_left > POINTING_THRESHOLD and shoulder_angle_left > POINTING_THRESHOLD:
                 poses.append("Pointing left")
 
             if shoulder_right.y - wrist_right.y > RAISING_HAND_THRESHOLD:
                 poses.append("Raising right hand")
 
-                if elbow_angle_right < 160:
+                if elbow_angle_right < WAVING_THRESHOLD:
                     poses.append("Waving")
 
             if shoulder_left.y - wrist_left.y > RAISING_HAND_THRESHOLD:
                 poses.append("Raising left hand")
 
-                if elbow_angle_left < 160 and "Waving" not in poses:
+                if elbow_angle_left < WAVING_THRESHOLD and "Waving" not in poses:
                     poses.append("Waving")
 
 

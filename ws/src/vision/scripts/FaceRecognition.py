@@ -85,7 +85,7 @@ class FaceRecognition():
             "random"
         ]
         self.clear()
-        print("Face recognition ready")
+        rospy.loginfo("Face Recognition Ready")
 
         self.run()
         
@@ -195,7 +195,8 @@ class FaceRecognition():
 
         prev_faces = [] 
         curr_faces = []
-        print("Running face recognition")
+        rospy.loginfo("Running Face Recognition")
+
         while rospy.is_shutdown() == False :
 
             # img_arr = img_list()
@@ -355,7 +356,8 @@ class FaceRecognition():
 
                         curr_faces[index]["name"] = self.new_name
                         face_list.list[index].name = self.new_name
-                        print(f"{self.new_name} face saved")
+                        rospy.loginfo(f"{self.new_name} face saved")
+                        
                         self.new_name = ""
 
                 prev_faces = curr_faces

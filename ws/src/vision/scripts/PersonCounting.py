@@ -33,6 +33,8 @@ END_TOPIC = "/end_counting"
 RESULTS_TOPIC = "/person_counting"
 THRESHOLD = 25
 
+INIT_POSES = {"Sitting": 0, "Standing": 0, "Pointing right": 0, "Pointing left": 0, "Raising right hand": 0, "Raising left hand": 0, "Waving": 0, "Shirt color": ""}
+
 class PersonCounting():
 
     def __init__(self):
@@ -43,10 +45,40 @@ class PersonCounting():
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
         self.count_pub = rospy.Publisher(RESULTS_TOPIC, people_count, queue_size=1)
+
+        self.poses = INIT_POSES
+
         self.image = None
         self.start = False
         self.end = False
-    
+
+        def loadModels():
+
+            pbar = tqdm.tqdm(total=5, desc="Loading models")
+
+            # Load the YOLOv8 model
+            self.model = YOLO('yolov8n.pt')
+            pbar.update(1)
+
+            # Load media pipe model
+            self.pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
+            pbar.update(1)
+
+            # Load the ReID model
+            structure = get_structure()
+            pbar.update(1)
+            self.model_reid = load_network(structure)
+            pbar.update(1)
+            self.model_reid.classifier.classifier = nn.Sequential()
+            pbar.update(1)
+            use_gpu = torch.cuda.is_available()
+            if use_gpu:
+                self.model_reid = self.model_reid.cuda()
+            pbar.close()
+
+        loadModels()
+
+
     def toggle_start(self, req):
         self.start = req.data
         return True, "Counting started"
@@ -58,105 +90,36 @@ class PersonCounting():
         self.start = data
 
     def end_callback(self, data):
+        self.start = False
         self.end = data
     
     def count(self, req):
         print("People detected", len(self.people_poses))
 
-        people_sitting = 0
-        people_standing = 0
-        # people_pointing = 0
-        pointing_left = 0
-        pointing_right = 0
-        right_hand = 0
-        left_hand = 0
-        waving = 0
-        shirt_color = ""
-        # people_raising_hand = 0
-
-        for (person_poses) in self.people_poses:
-            for pose in person_poses:
-                if pose == "Sitting":
-                    people_sitting += 1
-                
-                if pose == "Standing":
-                    people_standing += 1
-
-                if pose == "Pointing right":
-                    pointing_right += 1
-                
-                if pose == "Pointing left":
-                    pointing_left += 1
-                
-                if pose == "Raising right hand":
-                    right_hand += 1
-                
-                if pose == "Raising left hand":
-                    left_hand += 1
-
-                if pose == "Waving":
-                    waving += 1
-
-                if pose == "Shirt color":
-                    shirt_color += f"{pose},"
-
-                
-        self.people_poses = []
-        self.start = False
-        self.end = False
-
-        if req.data == "Sitting":
-            result = str(people_sitting)
-
-        elif req.data == "Standing":
-            return str(people_standing)
-
-        elif req.data == "Pointing Left":
-            return str(pointing_left)
-        
-        elif req.data == "Pointing Right":
-            return str(pointing_right)
-        
-        elif req.data == "Raising Right Hand":
-            return str(right_hand)
-        
-        elif req.data == "Raising Left Hand":
-            return str(left_hand)
-        
-        elif req.data == "Waving":
-            return str(waving)
-        
-        elif req.data == "Shirt Color":
-            return shirt_color
-        
-        elif req.data == "Raising hands":
-            return str(right_hand + left_hand)
-        else:
+        if req.data not in self.poses:
             return "Request not found"
+        
+        return str(self.poses[req.data])
+
+        
+    def addPose(self, poses):
+        for pose in poses:
+            if pose not in self.poses:
+                self.poses["Shirt color"] += pose + ","
+            else:
+                self.poses[pose] += 1
+
+    def logPoses(self):
+        print("Detected People", len(self.people_poses))
+
+        for key, value in self.poses.items():
+            print(f"{key}: {value}")
+            
+        print("-------------------------------")
 
     
     def run(self):
-        pbar = tqdm.tqdm(total=5, desc="Loading models")
-
-        # Load the YOLOv8 model
-        model = YOLO('yolov8n.pt')
-        pbar.update(1)
-
-        # Load media pipe model
-        pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
-        pbar.update(1)
-
-        # Load the ReID model
-        structure = get_structure()
-        pbar.update(1)
-        model_reid = load_network(structure)
-        pbar.update(1)
-        model_reid.classifier.classifier = nn.Sequential()
-        pbar.update(1)
-        use_gpu = torch.cuda.is_available()
-        if use_gpu:
-            model_reid = model_reid.cuda()
-        pbar.close()
+        
 
         # Initialize lists to store information about people
         people_tags = []
@@ -175,6 +138,7 @@ class PersonCounting():
                 people_features = []
                 self.people_poses = []
                 prev_ids = []
+                self.poses = INIT_POSES
 
             # Check if the counting has ended and publish the results
             # Check if counting is active
@@ -188,7 +152,7 @@ class PersonCounting():
                     width = frame.shape[1]
                     
                     # Get the results from the YOLOv8 model
-                    results = model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
+                    results = self.model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
                     
                     # Get the bounding boxes and track ids
                     boxes = results[0].boxes.xywh.cpu().tolist()
@@ -219,7 +183,7 @@ class PersonCounting():
                             cropped_image = frame[y1:y2, x1:x2]
                             # cv2.imshow("Cropped", cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
-                            person = check_visibility(pose_model,cropped_image)
+                            person = check_visibility(self.pose_model,cropped_image)
 
                             # Check if the person is visible enough (chest) and not too close to the edges of the image
                             if not person or x1 <= THRESHOLD or x2 >= width - THRESHOLD:
@@ -228,11 +192,11 @@ class PersonCounting():
 
                             # Get feature for REID model
                             with torch.no_grad():
-                                new_feature = extract_feature_from_img(pil_image, model_reid)
+                                new_feature = extract_feature_from_img(pil_image, self.model_reid)
                             flag = False
 
                             # Get pose
-                            pose = classify_pose(pose_model, cropped_image)
+                            pose = classify_pose(self.pose_model, cropped_image)
 
                             # Check if there is a match with seen people
                             for i, person_feature in enumerate(people_features):
@@ -256,11 +220,14 @@ class PersonCounting():
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
                                 self.people_poses.append(pose)
+                                self.addPose(pose)
+
 
 
                     # print(track_ids)
                     # print(people_tags)
-                    print(self.people_poses)
+                    # print(self.people_poses)
+                    self.logPoses()
                     prev_ids = []
 
                     # Draw results and update prev detections

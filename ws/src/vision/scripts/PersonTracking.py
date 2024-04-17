@@ -6,7 +6,8 @@ import cv2
 from ultralytics import YOLO
 # from ReID import reid_model
 
-from Utils.reid_model import check_visibility, load_network, compare_images, extract_feature_from_img, get_structure
+from Utils.reid_model import load_network, compare_images, extract_feature_from_img, get_structure
+from Utils.pose_model import check_visibility, getCenterPerson
 import torch.nn as nn
 import torch
 import tqdm
@@ -51,6 +52,30 @@ class PersonTracking():
         self.image = None
         self.track = False
 
+        def loadModels():
+            pbar = tqdm.tqdm(total=5, desc="Loading models")
+
+            # Load the YOLOv8 model
+            pbar.update(1)
+
+            # Load media pipe model
+            self.pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
+            pbar.update(1)
+
+            # Load the ReID model
+            structure = get_structure()
+            pbar.update(1)
+            self.model_reid = load_network(structure)
+            pbar.update(1)
+            self.model_reid.classifier.classifier = nn.Sequential()
+            pbar.update(1)
+            use_gpu = torch.cuda.is_available()
+            if use_gpu:
+                self.model_reid = self.model_reid.cuda()
+            pbar.close()
+
+        loadModels()
+
         self.run()
     
     def toggle_tracking(self, req):
@@ -64,43 +89,29 @@ class PersonTracking():
     # def track_callback(self, data):
     #     self.track = data
 
-    def getCenter(self, box):
-        if ARGS["FLIP_IMAGE"]:
-            x1 = 1 - int(box[2])
-            y1 = 1 - int(box[3])
-            x2 = 1 - int(box[0])
-            y2 = 1 - int(box[1])
+    def getCenter(self, box, frame):
+        x1, y1, x2, y2 = [int(i) for i in box]
 
+        crop = frame[y1:y2, x1:x2]
+        x, y = getCenterPerson(self.pose_model, crop)
+
+        if x == None or y == None:
+            x = (x1 + x2) / 2
+            y = (y1 + y2) / 2
+        
         else:
-            x1, y1, x2, y2 = [int(i) for i in box]
+            x = x1 + x
+            y = y1 + y
 
-        x = int((x1 + x2) / 2)
-        y = int((y1 + y2) / 2)
+        if ARGS["FLIP_IMAGE"]:
+            x = 1 - x
+            y = 1 - y
 
         return x, y
             
 
     def run(self):
-        pbar = tqdm.tqdm(total=5, desc="Loading models")
-
-        # Load the YOLOv8 model
-        pbar.update(1)
-
-        # Load media pipe model
-        pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8) 
-        pbar.update(1)
-
-        # Load the ReID model
-        structure = get_structure()
-        pbar.update(1)
-        model_reid = load_network(structure)
-        pbar.update(1)
-        model_reid.classifier.classifier = nn.Sequential()
-        pbar.update(1)
-        use_gpu = torch.cuda.is_available()
-        if use_gpu:
-            model_reid = model_reid.cuda()
-        pbar.close()
+        
 
         # Initialize lists to store information about people
         people_tags = []
@@ -122,8 +133,8 @@ class PersonTracking():
             
             else:
                 if self.image is not None:
-                    if track_person != "":
-                        rospy.loginfo(f"Tracking person {track_person}")
+                    # if track_person != "":
+                        # rospy.loginfo(f"Tracking person {track_person}")
 
                     # Get the frame from the camera
                     frame = self.image
@@ -159,7 +170,7 @@ class PersonTracking():
                             cropped_image = frame[y1:y2, x1:x2]
                             # cv2.imshow('crpd',cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
-                            person = check_visibility(pose_model,cropped_image)
+                            person = check_visibility(self.pose_model,cropped_image)
                             # cv2.imshow('crpd',cropped_image)
 
                             if not person or x1 <= THRESHOLD or x2 >= width - THRESHOLD:
@@ -168,7 +179,7 @@ class PersonTracking():
 
                             # Get feature
                             with torch.no_grad():
-                                new_feature = extract_feature_from_img(pil_image, model_reid)
+                                new_feature = extract_feature_from_img(pil_image, self.model_reid)
                             flag = False
 
                             # Check if there is a match with seen people
@@ -220,7 +231,7 @@ class PersonTracking():
 
                         tag_index = people_ids.index(track_id)
                         if track_person == people_tags[tag_index]:  
-                            cx, cy = self.getCenter(box)
+                            cx, cy = self.getCenter(box, frame)
  
                         
                         if w*h > max_area:
