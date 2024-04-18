@@ -87,6 +87,7 @@ class FaceRecognition():
         self.clear()
         rospy.loginfo("Face Recognition Ready")
 
+        self.process_imgs()
         self.run()
         
 
@@ -112,7 +113,7 @@ class FaceRecognition():
     # Function to clear previous results
     def clear(self):
         for filename in os.listdir(folder):
-            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png" or filename == "Adan.png":
+            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png" or filename == "Ale.png":
                 continue
 
             self.process_img(filename)
@@ -126,9 +127,10 @@ class FaceRecognition():
         # f = open(json_path)
 
         data = {
-            "random": {"age": 21, "gender": "female", "race": "race"}
+            "random": {"age": 21, "gender": "female", "race": "race"},
+            "Ale.png": {"age": 12, "gender": "gender", "race": "race"}
         }
-
+        
         with open(json_path, 'w') as outfile:
             json.dump(data, outfile)
 
