@@ -65,6 +65,7 @@ add_service_files(
   NewHost.srv
   PersonCount.srv
   FindSeat.srv
+  FindPerson.srv
   # Service2.srv
 )
 
