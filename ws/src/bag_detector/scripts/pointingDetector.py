@@ -11,7 +11,8 @@ import time as timelib
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from std_msgs.msg import Int32, Bool
-from bag_detector.srv import Pointing
+from frida_vision_interfaces.srv import Pointing
+# from bag_detector.srv import Pointing
 
 
 POINTING_TOPIC = "/detectios/pointing"
