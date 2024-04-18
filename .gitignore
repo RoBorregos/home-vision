@@ -148,3 +148,8 @@ grounding/version.py
 
 vis/
 tmp/
+
+dataset_bolsas/
+dataset_breakfast/
+
+dataset_gpsr/
