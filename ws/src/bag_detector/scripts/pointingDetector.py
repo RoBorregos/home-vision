@@ -5,6 +5,7 @@ from ultralytics import YOLO
 import numpy as np
 from math import acos, degrees
 from enum import Enum
+import cv2
 
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
@@ -29,6 +30,7 @@ class PointingDetector:
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
 
         self.results_pub = rospy.Publisher(RES_TOPIC, Int32, queue_size=1)
+        self.image_pointing = []
 
         def load_models():
             self.model = YOLO('yolov8n.pt')
@@ -37,6 +39,26 @@ class PointingDetector:
         load_models()
         self.image = None
         self.start = False
+
+        try:
+            rate = rospy.Rate(60)
+
+            while not rospy.is_shutdown():
+                if len(self.image_pointing) != 0:
+                # if VERBOSE and self.detections_frame != None:
+                    cv2.imshow("Finding", self.image_pointing)
+                    cv2.waitKey(1)
+
+                # if len(self.image_finding) != 0:
+                #     self.output_img_pub.publish(self.bridge.cv2_to_imgmsg(self.output_img, "bgr8"))
+                    
+                rate.sleep()
+        except KeyboardInterrupt:
+            pass
+
+        cv2.destroyAllWindows()
+
+        rospy.loginfo("Running pointing node")
         self.run()
 
     def image_callback(self, data):
@@ -44,6 +66,7 @@ class PointingDetector:
 
     def pointing(self, req):
         self.start = req.active
+        return 1
     
     def getAngle(self, point_close, point_mid, point_far):
         # Convert the points to numpy arrays
@@ -60,7 +83,7 @@ class PointingDetector:
         return abs(degrees(acos((l1**2 + l3**2 - l2**2) / (2 * l1 * l3))))
 
     def getDirection(self, image):
-        results = self.poseModel.process(image)
+        results = self.pose_model.process(image)
 
         if results.pose_landmarks is not None:
             landmarks = results.pose_landmarks.landmark
@@ -103,7 +126,7 @@ class PointingDetector:
             if self.start:
 
                 if self.image is not None:
-                    print("img")
+                    # print("img")
                     frame = self.image
                     results = self.model(frame, verbose=False, classes=[0])
 
@@ -122,11 +145,15 @@ class PointingDetector:
                                 max_area = area
                                 max_bbox = bbox
 
-                    # x1, y1, x2, y2 = max_bbox
-                    # crop = frame[y1:y2, x1:x2]
-                    # pointing_direction = self.getDirection(bbox)
+                            cv2.rectangle(frame, (x1, int(y1)), (int(x2), int(y2)), (255, 0, 0), 2)
 
-                    # self.results_pub.publish(pointing_direction)
+                    x1, y1, x2, y2 = max_bbox
+                    crop = frame[y1:y2, x1:x2]
+                    pointing_direction = self.getDirection(crop)
+
+                    self.results_pub.publish(pointing_direction.value)
+                    print(pointing_direction.value)
+                    self.image_pointing = frame
 
 
                 else:

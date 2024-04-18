@@ -6,7 +6,8 @@ import pathlib
 import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from frida_vision_interfaces.srv import FindSeat
+# from frida_vision_interfaces.srv import FindSeat
+from vision.srv import FindSeat
 import numpy as np
 import queue
 
@@ -99,29 +100,49 @@ class SeatFinding():
                     cv2.putText(self.output_img, label, (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
                     # print(label)
 
+            chair_q = queue.PriorityQueue()
+
             for chair in chairs:
                 occupied = False
                 xmin = chair["bbox"][0]
                 xmax = chair["bbox"][2]
+                y_center_chair = (chair["bbox"][1] + chair["bbox"][3]) / 2
+                cv2.circle(self.output_img, (int(xmin), int(y_center_chair)), 5, (0, 255, 255), -1)
+
 
                 for person in people:
                     center_x = (person["bbox"][0] + person["bbox"][2]) / 2
 
-                    if center_x >= xmin and center_x <= xmax:
+                    person_y = person["bbox"][3]
+
+
+                    print("ch", person_y, y_center_chair)
+                    if center_x >= xmin and center_x <= xmax and person_y > y_center_chair:
                         occupied = True
+                        cv2.circle(self.output_img, (int(center_x), int(person_y)), 5, (0, 0, 255), -1)
                         print("Occupied")
                         break
 
                 if not occupied:
+                    area = xmax - xmin
                     output = (chair["bbox"][0] + chair["bbox"][2]) / 2
-                    print("Chair found", output)
-                    cv2.rectangle(self.output_img, (chair["bbox"][0], chair["bbox"][1]), (chair["bbox"][2], chair["bbox"][3]), (0, 0, 255), 2)
-                    return self.getAngle(output, frame.shape[1])
+                    print("found", -1*area)
+                    chair_q.put((-1*area, output, chair["bbox"][0],chair["bbox"][1],chair["bbox"][2],chair["bbox"][3]))
+                else:
+
+                    cv2.rectangle(self.output_img, (xmin, chair["bbox"][1]), (xmax, chair["bbox"][3]), (0, 0, 255), 2)
+                    
+                
+            if len(chairs) != 0:
+                space, output, a,b,c,d = chair_q.get()
+                print(space)
+                cv2.rectangle(self.output_img, (a, b), (c, d), (255, 255, 0), 2)
+                print("Chair found", output)
+                return self.getAngle(output, frame.shape[1])
 
             print("No chair found")
 
             available_spaces = queue.PriorityQueue()
-
             for couch in couches:
                 couch_left = couch["bbox"][0]
                 couch_right = couch["bbox"][2]

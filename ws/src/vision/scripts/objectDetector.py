@@ -8,15 +8,24 @@ import pathlib
 # from cv_bridge import CvBridge
 # from sensor_msgs.msg import Image
 path_yolo = str(pathlib.Path(__file__).parent) + "/../models/yolov5m_Objects365.pt"
+# f = str(pathlib.Path(__file__).parent) + "/../models"
+# for filename in (os.listdir(f)):
+#     print(filename)
+
+# print("end")
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=path_yolo, force_reload=False)
+print("Loaded")
 # model = torch.hub.load()
 
-def detect(image):
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+def detect(frame):
+    # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = model(frame)
 
     for *xyxy, conf, cls,names in results.pandas().xyxy[0].itertuples(index=False):
         # Normalized [0-1] ymin, xmin, ymax, xmax
+        if conf < 0.5:
+            continue
+        
         height = frame.shape[1]
         width = frame.shape[0]
         x1 = xyxy[1]
@@ -34,7 +43,7 @@ def detect(image):
 def yolo_run_inference_on_image(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = self.model(frame)
-
+        
         output = {
             'detection_boxes': [],  # Normalized ymin, xmin, ymax, xmax
             'detection_classes': [], # ClassID 
@@ -60,10 +69,10 @@ def yolo_run_inference_on_image(self, frame):
         output['detection_scores'] = np.array(output['detection_scores'])
         return output
 
-folder = "./images"
+folder = str(pathlib.Path(__file__).parent) + "/Utils/images"
 for filename in (os.listdir(folder)):
 
     path = os.path.join(folder, filename)
     img = cv2.imread(path)
-    detect(img)
     print(filename)
+    detect(img)
