@@ -6,6 +6,7 @@ import numpy as np
 from math import acos, degrees
 from enum import Enum
 import cv2
+import time as timelib
 
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
@@ -22,6 +23,8 @@ class Direction(Enum):
     RIGHT = 1
     LEFT = 2
 
+labels = ["Not pointing", "Left", "Right"]
+
 class PointingDetector:
     def __init__(self):
         rospy.init_node('pointing_detector')
@@ -31,6 +34,7 @@ class PointingDetector:
 
         self.results_pub = rospy.Publisher(RES_TOPIC, Int32, queue_size=1)
         self.image_pointing = []
+        self.annotated = []
 
         def load_models():
             self.model = YOLO('yolov8n.pt')
@@ -40,13 +44,20 @@ class PointingDetector:
         self.image = None
         self.start = False
 
+        rospy.loginfo("Running pointing node")
+        # self.run()
+
         try:
             rate = rospy.Rate(60)
 
             while not rospy.is_shutdown():
-                if len(self.image_pointing) != 0:
-                # if VERBOSE and self.detections_frame != None:
-                    cv2.imshow("Finding", self.image_pointing)
+                # if len(self.image_pointing) != 0:
+                # # if VERBOSE and self.detections_frame != None:
+                #     # cv2.imshow("Pose analysis", self.image_pointing)
+                #     # cv2.waitKey(1)
+
+                if len(self.annotated) != 0:
+                    cv2.imshow("Results", self.annotated)
                     cv2.waitKey(1)
 
                 # if len(self.image_finding) != 0:
@@ -58,15 +69,15 @@ class PointingDetector:
 
         cv2.destroyAllWindows()
 
-        rospy.loginfo("Running pointing node")
-        self.run()
 
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
 
     def pointing(self, req):
         self.start = req.active
-        return 1
+        time = req.seconds
+        ans = self.run(time)
+        return ans
     
     def getAngle(self, point_close, point_mid, point_far):
         # Convert the points to numpy arrays
@@ -84,6 +95,7 @@ class PointingDetector:
 
     def getDirection(self, image):
         results = self.pose_model.process(image)
+        direction = 0
 
         if results.pose_landmarks is not None:
             landmarks = results.pose_landmarks.landmark
@@ -95,72 +107,96 @@ class PointingDetector:
             hip_right = landmarks[24]
             elbow_right = landmarks[14]
 
+            mp_drawing = mp.solutions.drawing_utils
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp.solutions.pose.POSE_CONNECTIONS)
+            self.image_pointing = image
+
             x_center = (shoulder_right.x + shoulder_left.x) / 2
 
             angle_body = self.getAngle(hip_right, shoulder_right, elbow_right)
             arm_angle = self.getAngle(shoulder_right, elbow_right, wrist_right)
 
-            if angle_body < 30:
+            if angle_body < 33:
                 if arm_angle > 150 and arm_angle < 200:
-                    return Direction.NOT_POINTING
+                    direction = 0
 
                 else:
                     if index_right.x > elbow_right.x:
-                        return Direction.RIGHT
+                        direction = 1
+                    else:
+                        direction = 2
                 
             else:
                 if index_right.x > shoulder_right.x:
-                    return Direction.RIGHT
+                    direction = 1
 
                 else:
-                    return Direction.LEFT
+                    direction = 2
 
+        return (direction)
 
 
 
             # y_center = (shoulder_right.y + shoulder_left.y) / 2
 
-    def run(self):
+    def run(self, time):
+        start_time = timelib.time()
+        end_time = start_time + (time)
+        self.start = True
 
-        while rospy.is_shutdown() == False :
-            if self.start:
+        avgs = [0,0,0]
+        pointing_direction = 0
 
-                if self.image is not None:
-                    # print("img")
-                    frame = self.image
-                    results = self.model(frame, verbose=False, classes=[0])
+        while timelib.time() < end_time:
 
-                    max_area = 0
-                    max_bbox = None
+            if self.image is not None:
 
-                    for out in results:
-                        for box in out.boxes:
-                            x1, y1, x2, y2 = [round(x) for x in box.xyxy[0].tolist()]
-                            bbox = (x1, y1, x2, y2)
-                            w = (x2 - x1) 
-                            h = (y2 - y1)
-                            area = w*h
+                frame = self.image
+                
+                results = self.model(frame, verbose=False, classes=[0])
 
-                            if area > max_area:
-                                max_area = area
-                                max_bbox = bbox
+                max_area = 0
+                max_bbox = None
+
+                for out in results:
+                    for box in out.boxes:
+                        x1, y1, x2, y2 = [round(x) for x in box.xyxy[0].tolist()]
+                        bbox = (x1, y1, x2, y2)
+                        w = (x2 - x1) 
+                        h = (y2 - y1)
+                        area = w*h
+
+                        if area > max_area:
+                            max_area = area
+                            max_bbox = bbox
 
                             cv2.rectangle(frame, (x1, int(y1)), (int(x2), int(y2)), (255, 0, 0), 2)
 
-                    x1, y1, x2, y2 = max_bbox
-                    crop = frame[y1:y2, x1:x2]
-                    pointing_direction = self.getDirection(crop)
+                x1, y1, x2, y2 = max_bbox
+                crop = frame[y1:y2, x1:x2]
+                pointing_direction = (self.getDirection(crop))
 
-                    self.results_pub.publish(pointing_direction.value)
-                    print(pointing_direction.value)
-                    self.image_pointing = frame
+                print(labels[pointing_direction])
+                
+                cv2.putText(frame, labels[pointing_direction], (60, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA) # Tag
+
+                self.results_pub.publish(pointing_direction)
+                self.annotated = frame
+                avgs[pointing_direction] += 1
+                
+
+            else:
+                rospy.loginfo("No image provided")
+                    
+        self.annotated = []
+        self.image_pointing = []
+        cv2.destroyAllWindows()
+
+        rospy.loginfo(f"Result: {labels[pointing_direction]}")
+
+        return pointing_direction
 
 
-                else:
-                    rospy.loginfo("No image provided")
-
-            # else:
-            #     rospy.loginfo("No image")
 
 
 def main():
