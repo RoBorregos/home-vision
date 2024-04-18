@@ -20,19 +20,26 @@ print("Loaded")
 def detect(frame):
     # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = model(frame)
+    output = {
+        'detection_boxes': [],  # Normalized ymin, xmin, ymax, xmax
+        'detection_classes': [], # ClassID 
+        'detection_names': [], # Class Name
+        'detection_scores': [] # Confidence
+    }
 
-    for *xyxy, conf, cls,names in results.pandas().xyxy[0].itertuples(index=False):
+    for *xyxy, conf, cls, names in results.pandas().xyxy[0].itertuples(index=False):
         # Normalized [0-1] ymin, xmin, ymax, xmax
         if conf < 0.5:
             continue
         
-        height = frame.shape[1]
-        width = frame.shape[0]
-        x1 = xyxy[1]
-        x2 = xyxy[0]
-        y1 = xyxy[3]
-        y2 = xyxy[2]
-
+        # output['detection_boxes'].append([xyxy[1]/width, xyxy[0]/height, xyxy[3]/width, xyxy[2]/height])
+        output['detection_boxes'].append([xyxy[1], xyxy[0], xyxy[3], xyxy[2]])
+        output['detection_classes'].append(cls)
+        output['detection_names'].append(names)
+        output['detection_scores'].append(conf)
+        
+    for box, name in zip(output['detection_boxes'], output['detection_names']):
+        x1, y1, x2, y2 = box
         cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 0, 0), 2)
 
     cv2.imshow("annotated_image.jpg", frame)
