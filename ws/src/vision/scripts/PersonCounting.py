@@ -6,18 +6,20 @@ import cv2
 from ultralytics import YOLO
 
 from Utils.reid_model import load_network, compare_images, extract_feature_from_img, get_structure
-from Utils.pose_model import check_visibility, classify_pose
+from Utils.pose_model import check_visibility, classify_pose, getCenterPerson
 import torch.nn as nn
 import torch
 import tqdm
 import mediapipe as mp
+import numpy as np
 
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from std_msgs.msg import Bool
 from std_srvs.srv import SetBool
-from vision.srv import PersonCount
+from vision.srv import PersonCount, FindPerson
 from vision.msg import people_count
+from geometry_msgs.msg import Point 
 
 '''
 Node to count people in a room according to their poses
@@ -31,9 +33,14 @@ CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 START_TOPIC = "/start_counting"
 END_TOPIC = "/end_counting"
 RESULTS_TOPIC = "/person_counting"
+FIND_TOPIC = "/find_pose"
 THRESHOLD = 25
 
 INIT_POSES = {"Sitting": 0, "Standing": 0, "Pointing right": 0, "Pointing left": 0, "Raising right hand": 0, "Raising left hand": 0, "Waving": 0, "Shirt color": ""}
+
+ARGS = {
+    "FLIP_IMAGE": False
+}
 
 class PersonCounting():
 
@@ -42,8 +49,9 @@ class PersonCounting():
         self.bridge = CvBridge()
         self.start_service = rospy.Service(START_TOPIC, SetBool, self.toggle_start)
         self.end_service = rospy.Service(END_TOPIC, PersonCount, self.count)
+        self.find_service = rospy.Service(FIND_TOPIC, FindPerson, self.find)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
+        # self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
         self.count_pub = rospy.Publisher(RESULTS_TOPIC, people_count, queue_size=1)
 
         self.poses = INIT_POSES
@@ -51,6 +59,9 @@ class PersonCounting():
         self.image = None
         self.start = False
         self.end = False
+        self.req_pose = ""
+        self.found_pose = None
+        self.image_finding = []
 
         def loadModels():
 
@@ -78,6 +89,24 @@ class PersonCounting():
 
         loadModels()
 
+        try:
+            rate = rospy.Rate(60)
+
+            while not rospy.is_shutdown():
+                if len(self.image_finding) != 0:
+                # if VERBOSE and self.detections_frame != None:
+                    cv2.imshow("Finding", self.image_finding)
+                    cv2.waitKey(1)
+
+                # if len(self.image_finding) != 0:
+                #     self.output_img_pub.publish(self.bridge.cv2_to_imgmsg(self.output_img, "bgr8"))
+                    
+                rate.sleep()
+        except KeyboardInterrupt:
+            pass
+
+        cv2.destroyAllWindows()
+
 
     def toggle_start(self, req):
         self.start = req.data
@@ -90,16 +119,104 @@ class PersonCounting():
         self.start = data
 
     def end_callback(self, data):
-        self.start = False
         self.end = data
+        self.start = False
+
+    def getCenter(self, box, frame):
+        x1, y1, x2, y2 = [int(i) for i in box]
+
+        crop = frame[y1:y2, x1:x2]
+        x, y = getCenterPerson(self.pose_model, crop)
+
+        if x == None or y == None:
+            x = (x1 + x2) / 2
+            y = (y1 + y2) / 2
+        
+        else:
+            x = x1 + x
+            y = y1 + y
+
+        if ARGS["FLIP_IMAGE"]:
+            x = 1 - x
+            y = 1 - y
+
+        return x, y
     
     def count(self, req):
+        self.start = False
         print("People detected", len(self.people_poses))
 
         if req.data not in self.poses:
             return "Request not found"
         
         return str(self.poses[req.data])
+    
+    def find(self, req):
+        self.req_pose = req.request
+
+        prev_ids = []
+        while self.image is not None:
+            rospy.loginfo(f"Looking for person with pose {self.req_pose}")
+
+            # Get the frame from the camera
+            frame = self.image
+
+            found = FindPerson()
+            x = 0
+            y = 0
+            pose = None
+            
+            # Get the results from the YOLOv8 model
+            results = self.model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
+            
+            # Get the bounding boxes and track ids
+            boxes = results[0].boxes
+
+            curr_ids = []
+            for box in boxes:
+                class_id = box.cls[0].item()
+                print(class_id)
+
+                if class_id not in prev_ids:
+                    x1, y1, x2, y2 = [int(x) for x in box.xyxy[0].tolist()]
+                    bbox = [x1, y1, x2, y2]
+                    # bbox = box.xyxy[0].tolist()
+
+                    # Crop the image 
+                    cropped_image = frame[y1:y2, x1:x2]
+                    cv2.imshow("Cropped", cropped_image)
+
+                    # Get pose
+                    pose = classify_pose(self.pose_model, cropped_image)
+                    print(pose)
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                    
+                    if pose == None or len(pose) < 1:
+                        print("No pose detected")
+                        continue
+
+                    # label = np.array2string(pose)
+
+                    # cv2.putText(frame, label, (x1, y1-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1, cv2.LINE_AA) # Tag
+                    
+                    if self.req_pose in pose:
+                        cx, cy = self.getCenter(bbox, frame)
+                        
+                        x = cx
+                        y = cy
+                        return Point(x, y, 0)
+                    
+
+                    # if self.req_pose == "":
+                    #     break
+
+                curr_ids.append(class_id)
+
+            prev_ids = curr_ids
+
+            self.image_finding = frame
+
+        return Point(-1, -1, -1)
 
         
     def addPose(self, poses):
@@ -114,7 +231,7 @@ class PersonCounting():
 
         for key, value in self.poses.items():
             print(f"{key}: {value}")
-            
+
         print("-------------------------------")
 
     
@@ -220,6 +337,12 @@ class PersonCounting():
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
                                 self.people_poses.append(pose)
+
+                                
+                                    
+                                    # print("Pose detected", pose)
+                                    # print(pose)
+                                    
                                 self.addPose(pose)
 
 
@@ -262,5 +385,12 @@ class PersonCounting():
         cv2.destroyAllWindows()
 
 # Run node
-trackNode = PersonCounting()
-trackNode.run()
+
+if __name__ == "__main__":
+    try: 
+        for key in ARGS:
+            ARGS[key] = rospy.get_param('~' + key, ARGS[key])
+
+        PersonCounting()
+    except rospy.ROSInterruptException:
+        pass

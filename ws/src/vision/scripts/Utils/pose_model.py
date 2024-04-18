@@ -16,9 +16,9 @@ POINTING_THRESHOLD = 165
 WAVING_THRESHOLD = 160
 
 class Direction(Enum):
-    RIGHT = "Pointing right"
-    LEFT = "Pointing left"
-    NOT_POINTING = "not_pointing"
+    NOT_POINTING = 0
+    RIGHT = 1
+    LEFT = 2
 
 
 def check_visibility(poseModel, image):
@@ -186,8 +186,8 @@ def classify_pose(poseModel, image, print_angles=False, general=False):
         # annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
 
         arr = np.array(poses)
-        txt = np.array2string(arr)
-        cv2.putText(annotated_image, txt, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1, cv2.LINE_AA)
+        # txt = np.array2string(arr)
+        # cv2.putText(annotated_image, txt, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1, cv2.LINE_AA)
         # cv2.putText(annotated_image, data.value, (10, 66), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 1, cv2.LINE_AA)
 
         # Show image

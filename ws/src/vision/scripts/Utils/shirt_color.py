@@ -111,13 +111,13 @@ def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
     img_h, img_w, _ = image.shape
     chest_y = (shoulder_left.y + shoulder_right.y) / 2
 
-    print("getting shirt color")
+    # print("getting shirt color")
 
     if (chest_y) < (hip_right.y):
-        print("chest is higher than hip")
+        # print("chest is higher than hip")
         cut_y_up = int(chest_y * img_h)
         if (hip_right.y) < 1:
-            print("hip is in image")
+            # print("hip is in image")
             cut_y_down = int(hip_right.y * img_h)
         else:
             cut_y_down = int(img_h)
@@ -132,7 +132,7 @@ def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
 
 
 
-        print(f"cut_y_up: {cut_y_up}, cut_y_down: {cut_y_down}, cut_x_up: {cut_x_up}, cut_x_down: {cut_x_down}")
+        # print(f"cut_y_up: {cut_y_up}, cut_y_down: {cut_y_down}, cut_x_up: {cut_x_up}, cut_x_down: {cut_x_down}")
         #cut image from chest to hips
         chestImg = image[cut_y_up:cut_y_down, cut_x_down:cut_x_up]
         #contourImage = self.get_biggest_contour(chestImg)

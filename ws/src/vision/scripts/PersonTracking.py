@@ -123,6 +123,7 @@ class PersonTracking():
         rospy.loginfo("Running Person Tracking")
 
         while rospy.is_shutdown() == False :
+            # print("Running1")
             if self.track is False:
                 people_tags = []
                 people_ids = []
@@ -133,6 +134,7 @@ class PersonTracking():
             
             else:
                 if self.image is not None:
+                    # print("Tracking")
                     # if track_person != "":
                         # rospy.loginfo(f"Tracking person {track_person}")
 
@@ -230,6 +232,7 @@ class PersonTracking():
                         h = y2 - y1
 
                         tag_index = people_ids.index(track_id)
+                        
                         if track_person == people_tags[tag_index]:  
                             cx, cy = self.getCenter(box, frame)
  
@@ -269,7 +272,8 @@ class PersonTracking():
                     # Break the loop if 'q' is pressed
                     if cv2.waitKey(1) & 0xFF == ord("q"):
                         break
-            # else:
+                else:
+                    print("No image")
             #     # End of video
             #     break
 
