@@ -11,11 +11,11 @@ import time as timelib
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from std_msgs.msg import Int32, Bool
-from frida_vision_interfaces.srv import Pointing
-# from bag_detector.srv import Pointing
+# from frida_vision_interfaces.srv import Pointing
+from bag_detector.srv import Pointing
 
 
-POINTING_TOPIC = "/detectios/pointing"
+POINTING_TOPIC = "/person_pointing"
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 RES_TOPIC = "/res"
 
@@ -155,7 +155,7 @@ class PointingDetector:
                 frame = self.image
                 
                 results = self.model(frame, verbose=False, classes=[0])
-
+                self.annotated = frame
                 max_area = 0
                 max_bbox = None
 
@@ -172,6 +172,9 @@ class PointingDetector:
                             max_bbox = bbox
 
                             cv2.rectangle(frame, (x1, int(y1)), (int(x2), int(y2)), (255, 0, 0), 2)
+
+                if max_bbox == None:
+                    break
 
                 x1, y1, x2, y2 = max_bbox
                 crop = frame[y1:y2, x1:x2]
