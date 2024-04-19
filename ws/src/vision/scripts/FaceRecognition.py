@@ -113,7 +113,7 @@ class FaceRecognition():
     # Function to clear previous results
     def clear(self):
         for filename in os.listdir(folder):
-            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png" or filename == "Ale.png":
+            if filename == ".DS_Store" or filename == "identities.json" or filename == "random.png" or filename == "Adan.png":
                 continue
 
             self.process_img(filename)
@@ -128,7 +128,8 @@ class FaceRecognition():
 
         data = {
             "random": {"age": 21, "gender": "female", "race": "race"},
-            "Ale.png": {"age": 12, "gender": "gender", "race": "race"}
+            "Ale.png": {"age": 12, "gender": "gender", "race": "race"},
+            "Adan.png": {"age": 12, "gender": "gender", "race": "race"}
         }
         
         with open(json_path, 'w') as outfile:
