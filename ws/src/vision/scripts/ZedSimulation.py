@@ -26,7 +26,6 @@ class ZedSimulation():
                 ros_image = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
                 self.image_pub.publish(ros_image)
                 cv2.imshow('frame', frame)
-                # time.sleep(0.1)
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
                 
