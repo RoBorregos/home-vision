@@ -62,7 +62,7 @@ def getCenterPerson(poseModel, image):
         y_center = (shoulder_right.y + shoulder_left.y) / 2
         
         cv2.circle(image, (int(x_center * image.shape[1]), int(y_center * image.shape[0])), 5, (0, 0, 255), -1)
-        cv2.imshow("Annotated Image", image)
+        # cv2.imshow("Annotated Image", image)
         
         return x_center*image.shape[1], y_center*image.shape[0]
     

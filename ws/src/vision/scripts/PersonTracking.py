@@ -51,6 +51,7 @@ class PersonTracking():
         self.model = YOLO('yolov8n.pt')
         self.image = None
         self.track = False
+        rospy.loginfo(ARGS["FLIP_IMAGE"])
 
         def loadModels():
             pbar = tqdm.tqdm(total=5, desc="Loading models")
@@ -103,9 +104,16 @@ class PersonTracking():
             x = x1 + x
             y = y1 + y
 
+        width = frame.shape[1]
+        height = frame.shape[0]
+
         if ARGS["FLIP_IMAGE"]:
+            x /= width
+            y /= height
             x = 1 - x
             y = 1 - y
+            x *= width
+            y*= height
 
         return x, y
             

@@ -22,6 +22,7 @@ from vision.msg import objectDetection, level, shelf, shelfLevel
 from bag_detector.srv import Pointing
 from vision.srv import ShelfDetections
 import numpy as np
+import imutils
 
 
 ARGS= {
@@ -30,11 +31,11 @@ ARGS= {
     "DEPTH_ACTIVE": True,
     "DEPTH_INPUT": "/zed2/zed_node/depth/depth_registered",
     "CAMERA_INFO": "/zed2/zed_node/depth/camera_info",
-    "MIN_SCORE_THRESH": 0.5,
+    "MIN_SCORE_THRESH": 0.1,
     "VERBOSE": True,
     "CAMERA_FRAME": "zed2_left_camera_optical_frame",
     # "YOLO_MODEL_PATH": str(pathlib.Path(__file__).parent) + "/../models/yolov5s.pt",
-    "FLIP_IMAGE": False,
+    "FLIP_IMAGE": True,
     "MIN_CLUSTERS": 2,
     "MAX_CLUSTERS": 6,
     "RESULTS_TOPIC": "/shelf_detection",
@@ -47,6 +48,8 @@ ARGS= {
 # print(ARGS["YOLO_MODEL_PATH"])
 
 ACTIVE_SERVICE_TOPIC = "/shelf_detection_active"
+YOLO11_PATH = str(pathlib.Path(__file__).parent) + "/../models/yolov5m_Objects365.pt"
+
 
 colors = colors = [
     (255, 0, 0),    # Red
@@ -62,6 +65,7 @@ colors = colors = [
     (255,255,255)   # White
 ]
 
+excluded_objects = ["person", "chair", "dining table", "sneakers", "other shoes", "carpet", "couch", "bench"]
 
 class ShelfDetection():
     def __init__(self):
@@ -82,7 +86,10 @@ class ShelfDetection():
         self.modelv8 = YOLO("yolov8n.pt")
         rospy.loginfo("Yolov8 model loaded")
         self.modelv5 = torch.hub.load('ultralytics/yolov5', 'custom', path=ARGS["YOLO_MODEL_PATH"], force_reload=False)
-        rospy.loginfo("Yolov5 model loaded")
+        rospy.loginfo("Yolov5 360-objects model loaded")
+        self.model11 = torch.hub.load('ultralytics/yolov5', 'custom', path=YOLO11_PATH, force_reload=False)
+        rospy.loginfo("Yolov5 11-objects model loaded")
+
         self.image = None
         self.detections_frame = []
         self.depth_image = []
@@ -113,32 +120,11 @@ class ShelfDetection():
         except KeyboardInterrupt:
             pass
 
-        cv2.destroyAllWindows()
-
-        # Visualization
-        # try:
-        #     rate = rospy.Rate(60)
-
-        #     while not rospy.is_shutdown():
-        #         if ARGS["VERBOSE"] and len(self.detections_frame) != 0:
-        #         # if VERBOSE and self.detections_frame != None:
-        #             cv2.imshow("Detections", self.detections_frame)
-        #             cv2.waitKey(1)
-
-        #         if len(self.detections_frame) != 0:
-        #             self.image_pub.publish(self.bridge.cv2_to_imgmsg(self.detections_frame, "bgr8"))
-                    
-        #         rate.sleep()
-        # except KeyboardInterrupt:
-        #     pass
+  
 
         cv2.destroyAllWindows()
 
-    # def test(self):
-    #     self.s = rospy.ServiceProxy("/person_pointing", Pointing)
 
-    #     res = self.s(True, 3)
-    #     print(res)
 
     def detect(self, req):
         # if req == True
@@ -158,9 +144,15 @@ class ShelfDetection():
 
     # Callbacks
     def image_callback(self, msg):
-        self.image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
-        
+        image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
 
+        if ARGS["FLIP_IMAGE"]:
+            self.image = imutils.rotate(image, 180)
+
+        else:
+            self.image = image
+
+        
     def depthImageRosCallback(self, data):
         try:
             self.depth_image = self.bridge.imgmsg_to_cv2(data, "32FC1")
@@ -187,23 +179,27 @@ class ShelfDetection():
             output['detection_classes'].append(cls)
             output['detection_names'].append(names)
             output['detection_scores'].append(conf)
-            # # ClassID
-            # found = False
-            # count = 1
-            # for i in self.category_index.values():
-            #     if i == cls:
-            #         found = True
-            #         break
-            #     count += 1
-            # if not found:
-            #     self.category_index[count] = cls
-            # output['detection_classes'].append(count)
-            # # Confidence
-            # output['detection_scores'].append(conf)
-        # output['detection_boxes'] = np.array(output['detection_boxes'])
-        # output['detection_classes'] = np.array(output['detection_classes'])
-        # output['detection_names'] = np.array(output['detection_names'])
-        # output['detection_scores'] = np.array(output['detection_scores'])
+
+        return output
+    
+    # YOLO Functions
+    def yolo_run_inference_on_image2(self, frame, output):
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = self.model11(frame)
+
+        
+        for *xyxy, conf, cls,names in results.pandas().xyxy[0].itertuples(index=False):
+            # Normalized [0-1] ymin, xmin, ymax, xmax
+            height = frame.shape[1]
+            width = frame.shape[0]
+            if conf < ARGS["MIN_SCORE_THRESH"]:
+                continue
+
+            output['detection_boxes'].append([xyxy[1]/width, xyxy[0]/height, xyxy[3]/width, xyxy[2]/height])
+            output['detection_classes'].append(cls)
+            output['detection_names'].append(names)
+            output['detection_scores'].append(conf)
+
         return output
     
     def yolov8_run_inference_on_image(self, frame, output):
@@ -239,23 +235,42 @@ class ShelfDetection():
                 if prob < ARGS["MIN_SCORE_THRESH"]:
                     continue
 
-                boxes.append([y1, x1, y2, x2])
-                confidences.append(float(prob))
-                class_ids.append(class_id)
-                class_names.append(self.modelv8.names[class_id])
+                output['detection_boxes'].append([y1, x1, y2, x2])
+                output['detection_classes'].append(class_id)
+                output['detection_names'].append(self.modelv8.names[class_id])
+                output['detection_scores'].append(float(prob))
+
+                # boxes.append([y1, x1, y2, x2])
+                # confidences.append()
+                # class_ids.append(class_id)
+                # class_names.append()
                 # print(f"Found {class_id} in {x1} {y1} {x2} {y2}")
                 # print("------------------------------")
                 # print()
 
-        output['detection_boxes'] = np.array(boxes)
-        output['detection_classes'] = np.array(class_ids)
-        output['detection_names'] = np.array(class_names)
-        output['detection_scores'] = np.array(confidences)
+        # output['detection_boxes'].append(boxes)
+        # output['detection_classes'].append(class_ids)
+        # output['detection_names'].append(class_names)
+        # output['detection_scores'].append(confidences)
+
+    
+        output['detection_boxes'] = np.array(output['detection_boxes'])
+        output['detection_classes'] = np.array(output['detection_classes'])
+        output['detection_names'] = np.array(output['detection_names'])
+        output['detection_scores'] = np.array(output['detection_scores'])
+
         return output
     
     # def getResults():
 
-    
+    def printAll(self, label, out):
+        print(label, ":  ")
+        names = out["detection_names"]
+        print(names)
+        # for name in names:
+        #     print(name)
+
+        
     # Handle the detection model input/output.
     def compute_result(self, frame):
         visual_frame = copy.deepcopy(frame)
@@ -268,11 +283,19 @@ class ShelfDetection():
 
         # output = getResults()
         output1 = self.yolo_run_inference_on_image(frame, output)
-        output = self.yolov8_run_inference_on_image(frame, output)
+        self.printAll("yolo 360", output1)
+
+        output2 = self.yolo_run_inference_on_image2(frame, output1)
+
+        self.printAll("yolo11", output2)
+        output = self.yolov8_run_inference_on_image(frame, output2)
+
+        self.printAll("yolov8", output)
 
         detections = copy.deepcopy(output)
 
-        detections["detection_boxes"] = np.array([[1 - box[2], 1 - box[3], 1 - box[0], 1 - box[1]] for box in output["detection_boxes"]]) if ARGS["FLIP_IMAGE"] else output["detection_boxes"]
+        # detections["detection_boxes"] = np.array([[1 - box[2], 1 - box[3], 1 - box[0], 1 - box[1]] for box in output["detection_boxes"]]) if ARGS["FLIP_IMAGE"] else output["detection_boxes"]
+        detections["detection_boxes"] = output["detection_boxes"]
         
         return detections, output, visual_frame
 
@@ -317,10 +340,19 @@ class ShelfDetection():
         self.annotated = frame
         copy_frame = copy.deepcopy(frame)
 
+        boxes = []
+        names = []
+        scores = []
+
         # Get detection boxes, names and scores
-        boxes = detected_objects["detection_boxes"]
-        names = detected_objects["detection_names"]
-        scores = detected_objects["detection_scores"]
+        for box, name, score in zip(detected_objects["detection_boxes"], detected_objects["detection_names"], detected_objects["detection_scores"]):
+            if name.lower() not in excluded_objects:
+               boxes.append(box)
+               names.append(name)
+               scores.append(score) 
+        # boxes = detected_objects["detection_boxes"]
+        # names = detected_objects["detection_names"]
+        # scores = detected_objects["detection_scores"]
         
         shelf_levels = shelf()
         shelf_levels.levels = []
@@ -412,11 +444,17 @@ class ShelfDetection():
                 name = item["name"]
                 score = item["score"]
 
+                temp_name = name.lower()
+                # if temp_name in excluded_objects:
+                #     continue
+
                 items += f"{name} "
 
                 ymin, xmin, ymax, xmax = box
                 if len(self.depth_image) != 0 and ARGS["DEPTH_ACTIVE"]:
-                    
+                    if ARGS["FLIP_IMAGE"]:
+                            box = [1 - box[2], 1 - box[3], 1 - box[0], 1 - box[1]] 
+
                     point2D = get2DCentroid(box, self.depth_image)
                     depth = get_depth(self.depth_image, point2D)
 

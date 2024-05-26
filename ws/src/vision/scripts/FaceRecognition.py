@@ -36,6 +36,7 @@ PERSON_NAME_TOPIC = "/person_detected_name"
 PERSON_LIST_TOPIC = "/person_list"
 TARGET_TOPIC = "/target"
 NEW_HOST = "/new_host"
+IMAGE_VIEW = "/image_face_recognition"
 MAX_DEGREE = 38
 
 
@@ -61,7 +62,9 @@ class FaceRecognition():
         self.name_pub = rospy.Publisher(PERSON_NAME_TOPIC, String, queue_size=1)
         self.move_pub = rospy.Publisher(TARGET_TOPIC, Point, queue_size=1)
         self.person_list_pub = rospy.Publisher(PERSON_LIST_TOPIC, PersonList, queue_size=1)
+        self.view_pub = rospy.Publisher(IMAGE_VIEW, Image, queue_size=1)
         self.new_name = ""
+        self.image_view = None
         self.image = None
 
         # Progress bar
@@ -397,6 +400,8 @@ class FaceRecognition():
                     self.person_list_pub.publish(face_list)
 
                 cv2.imshow("Face detection", annotated_frame)
+                self.image_view = annotated_frame
+                self.view_pub.publish(self.bridge.cv2_to_imgmsg(annotated_frame, "bgr8"))
 
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     prev_faces = []

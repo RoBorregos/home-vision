@@ -39,7 +39,7 @@ class PointingDetector:
 
         def load_models():
             self.model = YOLO('yolov8n.pt')
-            self.pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.8)
+            self.pose_model = mp.solutions.pose.Pose(min_detection_confidence=0.5)
 
         load_models()
         self.image = None
@@ -99,6 +99,7 @@ class PointingDetector:
         direction = 0
 
         if results.pose_landmarks is not None:
+            # print("landmarks")
             landmarks = results.pose_landmarks.landmark
             shoulder_right = landmarks[12]
             shoulder_left = landmarks[11]
@@ -116,9 +117,9 @@ class PointingDetector:
 
             angle_body = self.getAngle(hip_right, shoulder_right, elbow_right)
             arm_angle = self.getAngle(shoulder_right, elbow_right, wrist_right)
-
-            if angle_body < 33:
-                if arm_angle > 150 and arm_angle < 200:
+            
+            if angle_body < 20:
+                if arm_angle > 160 and arm_angle < 200:
                     direction = 0
 
                 else:
@@ -134,7 +135,16 @@ class PointingDetector:
                 else:
                     direction = 2
 
-        return (direction)
+            return (direction)
+        
+
+        
+        else:
+            print("no landmarks")
+            return 0
+
+        # print(dir ection)
+
 
 
 
@@ -178,6 +188,7 @@ class PointingDetector:
 
                 x1, y1, x2, y2 = max_bbox
                 crop = frame[y1:y2, x1:x2]
+                
                 pointing_direction = (self.getDirection(crop))
 
                 print(labels[pointing_direction])

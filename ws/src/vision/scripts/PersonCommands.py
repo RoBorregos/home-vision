@@ -39,6 +39,8 @@ THRESHOLD = 25
 
 INIT_POSES = {"Sitting": 0, "Standing": 0, "Pointing right": 0, "Pointing left": 0, "Raising right hand": 0, "Raising left hand": 0, "Waving": 0, "Shirt color": ""}
 
+
+
 ARGS = {
     "FLIP_IMAGE": False
 }
@@ -56,6 +58,7 @@ class PersonCommands():
         # self.count_pub = rospy.Publisher(RESULTS_TOPIC, people_count, queue_size=1)
 
         self.poses = INIT_POSES
+        self.points = []
 
         self.image = None
         self.start = False
@@ -230,10 +233,11 @@ class PersonCommands():
         return Point(-1, -1, -1)
 
         
-    def addPose(self, poses):
+    def addPose(self, poses, point):
         for pose in poses:
             if pose not in self.poses:
                 self.poses["Shirt color"] += pose + ","
+                self.points.append(point)
             else:
                 self.poses[pose] += 1
 
@@ -254,6 +258,7 @@ class PersonCommands():
         people_ids = []
         people_features = []
         self.people_poses = []
+        self.people_points = []
         prev_ids = []
 
         rospy.loginfo("Running Person Counting")
@@ -282,8 +287,10 @@ class PersonCommands():
                 people_ids = []
                 people_features = []
                 self.people_poses = []
+                self.people_points = []
                 prev_ids = []
                 self.poses = INIT_POSES
+                self.points = []
 
                 cv2.destroyAllWindows()
 
@@ -345,6 +352,11 @@ class PersonCommands():
                             # Get pose
                             pose = classify_pose(self.pose_model, cropped_image)
 
+                            point = Point()
+                            point.x = x
+                            point.y = y
+                            point.z = 0
+
                             # Check if there is a match with seen people
                             for i, person_feature in enumerate(people_features):
 
@@ -356,7 +368,10 @@ class PersonCommands():
 
                                     # Update id to the id assigned by yolo and pose
                                     people_ids[i] = track_id
+                                    
+
                                     self.people_poses[i] = pose
+                                    self.people_points[i] = point
                                     flag = True
                                     break
                             
@@ -367,6 +382,7 @@ class PersonCommands():
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
                                 self.people_poses.append(pose)
+                                self.people_points.append(point)
 
                                 
                                     

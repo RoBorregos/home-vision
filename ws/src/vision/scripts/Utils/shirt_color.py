@@ -6,7 +6,13 @@ from webcolors import CSS3_HEX_TO_NAMES as css3_hex_to_names
 from webcolors import hex_to_rgb
 import pandas as pd
 
-
+COLORS = [
+    {"blue": ["aqua", "navy", "teal", "darkblue", "blue", "darkcyan", "darkslateblue", "deepskyblue", "dodgerblue", "lightblue", "lightskyblue", "royalblue"],
+     "green": ["green", "lime", "navy", "olive"],
+     "gray": ["silver", "slategray", "gray", "darkslategray", "darkgray"],
+     "white": ["aliceblue", "azure", "cornsilk", "ghostwhite", "ivory"]
+     }
+]
 
 def classifyColor_rgb(self, rgb):
     r = rgb[2]
@@ -34,6 +40,11 @@ def classifyColor_rgb(self, rgb):
         if distance < min_distance:
             min_distance = distance
             closest_color = color
+
+        for color in COLORS:
+            if closest_color in COLORS[color]:
+                return color
+            
     return closest_color
 
 def classifyColor_hsv(self, hsv):
@@ -146,7 +157,7 @@ def get_shirt_color(image, shoulder_right, shoulder_left, hip_right, hip_left):
         mean_color_rgb = [int(i) for i in mean_color]
 
         shirtColorweb = classifyColor_web(mean_color_rgb)
-        print('Shirt color (webcolors) is:', shirtColorweb)
+        # print('Shirt color (webcolors) is:', shirtColorweb)
         return shirtColorweb
     
 

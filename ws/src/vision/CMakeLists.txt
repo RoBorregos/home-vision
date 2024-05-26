@@ -58,6 +58,8 @@ add_message_files(
     people_count.msg
     person.msg
     person_list.msg
+    # shelf.msg
+    # shelfLevel.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -67,7 +69,8 @@ add_service_files(
   PersonCount.srv
   FindSeat.srv
   FindPerson.srv
-  Shelf.srv
+  # Shelf.srv
+  # ShelfDetections.srv
   # Service2.srv
 )
 
