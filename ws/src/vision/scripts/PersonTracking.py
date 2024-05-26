@@ -52,12 +52,18 @@ class PersonTracking():
         rospy.init_node('person_tracking')
         self.bridge = CvBridge()
 
+        for key in ARGS:
+            print(key)
+            ARGS[key] = rospy.get_param(key, False)
+            print(rospy.get_param(key, False))
+            print(ARGS[key])
+
         self.track_service = rospy.Service(CHANGE_TRACKING_TOPIC, SetBool, self.toggle_tracking)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
         self.detection_pub = rospy.Publisher(DETECTION_TOPIC, Point, queue_size=1)
         self.image_pub = rospy.Publisher(IMAGE_PUB_TOPIC, Image, queue_size=1)
 
-        rospy.loginfo(ARGS["FLIP_IMAGE"])
+        rospy.loginfo("Flipped image: " + str(ARGS["FLIP_IMAGE"]))
         self.model = YOLO('yolov8n.pt')
         self.image = None
         self.track = False
@@ -283,9 +289,6 @@ class PersonTracking():
 
 if __name__ == "__main__":
     try: 
-        for key in ARGS:
-            ARGS[key] = rospy.get_param('~' + key, ARGS[key])
-
         PersonTracking()
     except rospy.ROSInterruptException:
         pass

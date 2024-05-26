@@ -30,17 +30,20 @@ Service (FIND_TOPIC) to find a person
 Publishes to RESULTS_TOPIC a person_count msg
 '''
 
+# Server topics
+START_TOPIC = "/vision/start_counting"
+END_TOPIC = "/vision/end_counting"
+FIND_TOPIC = "/vision/find_pose"
+
+# Subscribe topics
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
-START_TOPIC = "/start_counting"
-END_TOPIC = "/end_counting"
-# RESULTS_TOPIC = "/person_counting"
-FIND_TOPIC = "/find_pose"
-THRESHOLD = 25
 
+# Publish topics
+RESULTS_TOPIC = "/person_counting"
+
+# Constants
 INIT_POSES = {"Sitting": 0, "Standing": 0, "Pointing right": 0, "Pointing left": 0, "Raising right hand": 0, "Raising left hand": 0, "Waving": 0, "Shirt color": ""}
-
-
-
+THRESHOLD = 25
 ARGS = {
     "FLIP_IMAGE": False
 }
@@ -54,8 +57,6 @@ class PersonCommands():
         self.end_service = rospy.Service(END_TOPIC, PersonCount, self.count)
         self.find_service = rospy.Service(FIND_TOPIC, FindPerson, self.find)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        # self.end_sub = rospy.Subscriber(END_TOPIC, Bool, self.end_callback)
-        # self.count_pub = rospy.Publisher(RESULTS_TOPIC, people_count, queue_size=1)
 
         self.poses = INIT_POSES
         self.points = []
@@ -96,24 +97,6 @@ class PersonCommands():
 
         self.run()
 
-        # try:
-        #     rate = rospy.Rate(60)
-
-        #     while not rospy.is_shutdown():
-        #         if len(self.image_finding) != 0:
-        #         # if VERBOSE and self.detections_frame != None:
-        #             cv2.imshow("Finding", self.image_finding)
-        #             cv2.waitKey(1)
-
-        #         # if len(self.image_finding) != 0:
-        #         #     self.output_img_pub.publish(self.bridge.cv2_to_imgmsg(self.output_img, "bgr8"))
-                    
-        #         rate.sleep()
-        # except KeyboardInterrupt:
-        #     pass
-
-        # cv2.destroyAllWindows()
-
 
     def toggle_start(self, req):
         self.start = req.data
@@ -123,13 +106,6 @@ class PersonCommands():
     
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-
-    def start_callback(self, data):
-        self.start = data
-
-    def end_callback(self, data):
-        self.end = data
-        self.start = False
 
     def getCenter(self, box, frame):
         x1, y1, x2, y2 = [int(i) for i in box]
@@ -223,12 +199,7 @@ class PersonCommands():
                 curr_ids.append(track_id)
             self.image_finding = frame
             prev_ids = curr_ids
-            # Display the annotated frame
-            # cv2.imshow("Finding", frame)
-
-            # # Break the loop if 'q' is pressed
-            # if cv2.waitKey(1) & 0xFF == ord("q"):
-            #     break
+ 
 
         return Point(-1, -1, -1)
 
@@ -272,13 +243,9 @@ class PersonCommands():
 
                     while not rospy.is_shutdown() and self.start == False:
                         if len(self.image_finding) != 0:
-                        # if VERBOSE and self.detections_frame != None:
                             cv2.imshow("Finding", self.image_finding)
                             cv2.waitKey(1)
 
-                        # if len(self.image_finding) != 0:
-                        #     self.output_img_pub.publish(self.bridge.cv2_to_imgmsg(self.output_img, "bgr8"))
-                            
                         rate.sleep()
                 except KeyboardInterrupt:
                     pass
@@ -292,13 +259,9 @@ class PersonCommands():
                 self.poses = INIT_POSES
                 self.points = []
 
-                cv2.destroyAllWindows()
 
-            # Check if the counting has ended and publish the results
-            # Check if counting is active
             else:
 
-                # print('Counting')
                 if self.image is not None:
 
                     # Get the frame from the camera
@@ -335,7 +298,6 @@ class PersonCommands():
 
                             # Crop the image 
                             cropped_image = frame[y1:y2, x1:x2]
-                            # cv2.imshow("Cropped", cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
                             person = check_visibility(self.pose_model,cropped_image)
 
@@ -383,19 +345,8 @@ class PersonCommands():
                                 people_features.append(new_feature)
                                 self.people_poses.append(pose)
                                 self.people_points.append(point)
-
-                                
-                                    
-                                    # print("Pose detected", pose)
-                                    # print(pose)
-                                    
                                 self.addPose(pose)
 
-
-
-                    # print(track_ids)
-                    # print(people_tags)
-                    # print(self.people_poses)
                     self.logPoses()
                     prev_ids = []
 
@@ -431,7 +382,6 @@ class PersonCommands():
         cv2.destroyAllWindows()
 
 # Run node
-
 if __name__ == "__main__":
     try: 
         for key in ARGS:
