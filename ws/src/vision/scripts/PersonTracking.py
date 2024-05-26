@@ -21,21 +21,29 @@ from vision.msg import img, img_list, target
 from std_srvs.srv import SetBool
 import imutils
 
+
+'''
+Script to track people
+Service to follow the person with largest bounding box when called
+Publishes center of bbox of person tracked 
+'''
+
 ARGS = {
     "FLIP_IMAGE": False
 }
 
-CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
-TRACKING_TOPIC = "/track_person"
-DETECTION_TOPIC = "/person_detection"
-CHANGE_TRACKING_TOPIC = "/change_person_tracker_state"
-IMAGE_PUB_TOPIC = "/image_tracking"
-THRESHOLD = 15
+# Server topics
+CHANGE_TRACKING_TOPIC = "/vision/change_person_tracker_state"
 
-# Script to track people
-# Subscribes to bool TRACKING_TOPIC to follow the person with largest bounding box
-# Subscribes to ZED CAMERA_TOPIC to recieve image
-# Publishes center of bbox of person tracked (-1 if not found) DETECTION_TOPIC
+# Subscribe topics
+CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
+
+# Publish topics
+DETECTION_TOPIC = "/vision/person_detection"
+IMAGE_PUB_TOPIC = "/vision/img_tracking"
+
+# Constants
+THRESHOLD = 15
 
 
 class PersonTracking():
@@ -43,15 +51,16 @@ class PersonTracking():
     def __init__(self):
         rospy.init_node('person_tracking')
         self.bridge = CvBridge()
+
         self.track_service = rospy.Service(CHANGE_TRACKING_TOPIC, SetBool, self.toggle_tracking)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
-        # self.tracker_sub = rospy.Subscriber(TRACKING_TOPIC, Bool, self.track_callback)
         self.detection_pub = rospy.Publisher(DETECTION_TOPIC, Point, queue_size=1)
         self.image_pub = rospy.Publisher(IMAGE_PUB_TOPIC, Image, queue_size=1)
+
+        rospy.loginfo(ARGS["FLIP_IMAGE"])
         self.model = YOLO('yolov8n.pt')
         self.image = None
         self.track = False
-        rospy.loginfo(ARGS["FLIP_IMAGE"])
 
         def loadModels():
             pbar = tqdm.tqdm(total=5, desc="Loading models")
@@ -77,6 +86,7 @@ class PersonTracking():
 
         loadModels()
 
+        rospy.loginfo("Person Tracking Ready")
         self.run()
     
     def toggle_tracking(self, req):
@@ -86,9 +96,6 @@ class PersonTracking():
 
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-
-    # def track_callback(self, data):
-    #     self.track = data
 
     def getCenter(self, box, frame):
         x1, y1, x2, y2 = [int(i) for i in box]
@@ -119,8 +126,6 @@ class PersonTracking():
             
 
     def run(self):
-        
-
         # Initialize lists to store information about people
         people_tags = []
         people_ids = []
@@ -131,7 +136,6 @@ class PersonTracking():
         rospy.loginfo("Running Person Tracking")
 
         while rospy.is_shutdown() == False :
-            # print("Running1")
             if self.track is False:
                 people_tags = []
                 people_ids = []
@@ -142,9 +146,6 @@ class PersonTracking():
             
             else:
                 if self.image is not None:
-                    # print("Tracking")
-                    # if track_person != "":
-                        # rospy.loginfo(f"Tracking person {track_person}")
 
                     # Get the frame from the camera
                     frame = self.image
@@ -178,10 +179,8 @@ class PersonTracking():
 
                             # Crop the image 
                             cropped_image = frame[y1:y2, x1:x2]
-                            # cv2.imshow('crpd',cropped_image)
                             pil_image = PILImage.fromarray(cropped_image)
                             person = check_visibility(self.pose_model,cropped_image)
-                            # cv2.imshow('crpd',cropped_image)
 
                             if not person or x1 <= THRESHOLD or x2 >= width - THRESHOLD:
                                 false_detections.append(track_id)
@@ -208,16 +207,12 @@ class PersonTracking():
                             
                             # If there is no match and the id is not already saved
                             if not flag and track_id not in people_ids:
-                                print("New person detected")
+                                rospy.loginfo("New person detected")
                                 people_ids.append(track_id)
                                 people_tags.append(f"Person {len(people_ids)}")
                                 people_features.append(new_feature)
                             
-                    # print(track_ids)
-                    # print(people_tags)
-                    # print(people_ids)
                     prev_ids = []
-                    prev_features = []
                     
                     # Draw results
                     max_area = 0
@@ -248,7 +243,6 @@ class PersonTracking():
                         if w*h > max_area:
                             max_area = w*h
                             index = i
-                            # print(area_id)
 
                         id = people_ids.index(track_id)
                         name = people_tags[id]
@@ -281,9 +275,8 @@ class PersonTracking():
                     if cv2.waitKey(1) & 0xFF == ord("q"):
                         break
                 else:
-                    print("No image")
-            #     # End of video
-            #     break
+                    rospy.loginfo("No image")
+
 
         # Release the video capture object and close the display window
         cv2.destroyAllWindows()

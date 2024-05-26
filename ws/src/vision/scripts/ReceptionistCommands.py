@@ -16,6 +16,7 @@ import rospy
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from frida_vision_interfaces.srv import FindSeat
+# from vision.srv import FindSeat
 from std_srvs.srv import SetBool
 
 import numpy as np
@@ -29,7 +30,7 @@ FIND_TOPIC = "/vision/find_seat"
 CAMERA_TOPIC = "/zed2/zed_node/rgb/image_rect_color"
 
 # Publish topics
-IMAGE_TOPIC = "/vision/person_detection"
+IMAGE_TOPIC = "/vision/img_person_detection"
 
 # Constants
 MODEL_LOCATION = str(pathlib.Path(__file__).parent) + "/Utils/yolov8n.pt"
@@ -39,7 +40,7 @@ MAX_DEGREE = 30
 class ReceptionistCommands():
 
     def __init__(self):
-        rospy.init_node('person_detection')
+        rospy.init_node('receptionist_commands')
         self.bridge = CvBridge()
 
         self.check_person_service = rospy.Service(CHECK_PERSON, SetBool, self.check_person)
