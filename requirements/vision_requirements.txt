@@ -1,0 +1,13 @@
+ultralytics
+opencv-python
+face_recognition
+pretrainedmodels
+timm
+tqdm
+mediapipe
+pyyaml
+pillow
+numpy==1.24.4
+webcolors
+pandas==1.3.5
+imutils

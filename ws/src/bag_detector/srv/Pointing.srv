@@ -1,0 +1,4 @@
+bool active
+int64 seconds
+---
+int64 result

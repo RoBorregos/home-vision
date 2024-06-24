@@ -1,0 +1,16 @@
+ws/build
+ws/devel
+*.pyc
+build
+devel
+.env
+
+# models
+*.pt
+
+# cache
+*/__pycache__
+*.cache
+*.cache/*
+*.pycache/*
+*.pyc

@@ -1,0 +1,8 @@
+<launch>
+    <arg name="FLIP_IMAGE" default="False" />
+    
+    <node name="person_tracking" pkg="vision" type="PersonTracking.py" respawn="true" output="screen">
+        <param name="FLIP_IMAGE" value="$(arg FLIP_IMAGE)" />
+    </node>
+    
+</launch>
