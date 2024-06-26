@@ -1,3 +1,7 @@
 [submodule "ws/src/interfaces"]
 	path = ws/src/interfaces
 	url = https://github.com/RoBorregos/home-interfaces
+[submodule "ws/src/depthai-ros"]
+	path = ws/src/depthai-ros
+	url = https://github.com/luxonis/depthai-ros.git
+	branch = noetic

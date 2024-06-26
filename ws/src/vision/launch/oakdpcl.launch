@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="camera_model"         default="OAK-D"            /> <!-- 'zed' or 'zedm' -->
+    <arg name="tf_prefix"            default="oak"              />
+    <arg name="mode"                 default="depth"            />
+    <arg name="base_frame"           default="oak-d_frame"      />
+    <arg name="parent_frame"         default="oak-d-base-frame" /> 
+
+    <arg name="rgbResolution"           default="1080p"/>
+    <arg name="rgbScaleNumerator"       default="2"/>
+    <arg name="rgbScaleDinominator"     default="3"/>
+    <arg name="previewWidth"            default="416"/>
+    <arg name="previewHeight"           default="416"/>
+    
+    <arg name="lrcheck"               default="true" /> 
+    <arg name="extended"              default="true"/> 
+    <arg name="subpixel"              default="false" />
+    <arg name="rectify"               default="true" />
+    <arg name="depth_aligned"         default="true" />
+    <arg name="manualExposure"        default="false"/>
+    <arg name="expTime"               default="20000"/>
+    <arg name="sensIso"               default="800" />
+
+    <arg name="stereo_fps"            default="15"  />
+    <arg name="confidence"            default="200" />
+    <arg name="LRchecktresh"          default="5"   />
+    <arg name="monoResolution"        default="400p"/>
+
+    <arg name="enableDotProjector"    default="true"/>
+    <arg name="enableFloodLight"      default="true"/>
+    <arg name="dotProjectorIntensisty"        default="0.5"/>
+    <arg name="floodLightIntensisty"          default="0.5"/>
+    <arg name="enableRviz"            default="true"/>
+    <arg name="enableMarkerPublish"   default="false"/>
+
+
+    <arg name="enableSpatialDetection" default="true" />
+    <arg name="syncNN"                 default="true" />
+    <arg name="detectionClassesCount"  default="80"   />
+    <arg name="nnName"                 default="x"         />
+    <arg name="resourceBaseFolder"     default="$(find depthai_examples)/resources" />
+
+    <include file="$(find depthai_examples)/launch/stereo_inertial_node.launch">
+        <arg name="camera_model"         value= "$(arg camera_model)"    /> 
+        <arg name="tf_prefix"            value= "$(arg tf_prefix)"             />
+        <arg name="mode"                 value= "$(arg mode)"             />
+        <arg name="base_frame"           value= "$(arg base_frame)"      />
+        <arg name="parent_frame"         value= "$(arg parent_frame)" /> 
+        
+        <arg name="lrcheck"               value= "$(arg lrcheck)" /> 
+        <arg name="extended"              value= "$(arg extended)" /> 
+        <arg name="subpixel"              value= "$(arg subpixel)" />
+        <arg name="rectify"               value= "$(arg rectify)" />
+        <arg name="depth_aligned"         value= "$(arg depth_aligned)" />
+        <arg name="manualExposure"        value= "$(arg manualExposure)" />
+        <arg name="expTime"               value= "$(arg expTime)" />
+        <arg name="sensIso"               value= "$(arg sensIso)" /> 
+
+        <arg name="stereo_fps"            value= "$(arg stereo_fps)" />
+        <arg name="confidence"            value= "$(arg confidence)" />
+        <arg name="LRchecktresh"          value= "$(arg LRchecktresh)" />
+        <arg name="monoResolution"        value= "$(arg monoResolution)" />
+
+        <param name="rgbResolution"         value="$(arg rgbResolution)" />
+        <param name="rgbScaleNumerator"     value="$(arg rgbScaleNumerator)" />
+        <param name="rgbScaleDinominator"   value="$(arg rgbScaleDinominator)" />
+        <param name="previewWidth"          value="$(arg previewWidth)" />
+        <param name="previewHeight"         value="$(arg previewHeight)" />
+
+        <arg name="enableDotProjector"    value= "$(arg enableDotProjector)" />
+        <arg name="enableFloodLight"      value= "$(arg enableFloodLight)" />
+        <arg name="dotProjectormA"        value= "$(arg dotProjectorIntensisty)" />
+        <arg name="floodLightmA"          value= "$(arg floodLightIntensisty)" />
+        <arg name="enableRviz"            value= "$(arg enableRviz)" />
+        <arg name="enableMarkerPublish"   value= "$(arg enableMarkerPublish)" />
+
+        <param name="enableSpatialDetection"   value="$(arg enableSpatialDetection)" />
+        <param name="syncNN"                   value="$(arg syncNN)" />
+        <param name="detectionClassesCount"    value="$(arg detectionClassesCount)" />
+        <param name="nnName"                   value="$(arg nnName)"/>
+        <param name="resourceBaseFolder"       value="$(arg resourceBaseFolder)"/>
+
+    </include>
+</launch>
+
