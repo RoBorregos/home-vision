@@ -83,10 +83,12 @@ RUN git clone --branch v0.16.1 https://github.com/pytorch/vision torchvision \
     && cd torchvision \
     && python3 setup.py install
 
-RUN python3 -m pip install transformers==4.36.2 einops==0.7.0 gradio==4.15.0 accelerate==0.25.0 huggingf
+RUN python3 -m pip install transformers==4.36.2 einops==0.7.0 gradio==4.15.0 accelerate==0.25.0 huggingface-hub==0.20.1
 
 RUN git clone https://github.com/vikhyat/moondream.git
 
+RUN rm -r pytorch/ \
+    && rm -r torchvision/
 
 FROM base as user
 
