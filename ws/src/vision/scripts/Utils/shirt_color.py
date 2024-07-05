@@ -2,8 +2,6 @@ import cv2
 import numpy as np
 import math
 from scipy.spatial import KDTree
-from webcolors import CSS3_HEX_TO_NAMES as css3_hex_to_names
-from webcolors import hex_to_rgb
 import pandas as pd
 
 COLORS = [
@@ -74,7 +72,8 @@ def classifyColor_hsv(self, hsv):
     return "Red"
 
 def classifyColor_web(rgb_tuple):
-
+    from webcolors import CSS3_HEX_TO_NAMES as css3_hex_to_names
+    from webcolors import hex_to_rgb
     # a dictionary of all the hex and their respective names in css3
     css3_db = css3_hex_to_names
     names = []

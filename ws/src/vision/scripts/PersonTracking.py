@@ -57,6 +57,8 @@ class PersonTracking():
             ARGS[key] = rospy.get_param(key, False)
             print(rospy.get_param(key, False))
             print(ARGS[key])
+            
+        self.new_image_available = False
 
         self.track_service = rospy.Service(CHANGE_TRACKING_TOPIC, SetBool, self.toggle_tracking)
         self.image_sub = rospy.Subscriber(CAMERA_TOPIC, Image, self.image_callback)
@@ -102,6 +104,7 @@ class PersonTracking():
 
     def image_callback(self, data):
         self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+        self.new_image_available = True
 
     def getCenter(self, box, frame):
         x1, y1, x2, y2 = [int(i) for i in box]
@@ -142,6 +145,12 @@ class PersonTracking():
         rospy.loginfo("Running Person Tracking")
 
         while rospy.is_shutdown() == False :
+            
+            while self.new_image_available == False:
+                pass
+            
+            self.new_image_available = False
+            
             if self.track is False:
                 people_tags = []
                 people_ids = []
@@ -265,8 +274,8 @@ class PersonTracking():
 
                     if self.track and cx != -1 and cy != -1:
                         msg = Point()
-                        msg.x = cx
-                        msg.y = cy
+                        msg.x = cx / frame.shape[1]
+                        msg.y = cy / frame.shape[0]
                         msg.z = 0
                         self.detection_pub.publish(msg)
 
