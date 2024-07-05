@@ -119,17 +119,17 @@
         <param name="enableRosBaseTimeUpdate" value="$(arg enableRosBaseTimeUpdate)" />
     </node>            
 
-    <node pkg="nodelet" type="nodelet" name="nodelet_manager"  args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="oakd_nodelet_manager"  args="manager" output="screen"/>
 
     <node pkg="nodelet" type="nodelet" name="depth_image_convertion_nodelet"
-        args="load depth_image_proc/convert_metric nodelet_manager">
+        args="load depth_image_proc/convert_metric oakd_nodelet_manager">
         <remap from="image_raw" to="/stereo_inertial_publisher/stereo/depth"/>    
         <remap from="image" to="/stereo_inertial_publisher/stereo/image"/>
     </node>
 
 
     <node if="$(eval arg('depth_aligned') == true)" pkg="nodelet" type="nodelet" name="depth_image_to_rgb_pointcloud"
-        args="load depth_image_proc/point_cloud_xyzrgb nodelet_manager">
+        args="load depth_image_proc/point_cloud_xyzrgb oakd_nodelet_manager">
         <param name="queue_size"          value="10"/>
 
         <remap from="rgb/camera_info" to="stereo_inertial_publisher/color/camera_info"/>
@@ -139,7 +139,7 @@
     </node>
 
     <node if="$(eval arg('depth_aligned') == false)" pkg="nodelet" type="nodelet" name="depth_image_to_pointcloud"
-        args="load depth_image_proc/point_cloud_xyz nodelet_manager">
+        args="load depth_image_proc/point_cloud_xyz oakd_nodelet_manager">
         <param name="queue_size"          value="10"/>
         <remap from="camera_info" to="stereo_inertial_publisher/stereo/camera_info"/>
         <remap from="image_rect" to="stereo_inertial_publisher/stereo/image"/>    

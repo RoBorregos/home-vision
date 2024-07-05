@@ -14,7 +14,7 @@
     
     <arg name="lrcheck"               default="true" /> 
     <arg name="extended"              default="true"/> 
-    <arg name="subpixel"              default="true" />
+    <arg name="subpixel"              default="false" />
     <arg name="rectify"               default="true" />
     <arg name="depth_aligned"         default="true" />
     <arg name="manualExposure"        default="false"/>
@@ -28,8 +28,8 @@
 
     <arg name="enableDotProjector"    default="true"/>
     <arg name="enableFloodLight"      default="true"/>
-    <arg name="dotProjectorIntensisty"        default="0.5"/>
-    <arg name="floodLightIntensisty"          default="0.5"/>
+    <arg name="dotProjectorIntensisty"        default="700"/>
+    <arg name="floodLightIntensisty"          default="700"/>
     <arg name="enableRviz"            default="false"/>
     <arg name="enableMarkerPublish"   default="false"/>
 
