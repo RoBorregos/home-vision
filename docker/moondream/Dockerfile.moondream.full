@@ -1,0 +1,110 @@
+FROM dustynv/pytorch:2.1-r35.4.1 AS base
+LABEL maintainer="RoBorregos <roborregosteam@gmail.com>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install language
+RUN apt-get update && apt-get install -y \
+  locales \
+  && locale-gen en_US.UTF-8 \
+  && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
+  && rm -rf /var/lib/apt/lists/*
+ENV LANG en_US.UTF-8
+
+# Install timezone
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
+  && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y tzdata \
+  && dpkg-reconfigure --frontend noninteractive tzdata \
+  && rm -rf /var/lib/apt/lists/*
+
+#Install python3.10
+RUN apt-get update && apt-get install -y \
+    curl \
+    dirmngr \
+    gnupg2 \
+    lsb-release \
+    sudo \
+    software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa -y \
+    && apt-get update && apt-get install -y \
+    python3.10 \
+    python3.10-venv \
+    python3.10-dev \
+    && rm /usr/bin/python3 \
+    && ln -s python3.10 /usr/bin/python3 \
+    && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 \
+    && rm -rf /var/lib/apt/lists/*
+
+
+
+ENV TORCH_CUDA_ARCH_LIST="7.2;8.7"
+ENV USE_PYTORCH_QNNPACK=0
+ENV USE_QNNPACK=0
+ENV USE_DISTRIBUTED=0
+ENV USE_NCCL=0
+
+# Install pytorch
+RUN git clone --recursive --branch v2.1.0 http://github.com/pytorch/pytorch
+
+RUN cd pytorch \
+    && apt-get install libopenblas-dev libopenmpi-dev \
+    && python3 -m pip install cmake \
+    && sed -i 's/numpy/numpy==1.26.4/' requirements.txt \
+    #&& cat requirements.txt
+    && python3 -m pip install -r requirements.txt \
+    && python3 -m pip install scikit-build \
+    && python3 -m pip install ninja \
+    && python3 -c "import numpy; print(numpy.version.version)"
+
+
+RUN cd pytorch \
+    && python3 setup.py bdist_wheel
+
+RUN cd pytorch \
+    && python3 setup.py install
+
+
+
+ENV BUILD_VERSION=0.16.1
+
+RUN apt-get update && apt-get install -y \
+    libjpeg-dev \
+    zlib1g-dev \
+    libpython3-dev \
+    libopenblas-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libswscale-dev \
+    && python3 -m pip install setuptools==69.5.1
+
+RUN git clone --branch v0.16.1 https://github.com/pytorch/vision torchvision \
+    && cd torchvision \
+    && python3 setup.py install
+
+RUN python3 -m pip install transformers==4.36.2 einops==0.7.0 gradio==4.15.0 accelerate==0.25.0 huggingface-hub==0.20.1
+
+RUN git clone https://github.com/vikhyat/moondream.git
+
+RUN rm -r pytorch/ \
+    && rm -r torchvision/
+
+FROM base as user
+
+ARG USERNAME=ros
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid $USER_GID $USERNAME \
+  && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME \
+  # Add sudo support for the non-root user
+  && apt-get update \
+  && apt-get install -y sudo \
+  && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
+  && chmod 0440 /etc/sudoers.d/$USERNAME \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV DEBIAN_FRONTEND=noninteractive
+# FROM user AS ros
+RUN rm -rf /var/lib/apt/lists/*

@@ -165,3 +165,8 @@ devel
 *.cache/*
 *.pycache/*
 *.pyc
+
+#moondream
+moondream_ws/build
+moondream_wd/devel
+

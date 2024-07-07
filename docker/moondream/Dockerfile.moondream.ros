@@ -1,0 +1,10 @@
+FROM gerardofj/l4t-moondream2 AS base
+LABEL maintainer="RoBorregos <roborregosteam@gmail.com>"
+
+#INSTALL ROS NOETIC
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+RUN apt-get update && apt-get install -y \
+  ros-noetic-desktop
+RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
+RUN pip3 install -U netifaces cmake
