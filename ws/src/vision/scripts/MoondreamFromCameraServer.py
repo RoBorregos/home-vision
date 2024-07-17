@@ -29,7 +29,7 @@ class MoondreamCameraAction:
         rospy.loginfo(f"MoonDream Camera Action Server: Executing, resolving frame with prompt {goal.prompt} and ROI ({x1}, {y1}), ({x2}, {y2})")
         
         image = rospy.wait_for_message(camera_topic, Image)
-        image = CvBridge().imgmsg_to_cv2(image)
+        image = CvBridge().imgmsg_to_cv2(image, "bgr8")
         
         if x1 != 0 or y1 != 0 or x2 != 0 or y2 != 0:
             image = image[int(y1*image.shape[0]):int(y2*image.shape[0]), int(x1*image.shape[1]):int(x2*image.shape[1])]
