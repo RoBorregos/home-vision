@@ -51,7 +51,7 @@ ACTIVE_SERVICE_TOPIC = "/shelf_detection_active"
 YOLO11_PATH = str(pathlib.Path(__file__).parent) + "/../models/yolov5m_Objects365.pt"
 
 
-colors = colors = [
+colors = [
     (255, 0, 0),    # Red
     (0, 255, 0),    # Green
     (0, 0, 255),    # Blue
