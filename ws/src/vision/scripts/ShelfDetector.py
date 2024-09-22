@@ -45,7 +45,6 @@ ARGS= {
     "SHELF_SERVER": "/shelf_detector"
 }
 
-# print(ARGS["YOLO_MODEL_PATH"])
 
 ACTIVE_SERVICE_TOPIC = "/shelf_detection_active"
 YOLO11_PATH = str(pathlib.Path(__file__).parent) + "/../models/yolov5m_Objects365.pt"
