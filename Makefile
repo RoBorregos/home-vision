@@ -54,7 +54,7 @@ vision.logs:
 # ----------------------------SHELL------------------------------------
 # Fires up a bash session inside the container
 vision.shell:
-	@docker exec -it --user $(shell id -u):$(shell id -g) home-vision bash
+	@docker exec -it -e "TERM=xterm-256color" --user $(shell id -u):$(shell id -g) home-vision bash
 
 # ----------------------------REMOVE------------------------------------
 # Remove container

@@ -17,7 +17,7 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 
 # Python
-RUN pip install torch==1.10 torchvision==0.11.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+RUN pip install torch==1.10 torchvision==0.11.1 
 
 # COPY requirements/face-recognition.txt /workspace/requirements/face-recognition.txt
 COPY requirements/vision_requirements.txt /workspace/requirements/vision_requirements.txt

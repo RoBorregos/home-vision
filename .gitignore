@@ -114,7 +114,7 @@ celerybeat.pid
 .venv
 env/
 venv/
-ENV/
+E<arg name="FLIP_IMAGE" default="False" />NV/
 env.bak/
 venv.bak/
 

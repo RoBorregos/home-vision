@@ -9,7 +9,8 @@
     <arg name="DEPTH_ACTIVE" default="True" />
     <arg name="YOLO_BAG_MODEL_PATH" default="$(find bag_detector)/models/bolsasV1.pt" />
     <arg name="CAMERA_FRAME" default="zed2_left_camera_optical_frame" />
-
+    <arg name="FLIP_IMAGE" default="False" />
+    
     <node name="BagDetector" pkg="bag_detector" type="bagDetector.py" respawn="true" output="screen">
         <param name="SOURCE" value="$(arg SOURCE)" />
         <param name="ROS_INPUT" value="$(arg ROS_INPUT)" />
@@ -34,5 +35,8 @@
         <param name="CAMERA_FRAME" value="$(arg CAMERA_FRAME)" />
     </node>
 
+     <node name="person_tracking" pkg="vision" type="PersonTracking.py" respawn="true" output="screen">
+        <param name="FLIP_IMAGE" value="$(arg FLIP_IMAGE)" />
+    </node>
 </launch>
 
