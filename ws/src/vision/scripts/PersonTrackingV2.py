@@ -5,6 +5,7 @@ from PIL import Image as PILImage
 import cv2
 from ultralytics import YOLO
 # from ReID import reid_model
+#dlib
 
 from Utils.reid_model import load_network, compare_images, extract_feature_from_img, get_structure
 from Utils.pose_model import check_visibility, getCenterPerson
@@ -21,6 +22,10 @@ from vision.msg import img, img_list, target
 from std_srvs.srv import SetBool
 import imutils
 import numpy as np
+
+
+import face_recognition
+
 
 '''
 Script to track people
@@ -166,6 +171,12 @@ class PersonTracking():
                     # Get the results from the YOLOv8 model
                     results = self.model.track(frame, persist=True, tracker='bytetrack.yaml', classes=0, verbose=False) #could use botsort.yaml
                     
+                    # Get face locations and encodings
+                    small_frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+                    face_locations = face_recognition.face_locations(frame)
+
+                    
+
                     # Get the bounding boxes and track ids
                     boxes = results[0].boxes.xyxy.cpu().tolist()
                     track_ids = []
