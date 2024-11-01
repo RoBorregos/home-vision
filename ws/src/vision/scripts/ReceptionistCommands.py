@@ -84,6 +84,7 @@ class ReceptionistCommands():
     
     
     def find_seat(self, req):
+        rospy.loginfo("Find seat request")
 
         if self.image is not None:
             frame = self.image
@@ -201,6 +202,7 @@ class ReceptionistCommands():
     
 
     def check_person(self, req):
+        rospy.loginfo("Check request")
         self.check = req.data
         person = False
         total = 0
