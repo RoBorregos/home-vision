@@ -106,6 +106,7 @@ $DOCKER_COMMAND -it -d\
     $ADDITIONAL_COMMANDS \
     --privileged \
     -e DISPLAY=$DISPLAY \
+    -e TERM=xterm-256color \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /dev:/dev \
