@@ -53,7 +53,8 @@ WORKDIR /workspace/dlib-19.17/build
 RUN cmake .. && \
     cmake --build .
 # orkspace/dlib-19.17
-RUN ls
+
+WORKDIR /workspace/dlib-19.17
 
 # Install dlib
 RUN python3 setup.py install
