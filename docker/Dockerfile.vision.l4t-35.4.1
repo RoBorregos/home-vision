@@ -56,7 +56,7 @@ RUN cmake .. && \
 WORKDIR /workspace/dlib-19.21
 
 # Install dlib
-#RUN python3 setup.py install --set DLIB_USE_CUDA=1
+RUN python3 setup.py install --set DLIB_USE_CUDA=1
 
 WORKDIR /workspace
 
