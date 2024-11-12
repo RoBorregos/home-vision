@@ -42,29 +42,28 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 
 # Download and extract dlib
-RUN wget http://dlib.net/files/dlib-19.17.tar.bz2 && \
-    tar jxvf dlib-19.17.tar.bz2
+RUN wget http://dlib.net/files/dlib-19.21.tar.bz2 && \
+    tar jxvf dlib-19.21.tar.bz2
 
-WORKDIR /workspace/dlib-19.17
+WORKDIR /workspace/dlib-19.21
 RUN mkdir build
-WORKDIR /workspace/dlib-19.17/build
+WORKDIR /workspace/dlib-19.21/build
 
 # Configure and build dlib
 RUN cmake .. && \
     cmake --build .
-# orkspace/dlib-19.17
 
-WORKDIR /workspace/dlib-19.17
+WORKDIR /workspace/dlib-19.21
 
 # Install dlib
-RUN python3 setup.py install
+#RUN python3 setup.py install --set DLIB_USE_CUDA=1
 
 WORKDIR /workspace
 
 # Python
 
-RUN pip install torch==1.10 torchvision==0.11.4 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+RUN pip install torch==1.10 torchvision==0.11.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 COPY requirements/vision_requirements.txt /workspace/requirements/vision_requirements.txt
-RUN pip install -r requirements/vision_requirements.txt
+#RUN pip install -r requirements/vision_requirements.txt
 
 ENTRYPOINT [ "/bin/bash", "-l", "-c" ]
