@@ -91,6 +91,7 @@ class FaceRecognition():
         
 
     def new_name_callback(self, req):
+        rospy.loginfo("New face request")
         self.new_name = req.name
         return True
 
